@@ -22,5 +22,6 @@ cp index.html cloudflare-dist/index.html
 # 這不會影響您在本機或 GitHub 上的原始 index.html 檔案
 sed -i 's/https:\/\/stock-onepiece.netlify.app/https:\/\/stock-sea-cloud2.pages.dev/g' cloudflare-dist/index.html
 sed -i 's/React \/ Netlify/Quarto \/ Cloudflare Pages/g' cloudflare-dist/index.html
+sed -i 's/https:\/\/old-hiddentreasure-poem.netlify.app/https:\/\/old-hiddentreasure-poem.pages.dev/g' cloudflare-dist/columns.html
 
 echo "========== [Cloudflare Portal Build] 建置完成！輸出目錄：cloudflare-dist/ =========="
