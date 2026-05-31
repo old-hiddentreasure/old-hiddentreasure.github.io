@@ -56,19 +56,20 @@ body.light-theme {
     --text-secondary: #475569;
     --text-muted: #94a3b8;
     
-    --accent-gold: #b38600; /* Rich Dark Gold */
-    --accent-gold-rgb: 179, 134, 0;
-    --accent-gold-hover: #8f6b00;
+    --accent-gold: #855b00; /* Rich Deep Calligraphy Gold */
+    --accent-gold-rgb: 133, 91, 0;
+    --accent-gold-hover: #664500;
+
     --accent-emerald: #059669;
     --accent-emerald-rgb: 5, 150, 105;
     
     --border-color: rgba(0, 0, 0, 0.08);
-    --border-color-hover: rgba(179, 134, 0, 0.4);
+    --border-color-hover: rgba(133, 91, 0, 0.4);
     
     --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.03);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
-    --shadow-gold: 0 0 15px rgba(179, 134, 0, 0.1);
+    --shadow-gold: 0 0 15px rgba(133, 91, 0, 0.15);
     
     --glass-blur: blur(12px);
     --gradient-hero: linear-gradient(180deg, rgba(250, 248, 245, 0.1) 0%, rgba(250, 248, 245, 0.8) 75%, #faf8f5 100%);
