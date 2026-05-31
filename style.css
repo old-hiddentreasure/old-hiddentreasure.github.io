@@ -701,6 +701,30 @@ body.light-theme .hero-cover-img {
     border-right: 1px solid var(--border-color);
 }
 
+.clickable-image-side {
+    padding: 0 !important;
+    cursor: pointer;
+}
+
+.clickable-image-side a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.project-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    min-height: 280px;
+    transition: var(--transition-smooth);
+}
+
+.project-featured-card:hover .project-card-img {
+    transform: scale(1.05);
+}
+
 .project-image-side::after {
     content: '';
     position: absolute;

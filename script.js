@@ -7,9 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const bodyElement = document.body;
     const themeIcon = themeToggleBtn.querySelector('.theme-icon');
 
-    // Retrieve saved theme preference, or default to dark
-    const savedTheme = localStorage.getItem('portfolio-theme') || 'dark';
-    
+    // Retrieve saved theme preference, or default to light
+    const savedTheme = localStorage.getItem('portfolio-theme') || 'light';
     if (savedTheme === 'light') {
         bodyElement.classList.remove('dark-theme');
         bodyElement.classList.add('light-theme');
