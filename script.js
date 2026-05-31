@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const bodyElement = document.body;
     const themeIcon = themeToggleBtn.querySelector('.theme-icon');
 
-    // Retrieve saved theme preference, or default to light
-    const savedTheme = localStorage.getItem('portfolio-theme') || 'light';
+    // Retrieve saved theme preference, or default to dark
+    const savedTheme = localStorage.getItem('portfolio-theme') || 'dark';
     if (savedTheme === 'light') {
         bodyElement.classList.remove('dark-theme');
         bodyElement.classList.add('light-theme');
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
        ========================================================================== */
     const typewriterText = document.getElementById('typewriterText');
     const roles = [
-        "徘迴於古寺鐘樓",
+        "徘迴於古寺華樓",
         "徘迴於廟堂草澤",
         "徘迴於朧煙細雨",
         "徘迴於天上人間"
