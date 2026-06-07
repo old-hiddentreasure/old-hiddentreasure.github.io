@@ -628,13 +628,50 @@
                 const trimmed = line.trim();
                 
                 // Skip the first title header line `# title`
-                if (trimmed.startsWith('#')) return;
+                if (trimmed.startsWith('# ')) return;
                 
                 if (trimmed === '') {
                     const lineDiv = document.createElement('div');
                     lineDiv.className = 'detail-empty-line';
                     wrapper.appendChild(lineDiv);
-                } else if (trimmed.startsWith('![') && trimmed.endsWith(')')) {
+                    return;
+                }
+                
+                // Handle Headings (##, ###, ####, etc.)
+                if (trimmed.startsWith('#')) {
+                    const levelMatch = trimmed.match(/^#+/);
+                    if (levelMatch) {
+                        const level = levelMatch[0].length;
+                        const headingText = trimmed.replace(/^#+\s+/, '');
+                        const lineDiv = document.createElement('div');
+                        lineDiv.className = 'detail-line';
+                        lineDiv.style.fontWeight = '700';
+                        lineDiv.style.color = 'var(--text-primary)';
+                        lineDiv.style.marginTop = level === 2 ? '36px' : level === 3 ? '28px' : '22px';
+                        lineDiv.style.marginBottom = '10px';
+                        
+                        let formattedHeading = headingText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                        lineDiv.innerHTML = formattedHeading;
+                        
+                        if (level === 2) {
+                            lineDiv.style.fontSize = '1.5rem';
+                            lineDiv.style.borderBottom = '1px solid var(--border-color)';
+                            lineDiv.style.paddingBottom = '6px';
+                        } else if (level === 3) {
+                            lineDiv.style.fontSize = '1.3rem';
+                            lineDiv.style.color = 'var(--accent-gold)';
+                        } else {
+                            lineDiv.style.fontSize = '1.15rem';
+                        }
+                        
+                        lineDiv.style.animationDelay = `${delay}s`;
+                        delay += 0.05;
+                        wrapper.appendChild(lineDiv);
+                        return;
+                    }
+                }
+                
+                if (trimmed.startsWith('![') && trimmed.endsWith(')')) {
                     // Parse markdown image: ![alt](url)
                     const match = trimmed.match(/^!\[(.*?)\]\((.*?)\)$/);
                     if (match) {
@@ -652,20 +689,60 @@
                         img.style.animationDelay = `${delay}s`;
                         delay += 0.05;
                         wrapper.appendChild(img);
+                        return;
                     }
-                } else {
-                    const lineDiv = document.createElement('div');
-                    lineDiv.className = 'detail-line';
-                    
-                    // Simple bold rendering for markdown (**text**)
-                    let formattedText = trimmed.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-                    lineDiv.innerHTML = formattedText;
-                    
-                    // Apply micro-animation stagger delay
-                    lineDiv.style.animationDelay = `${delay}s`;
-                    delay += 0.05;
-                    wrapper.appendChild(lineDiv);
                 }
+                
+                // Handle Blockquotes & Alerts
+                let isQuote = false;
+                let cleanLine = trimmed;
+                if (trimmed.startsWith('>')) {
+                    isQuote = true;
+                    cleanLine = trimmed.replace(/^>\s*/, '').trim();
+                }
+                
+                if (cleanLine.startsWith('[!')) {
+                    const alertType = cleanLine.match(/\[!(.*?)\]/);
+                    if (alertType) {
+                        const typeText = alertType[1] === 'NOTE' ? '注意' : alertType[1] === 'TIP' ? '提示' : alertType[1] === 'IMPORTANT' ? '重要' : alertType[1];
+                        const lineDiv = document.createElement('div');
+                        lineDiv.className = 'detail-line';
+                        lineDiv.style.fontWeight = 'bold';
+                        lineDiv.style.color = 'var(--accent-gold)';
+                        lineDiv.style.marginTop = '15px';
+                        lineDiv.innerHTML = `<i class="bi bi-info-circle-fill"></i> ${typeText}：`;
+                        lineDiv.style.animationDelay = `${delay}s`;
+                        delay += 0.05;
+                        wrapper.appendChild(lineDiv);
+                        return;
+                    }
+                }
+                
+                const lineDiv = document.createElement('div');
+                lineDiv.className = 'detail-line';
+                
+                // Simple list items formatting
+                let displayText = cleanLine;
+                if (cleanLine.startsWith('- ')) {
+                    displayText = '• ' + cleanLine.substring(2);
+                    lineDiv.style.paddingLeft = '20px';
+                }
+                
+                // Simple bold rendering for markdown (**text**)
+                let formattedText = displayText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                lineDiv.innerHTML = formattedText;
+                
+                if (isQuote) {
+                    lineDiv.style.borderLeft = '3px solid var(--accent-gold)';
+                    lineDiv.style.paddingLeft = '15px';
+                    lineDiv.style.color = 'var(--text-secondary)';
+                    lineDiv.style.fontStyle = 'italic';
+                }
+                
+                // Apply micro-animation stagger delay
+                lineDiv.style.animationDelay = `${delay}s`;
+                delay += 0.05;
+                wrapper.appendChild(lineDiv);
             });
             
             contentArea.appendChild(wrapper);
