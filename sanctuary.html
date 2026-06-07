@@ -309,7 +309,7 @@
         }
     </style>
 </head>
-<body class="dark-theme"> <!-- Default to Dark theme -->
+<body class="light-theme"> <!-- Default to Light theme for premium literary paper look -->
 
     <!-- Header -->
     <header>
@@ -375,9 +375,9 @@
         const body = document.body;
         const themeIcon = themeBtn.querySelector('.theme-icon');
 
-        const savedTheme = localStorage.getItem('portfolio-theme') || 'dark'; // Sync with portfolio theme
-        if (savedTheme === 'light') {
-            body.classList.replace('dark-theme', 'light-theme');
+        const savedTheme = localStorage.getItem('portfolio-theme') || 'light'; // Sync with portfolio theme
+        if (savedTheme === 'dark') {
+            body.classList.replace('light-theme', 'dark-theme');
             themeIcon.classList.replace('bi-moon-stars-fill', 'bi-sun-fill');
         }
 
