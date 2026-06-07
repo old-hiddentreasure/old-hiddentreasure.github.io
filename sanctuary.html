@@ -328,9 +328,12 @@
         
         <!-- View 1: Catalog View -->
         <section id="catalogView" class="view-section active">
+            <a href="#" id="catalogBackBtn" onclick="navigateToCatalog(); return false;" class="back-btn" style="display: none; margin-bottom: 20px;">
+                <i class="bi bi-arrow-left-short" style="font-size: 1.4rem;"></i> 返回主專欄目錄
+            </a>
             <div class="catalog-title-wrapper">
-                <span class="catalog-tag">聖堂教父</span>
-                <h1 class="catalog-title">內外功學習心法</h1>
+                <span class="catalog-tag" id="catalogTag">聖堂教父</span>
+                <h1 class="catalog-title" id="catalogTitle">內外功學習心法</h1>
                 <div class="catalog-divider"></div>
             </div>
             
@@ -365,6 +368,7 @@
     <!-- SPA Logic -->
     <script>
         let articlesData = [];
+        let lessonsData = []; // To hold sub-articles of sanctuary-teaching
 
         // Theme Toggle Logic
         const themeBtn = document.getElementById('themeBtn');
@@ -395,9 +399,18 @@
         function handleRouting() {
             const urlParams = new URLSearchParams(window.location.search);
             const articleId = urlParams.get('article');
+            const lessonId = urlParams.get('lesson');
             
             if (articleId) {
-                loadArticle(articleId);
+                if (articleId === 'sanctuary-teaching') {
+                    if (lessonId) {
+                        loadLesson(articleId, lessonId);
+                    } else {
+                        loadSubCatalog(articleId);
+                    }
+                } else {
+                    loadArticle(articleId);
+                }
             } else {
                 showCatalogView();
             }
@@ -408,14 +421,36 @@
             showCatalogView();
         }
 
+        function navigateToSubCatalog(articleId) {
+            history.pushState(null, '', `?article=${encodeURIComponent(articleId)}`);
+            loadSubCatalog(articleId);
+        }
+
+        // Navigate to article / sub-catalog
         function navigateToArticle(articleId) {
             history.pushState(null, '', `?article=${encodeURIComponent(articleId)}`);
-            loadArticle(articleId);
+            if (articleId === 'sanctuary-teaching') {
+                loadSubCatalog(articleId);
+            } else {
+                loadArticle(articleId);
+            }
+        }
+
+        function navigateToLesson(articleId, lessonId) {
+            history.pushState(null, '', `?article=${encodeURIComponent(articleId)}&lesson=${encodeURIComponent(lessonId)}`);
+            loadLesson(articleId, lessonId);
         }
 
         function showCatalogView() {
             document.getElementById('detailView').classList.remove('active');
             document.getElementById('catalogView').classList.add('active');
+            
+            // Reset main catalog titles and tags
+            document.getElementById('catalogTag').textContent = "聖堂教父";
+            document.getElementById('catalogTitle').textContent = "內外功學習心法";
+            document.getElementById('catalogBackBtn').style.display = "none";
+            
+            renderCatalog(articlesData);
             document.title = "聖堂教父 | 股海學習";
         }
 
@@ -424,14 +459,19 @@
             .then(res => res.json())
             .then(data => {
                 articlesData = data;
-                renderCatalog(data);
-                handleRouting(); // Check initial URL parameter
+                // Pre-fetch lessons for fast routing
+                return fetch('sanctuary-teaching.json');
+            })
+            .then(res => res.json())
+            .then(lessons => {
+                lessonsData = lessons;
+                handleRouting(); // Check initial URL parameter after all data loaded
             })
             .catch(err => {
-                console.error("載入目錄失敗:", err);
+                console.error("載入目錄或課程失敗:", err);
                 document.getElementById('itemListContainer').innerHTML = `
                     <div style="text-align: center; color: var(--accent-gold);">
-                        載入目錄失敗，請確認 sanctuary.json 設定正確。
+                        載入目錄或課程失敗，請確認 sanctuary.json 與 sanctuary-teaching.json 設定正確。
                     </div>`;
             });
 
@@ -455,6 +495,41 @@
             });
         }
 
+        function loadSubCatalog(articleId) {
+            document.getElementById('detailView').classList.remove('active');
+            document.getElementById('catalogView').classList.add('active');
+
+            const articleObj = articlesData.find(a => a.id === articleId);
+            const parentTitle = articleObj ? articleObj.title : "聖唐教父教學(外功招式)";
+
+            document.getElementById('catalogTag').textContent = "聖堂教父 ‧ 實戰教學";
+            document.getElementById('catalogTitle').textContent = parentTitle;
+            document.getElementById('catalogBackBtn').style.display = "inline-flex";
+
+            renderSubCatalog(lessonsData);
+            document.title = `${parentTitle} | 聖堂教父`;
+        }
+
+        function renderSubCatalog(lessons) {
+            const container = document.getElementById('itemListContainer');
+            container.innerHTML = '';
+            
+            lessons.forEach(lesson => {
+                const card = document.createElement('div');
+                card.className = 'item-card';
+                card.onclick = () => navigateToLesson('sanctuary-teaching', lesson.id);
+                
+                card.innerHTML = `
+                    <div class="item-info">
+                        <h3>${lesson.title}</h3>
+                        <p class="item-desc">${lesson.description}</p>
+                    </div>
+                    <div class="item-date">${lesson.date}</div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
         // Fetch & Parse Markdown Article
         function loadArticle(articleId) {
             const articleObj = articlesData.find(a => a.id === articleId);
@@ -464,6 +539,14 @@
                 showDetailView();
                 return;
             }
+
+            // Set back button action for general articles
+            const backBtn = document.querySelector('#detailView .back-btn');
+            backBtn.onclick = (e) => {
+                e.preventDefault();
+                navigateToCatalog();
+            };
+            backBtn.innerHTML = `<i class="bi bi-arrow-left-short" style="font-size: 1.4rem;"></i> 返回專欄目錄`;
 
             document.getElementById('activeTitle').textContent = articleObj.title;
             document.getElementById('activeContent').innerHTML = "<p style='color: var(--text-secondary);'>文章載入中...</p>";
@@ -482,6 +565,45 @@
                     document.getElementById('activeContent').innerHTML = `
                         <p style="color: var(--accent-gold);">
                             讀取文章檔案失敗，請確認 '${articleObj.filename}' 檔案已正確上傳。
+                        </p>`;
+                });
+        }
+
+        // Fetch & Parse Markdown Lesson
+        function loadLesson(articleId, lessonId) {
+            const lessonObj = lessonsData.find(l => l.id === lessonId);
+            if (!lessonObj) {
+                document.getElementById('activeTitle').textContent = "未找到該篇課程";
+                document.getElementById('activeContent').innerHTML = "<p>請返回課程目錄重新選擇。</p>";
+                showDetailView();
+                return;
+            }
+
+            // Set back button action to go back to sub-catalog
+            const backBtn = document.querySelector('#detailView .back-btn');
+            backBtn.onclick = (e) => {
+                e.preventDefault();
+                navigateToSubCatalog(articleId);
+            };
+            backBtn.innerHTML = `<i class="bi bi-arrow-left-short" style="font-size: 1.4rem;"></i> 返回課程目錄`;
+
+            document.getElementById('activeTitle').textContent = lessonObj.title;
+            document.getElementById('activeContent').innerHTML = "<p style='color: var(--text-secondary);'>課程載入中...</p>";
+            showDetailView();
+
+            fetch(lessonObj.filename)
+                .then(res => {
+                    if (!res.ok) throw new Error("File not found");
+                    return res.text();
+                })
+                .then(markdownText => {
+                    renderArticleMarkdown(markdownText);
+                })
+                .catch(err => {
+                    console.error("讀取課程檔案失敗:", err);
+                    document.getElementById('activeContent').innerHTML = `
+                        <p style="color: var(--accent-gold);">
+                            讀取課程檔案失敗，請確認 '${lessonObj.filename}' 檔案已正確上傳。
                         </p>`;
                 });
         }

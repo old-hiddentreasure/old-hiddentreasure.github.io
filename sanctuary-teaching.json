@@ -1,0 +1,37 @@
+[
+  {
+    "id": "intro",
+    "title": "第一篇 開場",
+    "filename": "sanctuary-teaching-intro.md",
+    "date": "2026-06-07",
+    "description": "首先以一張圖開場，說明不同起漲點紅K買入的勝率與賠率、持倉心態，以及客觀的分析方法..."
+  },
+  {
+    "id": "dow",
+    "title": "第二篇 道氏戰法",
+    "filename": "sanctuary-teaching-dow.md",
+    "date": "2026-06-07",
+    "description": "道氏理論與戰法之實戰應用，高低點抬升與趨勢研判、多空折返交易訊號解析..."
+  },
+  {
+    "id": "pivot",
+    "title": "第三篇 樞紐點戰法",
+    "filename": "sanctuary-teaching-pivot.md",
+    "date": "2026-06-07",
+    "description": "關鍵樞紐點(Pivot Points)之計算與多空支撐壓力區判定，尋找盤面轉折交易機會..."
+  },
+  {
+    "id": "naked-k",
+    "title": "第四篇 裸K戰法",
+    "filename": "sanctuary-teaching-naked-k.md",
+    "date": "2026-06-07",
+    "description": "排除一切滯後指標的純粹K線交易法，專注於K線型態、價格行為與市場供需結構..."
+  },
+  {
+    "id": "lr",
+    "title": "第五篇 左右戰法",
+    "filename": "sanctuary-teaching-lr.md",
+    "date": "2026-06-07",
+    "description": "左側逆勢預期佈局與右側順勢確認突破交易之取捨配合，以及不同交易風格下的倉位風控..."
+  }
+]
