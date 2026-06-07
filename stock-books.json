@@ -1,0 +1,65 @@
+[
+  {
+    "id": "dong-shan",
+    "title": "東山老師",
+    "filename": "dong-shan.md",
+    "date": "2026-06-07",
+    "description": "東山老師交易思想研習與操作觀照精華筆記..."
+  },
+  {
+    "id": "gooaye",
+    "title": "股癌節目",
+    "filename": "gooaye.md",
+    "date": "2026-06-07",
+    "description": "股癌節目經典觀點整理與市場觀察精華錄..."
+  },
+  {
+    "id": "giant-mind",
+    "title": "巨人思維",
+    "filename": "giant-mind.md",
+    "date": "2026-06-07",
+    "description": "《巨人思維》讀書筆記與大師心態學習精華..."
+  },
+  {
+    "id": "super-performance",
+    "title": "超級績效",
+    "filename": "super-performance.md",
+    "date": "2026-06-07",
+    "description": "馬克·米奈爾維尼經典作《超級績效》核心思想與策略研習..."
+  },
+  {
+    "id": "speculator-poker",
+    "title": "投機者的撲克",
+    "filename": "speculator-poker.md",
+    "date": "2026-06-07",
+    "description": "《投機者的撲克》核心觀點整理，關於市場博弈與人性交易..."
+  },
+  {
+    "id": "financial-alchemy",
+    "title": "金融煉金術",
+    "filename": "financial-alchemy.md",
+    "date": "2026-06-07",
+    "description": "喬治·索羅斯《金融煉金術》與反身性理論的實戰對照與思考..."
+  },
+  {
+    "id": "kostolany",
+    "title": "科斯托蘭尼",
+    "filename": "kostolany.md",
+    "date": "2026-06-07",
+    "description": "安德烈·科斯托蘭尼的投機智慧與證券心理學要義讀後感..."
+  },
+  {
+    "id": "munehisa-honma",
+    "title": "本間宗久",
+    "filename": "munehisa-honma.md",
+    "date": "2026-06-07",
+    "description": "K線之祖本間宗久之《三猿金泉秘錄》交易哲學與相場秘訣..."
+  },
+  {
+    "id": "zurich-axioms",
+    "title": "蘇黎世投機定律",
+    "filename": "zurich-axioms.md",
+    "date": "2026-06-07",
+    "description": "《蘇黎世投機定律》12條主要定律與16條次要定律的核心解讀..."
+  }
+]

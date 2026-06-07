@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>股票書籍與podcast | 股海學習</title>
+    <meta name="description" content="古藏寶的股海學習專欄 - 經典股票書籍與優質Podcast節目精華。">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+TC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <style>
+        /* ==========================================================================
+           DESIGN SYSTEM & THEME
+           ========================================================================== */
+        :root {
+            --font-heading: 'Playfair Display', Georgia, serif;
+            --font-body: 'Inter', 'Noto Sans TC', sans-serif;
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --border-radius-sm: 8px;
+            --border-radius-md: 16px;
+        }
+
+        /* Light Theme (Warm Silk Paper) */
+        body.light-theme {
+            --bg-primary: #FAF8F5;
+            --bg-secondary: #F3ECE3;
+            --bg-card: #FFFFFF;
+            --text-primary: #1E293B;
+            --text-secondary: #475569;
+            --text-muted: #94A3B8;
+            --accent-gold: #855B00;
+            --accent-gold-hover: #664500;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Dark Theme (Zen Slate) */
+        body.dark-theme {
+            --bg-primary: #0A0E17;
+            --bg-secondary: #0F1524;
+            --bg-card: rgba(22, 30, 49, 0.6);
+            --text-primary: #F8FAFC;
+            --text-secondary: #94A3B8;
+            --text-muted: #64748B;
+            --accent-gold: #D4AF37;
+            --accent-gold-hover: #F3C63F;
+            --border-color: rgba(255, 255, 255, 0.07);
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+        }
+
+        /* ==========================================================================
+           BASE STYLES
+           ========================================================================== */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.8;
+            transition: background-color 0.5s ease, color 0.5s ease;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 24px;
+            flex-grow: 1;
+        }
+
+        a {
+            color: var(--accent-gold);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+
+        a:hover {
+            color: var(--accent-gold-hover);
+        }
+
+        /* ==========================================================================
+           HEADER & FOOTER
+           ========================================================================== */
+        header {
+            padding: 30px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 50px;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .logo span {
+            color: var(--accent-gold);
+        }
+
+        .theme-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-smooth);
+        }
+
+        .theme-btn:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+            transform: scale(1.05);
+        }
+
+        footer {
+            padding: 40px 0;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            margin-top: 80px;
+            background-color: var(--bg-secondary);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            transition: background-color 0.5s ease;
+        }
+
+        /* ==========================================================================
+           SPA VIEWS (CATALOG VS DETAIL)
+           ========================================================================== */
+        .view-section {
+            display: none;
+            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .view-section.active {
+            display: block;
+        }
+
+        /* Catalog View Styling */
+        .catalog-title-wrapper {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .catalog-tag {
+            font-family: var(--font-heading);
+            font-style: italic;
+            color: var(--accent-gold);
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .catalog-title {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .catalog-divider {
+            width: 60px;
+            height: 2px;
+            background-color: var(--accent-gold);
+            margin: 15px auto 0 auto;
+        }
+
+        .item-list {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .item-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            padding: 30px;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-smooth);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .item-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-gold);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .item-info h3 {
+            font-family: var(--font-heading);
+            font-size: 1.35rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .item-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .item-date {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        /* Detail View Styling */
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+            margin-bottom: 40px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .detail-container {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            padding: 60px 40px;
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .detail-title {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 40px;
+            color: var(--text-primary);
+            letter-spacing: 2px;
+        }
+
+        .detail-content-area {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            line-height: 2.0;
+            color: var(--text-primary);
+            letter-spacing: 0.5px;
+            white-space: pre-wrap;
+            text-align: left;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .detail-line {
+            margin-bottom: 12px;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInLine 0.5s ease forwards;
+        }
+
+        .detail-empty-line {
+            height: 24px;
+        }
+
+        /* ==========================================================================
+           ANIMATIONS
+           ========================================================================== */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInLine {
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="dark-theme"> <!-- Default to Dark theme -->
+
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <a href="stock-learning.html" class="logo">
+                <span>古</span>藏寶 ‧ 股海學習
+            </a>
+            <button class="theme-btn" id="themeBtn" title="切換深/淺色模式">
+                <i class="bi bi-moon-stars-fill theme-icon"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        
+        <!-- View 1: Catalog View -->
+        <section id="catalogView" class="view-section active">
+            <div class="catalog-title-wrapper">
+                <span class="catalog-tag">股票書籍與podcast</span>
+                <h1 class="catalog-title">經典智慧與節目精華</h1>
+                <div class="catalog-divider"></div>
+            </div>
+            
+            <div class="item-list" id="itemListContainer">
+                <div style="text-align: center; color: var(--text-secondary);">專欄文章載入中...</div>
+            </div>
+        </section>
+
+        <!-- View 2: Detail View -->
+        <section id="detailView" class="view-section">
+            <a href="#" onclick="navigateToCatalog(); return false;" class="back-btn">
+                <i class="bi bi-arrow-left-short" style="font-size: 1.4rem;"></i> 返回專欄目錄
+            </a>
+            
+            <div class="detail-container">
+                <h2 class="detail-title" id="activeTitle">載入中</h2>
+                <div id="activeContent" style="text-align: left;">
+                    <!-- Dynamically parsed lines -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 古藏寶 (Dr. Hsieh) 股海學習專欄. All rights reserved. 適合託管於 Cloudflare Pages 靜態網頁版格式</p>
+        </div>
+    </footer>
+
+    <!-- SPA Logic -->
+    <script>
+        let articlesData = [];
+
+        // Theme Toggle Logic
+        const themeBtn = document.getElementById('themeBtn');
+        const body = document.body;
+        const themeIcon = themeBtn.querySelector('.theme-icon');
+
+        const savedTheme = localStorage.getItem('portfolio-theme') || 'dark'; // Sync with portfolio theme
+        if (savedTheme === 'light') {
+            body.classList.replace('dark-theme', 'light-theme');
+            themeIcon.classList.replace('bi-moon-stars-fill', 'bi-sun-fill');
+        }
+
+        themeBtn.addEventListener('click', () => {
+            if (body.classList.contains('light-theme')) {
+                body.classList.replace('light-theme', 'dark-theme');
+                themeIcon.classList.replace('bi-sun-fill', 'bi-moon-stars-fill');
+                localStorage.setItem('portfolio-theme', 'dark');
+            } else {
+                body.classList.replace('dark-theme', 'light-theme');
+                themeIcon.classList.replace('bi-moon-stars-fill', 'bi-sun-fill');
+                localStorage.setItem('portfolio-theme', 'light');
+            }
+        });
+
+        // Dynamic Router
+        window.addEventListener('popstate', handleRouting);
+
+        function handleRouting() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const articleId = urlParams.get('article');
+            
+            if (articleId) {
+                loadArticle(articleId);
+            } else {
+                showCatalogView();
+            }
+        }
+
+        function navigateToCatalog() {
+            history.pushState(null, '', window.location.pathname);
+            showCatalogView();
+        }
+
+        function navigateToArticle(articleId) {
+            history.pushState(null, '', `?article=${encodeURIComponent(articleId)}`);
+            loadArticle(articleId);
+        }
+
+        function showCatalogView() {
+            document.getElementById('detailView').classList.remove('active');
+            document.getElementById('catalogView').classList.add('active');
+            document.title = "股票書籍與podcast | 股海學習";
+        }
+
+        // Fetch Catalog & Load initial view
+        fetch('stock-books.json')
+            .then(res => res.json())
+            .then(data => {
+                articlesData = data;
+                renderCatalog(data);
+                handleRouting(); // Check initial URL parameter
+            })
+            .catch(err => {
+                console.error("載入目錄失敗:", err);
+                document.getElementById('itemListContainer').innerHTML = `
+                    <div style="text-align: center; color: var(--accent-gold);">
+                        載入目錄失敗，請確認 stock-books.json 設定正確。
+                    </div>`;
+            });
+
+        function renderCatalog(articles) {
+            const container = document.getElementById('itemListContainer');
+            container.innerHTML = '';
+            
+            articles.forEach(article => {
+                const card = document.createElement('div');
+                card.className = 'item-card';
+                card.onclick = () => navigateToArticle(article.id);
+                
+                card.innerHTML = `
+                    <div class="item-info">
+                        <h3>${article.title}</h3>
+                        <p class="item-desc">${article.description}</p>
+                    </div>
+                    <div class="item-date">${article.date}</div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Fetch & Parse Markdown Article
+        function loadArticle(articleId) {
+            const articleObj = articlesData.find(a => a.id === articleId);
+            if (!articleObj) {
+                document.getElementById('activeTitle').textContent = "未找到該篇文章";
+                document.getElementById('activeContent').innerHTML = "<p>請返回目錄重新選擇。</p>";
+                showDetailView();
+                return;
+            }
+
+            document.getElementById('activeTitle').textContent = articleObj.title;
+            document.getElementById('activeContent').innerHTML = "<p style='color: var(--text-secondary);'>文章載入中...</p>";
+            showDetailView();
+
+            fetch(articleObj.filename)
+                .then(res => {
+                    if (!res.ok) throw new Error("File not found");
+                    return res.text();
+                })
+                .then(markdownText => {
+                    renderArticleMarkdown(markdownText);
+                })
+                .catch(err => {
+                    console.error("讀取文章檔案失敗:", err);
+                    document.getElementById('activeContent').innerHTML = `
+                        <p style="color: var(--accent-gold);">
+                            讀取文章檔案失敗，請確認 '${articleObj.filename}' 檔案已正確上傳。
+                        </p>`;
+                });
+        }
+
+        function showDetailView() {
+            document.getElementById('catalogView').classList.remove('active');
+            document.getElementById('detailView').classList.add('active');
+        }
+
+        // Bespoke Markdown Line-by-Line Renderer
+        function renderArticleMarkdown(text) {
+            const contentArea = document.getElementById('activeContent');
+            contentArea.innerHTML = '';
+            
+            const wrapper = document.createElement('div');
+            wrapper.className = 'detail-content-area';
+            
+            const lines = text.split('\n');
+            let delay = 0;
+            
+            lines.forEach((line) => {
+                const trimmed = line.trim();
+                
+                // Skip the first title header line `# title`
+                if (trimmed.startsWith('#')) return;
+                
+                if (trimmed === '') {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'detail-empty-line';
+                    wrapper.appendChild(lineDiv);
+                } else if (trimmed.startsWith('![') && trimmed.endsWith(')')) {
+                    // Parse markdown image: ![alt](url)
+                    const match = trimmed.match(/^!\[(.*?)\]\((.*?)\)$/);
+                    if (match) {
+                        const img = document.createElement('img');
+                        img.src = match[2];
+                        img.alt = match[1];
+                        img.style.maxWidth = '100%';
+                        img.style.display = 'block';
+                        img.style.margin = '30px auto 10px auto';
+                        img.style.borderRadius = '12px';
+                        img.style.boxShadow = 'var(--shadow-sm)';
+                        img.style.opacity = '0';
+                        img.style.transform = 'translateY(15px)';
+                        img.style.animation = 'fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+                        img.style.animationDelay = `${delay}s`;
+                        delay += 0.05;
+                        wrapper.appendChild(img);
+                    }
+                } else {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'detail-line';
+                    
+                    // Simple bold rendering for markdown (**text**)
+                    let formattedText = trimmed.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                    lineDiv.innerHTML = formattedText;
+                    
+                    // Apply micro-animation stagger delay
+                    lineDiv.style.animationDelay = `${delay}s`;
+                    delay += 0.05;
+                    wrapper.appendChild(lineDiv);
+                }
+            });
+            
+            contentArea.appendChild(wrapper);
+            document.title = `${document.getElementById('activeTitle').textContent} | 股票書籍與podcast`;
+        }
+    </script>
+</body>
+</html>

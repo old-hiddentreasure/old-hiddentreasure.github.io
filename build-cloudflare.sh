@@ -15,8 +15,9 @@ rm -rf cloudflare-dist
 mkdir -p cloudflare-dist
 
 # 2. 複製所有靜態網頁資源至部署資料夾下
-cp style.css script.js hoian_cover.png bali_waterfront.png columns.html cloudflare-dist/
+cp style.css script.js hoian_cover.png bali_waterfront.png columns.html stock-learning.html sanctuary.html stock-books.html sanctuary.json stock-books.json stock_learning.png cloudflare-dist/
 cp index.html cloudflare-dist/index.html
+cp -f *.md cloudflare-dist/ 2>/dev/null || true
 
 # 3. 在複製出來的檔案中，動態替換連結（使用 Linux 標準的 sed 工具）
 # 這不會影響您在本機或 GitHub 上的原始 index.html 檔案
