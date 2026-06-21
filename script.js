@@ -229,6 +229,40 @@ document.addEventListener('DOMContentLoaded', () => {
     const shareDropdownMenu = document.getElementById('shareDropdownMenu');
     
     if (shareToggleBtn && shareDropdownMenu) {
+        const shareNative = document.getElementById('shareNative');
+        const shareFB = document.getElementById('shareFB');
+        const shareLINE = document.getElementById('shareLINE');
+        const shareCopy = document.getElementById('shareCopy');
+
+        const currentUrl = window.location.href;
+        const currentUrlEncoded = encodeURIComponent(currentUrl);
+
+        // Check if Web Share API is supported (e.g. mobile devices)
+        if (navigator.share) {
+            if (shareNative) shareNative.style.display = 'flex';
+            if (shareFB) shareFB.style.display = 'none';
+            if (shareLINE) shareLINE.style.display = 'none';
+
+            shareNative.addEventListener('click', (e) => {
+                e.preventDefault();
+                navigator.share({
+                    title: document.title,
+                    url: currentUrl
+                }).catch(err => console.log('Share canceled or failed:', err));
+                shareDropdownMenu.classList.remove('show');
+            });
+        } else {
+            if (shareNative) shareNative.style.display = 'none';
+            if (shareFB) {
+                shareFB.style.display = 'flex';
+                shareFB.href = `https://www.facebook.com/sharer/sharer.php?u=${currentUrlEncoded}`;
+            }
+            if (shareLINE) {
+                shareLINE.style.display = 'flex';
+                shareLINE.href = `https://social-plugins.line.me/lineit/share?url=${currentUrlEncoded}`;
+            }
+        }
+
         // Toggle dropdown open/close
         shareToggleBtn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -242,26 +276,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        const currentUrl = encodeURIComponent(window.location.href);
-
-        // LINE Share Link
-        const shareLINE = document.getElementById('shareLINE');
-        if (shareLINE) {
-            shareLINE.href = `https://social-plugins.line.me/lineit/share?url=${currentUrl}`;
-        }
-
-        // Facebook Share Link
-        const shareFB = document.getElementById('shareFB');
-        if (shareFB) {
-            shareFB.href = `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`;
-        }
-
         // Copy Page Link
-        const shareCopy = document.getElementById('shareCopy');
         if (shareCopy) {
             shareCopy.addEventListener('click', (e) => {
                 e.preventDefault();
-                navigator.clipboard.writeText(window.location.href)
+                navigator.clipboard.writeText(currentUrl)
                     .then(() => {
                         const originalText = shareCopy.innerHTML;
                         shareCopy.innerHTML = `<i class="bi bi-clipboard-check"></i> 已複製連結！`;
