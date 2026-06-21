@@ -41,9 +41,24 @@
             </nav>
             
             <div class="nav-actions">
+                <button class="share-toggle-btn" id="shareToggleBtn" title="分享此網頁" aria-label="Share Webpage">
+                    <i class="bi bi-share-fill"></i>
+                </button>
                 <button class="theme-toggle-btn" id="themeToggleBtn" title="切換深/淺色模式" aria-label="Toggle Dark/Light Mode">
                     <i class="bi bi-moon-stars-fill theme-icon"></i>
                 </button>
+                <!-- Share Dropdown Menu -->
+                <div class="share-dropdown-menu" id="shareDropdownMenu">
+                    <a href="#" id="shareFB" target="_blank" rel="noopener noreferrer" class="share-item">
+                        <i class="bi bi-facebook"></i> 分享至 Facebook
+                    </a>
+                    <a href="#" id="shareLINE" target="_blank" rel="noopener noreferrer" class="share-item">
+                        <i class="bi bi-line"></i> 分享至 LINE
+                    </a>
+                    <a href="#" id="shareCopy" class="share-item">
+                        <i class="bi bi-link-45deg"></i> 複製網頁連結
+                    </a>
+                </div>
             </div>
         </div>
     </header>

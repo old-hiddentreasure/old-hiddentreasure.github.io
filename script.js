@@ -222,4 +222,62 @@ document.addEventListener('DOMContentLoaded', () => {
         showQuote(currentQuoteIndex + 1);
     }, 10000);
 
+    /* ==========================================================================
+       6. SOCIAL MEDIA SHARING FUNCTIONALITY
+       ========================================================================== */
+    const shareToggleBtn = document.getElementById('shareToggleBtn');
+    const shareDropdownMenu = document.getElementById('shareDropdownMenu');
+    
+    if (shareToggleBtn && shareDropdownMenu) {
+        // Toggle dropdown open/close
+        shareToggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            shareDropdownMenu.classList.toggle('show');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!shareDropdownMenu.contains(e.target) && e.target !== shareToggleBtn) {
+                shareDropdownMenu.classList.remove('show');
+            }
+        });
+
+        const currentUrl = encodeURIComponent(window.location.href);
+
+        // LINE Share Link
+        const shareLINE = document.getElementById('shareLINE');
+        if (shareLINE) {
+            shareLINE.href = `https://social-plugins.line.me/lineit/share?url=${currentUrl}`;
+        }
+
+        // Facebook Share Link
+        const shareFB = document.getElementById('shareFB');
+        if (shareFB) {
+            shareFB.href = `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`;
+        }
+
+        // Copy Page Link
+        const shareCopy = document.getElementById('shareCopy');
+        if (shareCopy) {
+            shareCopy.addEventListener('click', (e) => {
+                e.preventDefault();
+                navigator.clipboard.writeText(window.location.href)
+                    .then(() => {
+                        const originalText = shareCopy.innerHTML;
+                        shareCopy.innerHTML = `<i class="bi bi-clipboard-check"></i> 已複製連結！`;
+                        shareCopy.style.color = '#10b981'; // Turn green momentarily
+                        
+                        setTimeout(() => {
+                            shareCopy.innerHTML = originalText;
+                            shareCopy.style.color = '';
+                        }, 2000);
+                    })
+                    .catch(err => {
+                        console.error('複製失敗:', err);
+                        alert('複製連結失敗，請手動複製網址。');
+                    });
+            });
+        }
+    }
+
 });

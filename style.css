@@ -343,6 +343,88 @@ img {
     box-shadow: var(--shadow-gold);
 }
 
+.nav-actions {
+    position: relative;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.share-toggle-btn {
+    background: none;
+    border: 1px solid var(--border-color);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: var(--text-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-smooth);
+}
+
+.share-toggle-btn:hover {
+    border-color: var(--accent-gold);
+    color: var(--accent-gold);
+    transform: scale(1.05);
+    box-shadow: var(--shadow-gold);
+}
+
+.share-dropdown-menu {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    padding: 8px 0;
+    width: 180px;
+    box-shadow: var(--shadow-lg);
+    backdrop-filter: var(--glass-blur);
+    display: none;
+    flex-direction: column;
+    z-index: 1100;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.share-dropdown-menu.show {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+body.dark-theme .share-dropdown-menu {
+    background-color: rgba(22, 30, 49, 0.95);
+}
+body.light-theme .share-dropdown-menu {
+    background-color: rgba(255, 255, 255, 0.98);
+}
+
+.share-item {
+    padding: 10px 20px;
+    color: var(--text-primary) !important;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: var(--transition-smooth);
+    cursor: pointer;
+    text-align: left;
+    text-decoration: none;
+}
+
+.share-item:hover {
+    background-color: rgba(212, 175, 55, 0.1);
+    color: var(--accent-gold) !important;
+}
+
+.share-item i {
+    font-size: 1.1rem;
+}
+
 .mobile-nav-toggle {
     display: none;
     background: none;
