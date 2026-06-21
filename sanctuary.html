@@ -296,6 +296,50 @@
             height: 24px;
         }
 
+        /* Lock Overlay & Panel styles */
+        .lock-overlay {
+            position: relative;
+            margin-top: -80px;
+            height: 120px;
+            background: linear-gradient(to bottom, rgba(250, 248, 245, 0) 0%, var(--bg-card) 95%);
+            pointer-events: none;
+            z-index: 2;
+            transition: var(--transition-smooth);
+        }
+        body.dark-theme .lock-overlay {
+            background: linear-gradient(to bottom, rgba(10, 14, 23, 0) 0%, var(--bg-card) 95%);
+        }
+        .lock-panel {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            backdrop-filter: blur(10px);
+            margin: 20px auto;
+            max-width: 480px;
+            z-index: 3;
+            position: relative;
+            animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .theme-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-sm);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            text-align: center;
+            font-size: 1rem;
+            transition: var(--transition-smooth);
+            outline: none;
+        }
+        .theme-input:focus {
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+        }
+
         /* ==========================================================================
            ANIMATIONS
            ========================================================================== */
@@ -369,6 +413,8 @@
     <script>
         let articlesData = [];
         let lessonsData = []; // To hold sub-articles of sanctuary-teaching
+        let activeArticleId = '';
+        let activeLessonId = '';
 
         // Theme Toggle Logic
         const themeBtn = document.getElementById('themeBtn');
@@ -579,6 +625,9 @@
                 return;
             }
 
+            activeArticleId = articleId;
+            activeLessonId = lessonId;
+
             // Set back button action to go back to sub-catalog
             const backBtn = document.querySelector('#detailView .back-btn');
             backBtn.onclick = (e) => {
@@ -597,7 +646,8 @@
                     return res.text();
                 })
                 .then(markdownText => {
-                    renderArticleMarkdown(markdownText);
+                    const isUnlocked = localStorage.getItem('sanctuary_unlocked') === 'true';
+                    renderArticleMarkdown(markdownText, !isUnlocked);
                 })
                 .catch(err => {
                     console.error("讀取課程檔案失敗:", err);
@@ -614,27 +664,57 @@
         }
 
         // Bespoke Markdown Line-by-Line Renderer
-        function renderArticleMarkdown(text) {
+        function renderArticleMarkdown(text, isLocked = false) {
             const contentArea = document.getElementById('activeContent');
             contentArea.innerHTML = '';
             
             const wrapper = document.createElement('div');
             wrapper.className = 'detail-content-area';
             
+            // If unlocked, we can show a small lock button to lock the page again
+            if (!isLocked) {
+                const lockIndicator = document.createElement('div');
+                lockIndicator.style.textAlign = 'right';
+                lockIndicator.style.marginBottom = '15px';
+                lockIndicator.innerHTML = `
+                    <a href="#" onclick="lockSanctuary(); return false;" style="font-size: 0.85rem; color: var(--text-muted); text-decoration: underline;">
+                        <i class="bi bi-lock-fill"></i> 重新鎖定專欄
+                    </a>
+                `;
+                wrapper.appendChild(lockIndicator);
+            }
+            
             const lines = text.split('\n');
             let delay = 0;
+            let contentLinesRendered = 0;
+            let lockedScreenAppended = false;
             
-            lines.forEach((line) => {
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                
+                if (isLocked && contentLinesRendered >= 4) {
+                    if (!lockedScreenAppended) {
+                        appendLockPanel(wrapper, delay);
+                        lockedScreenAppended = true;
+                    }
+                    break;
+                }
+                
                 const trimmed = line.trim();
                 
                 // Skip the first title header line `# title`
-                if (trimmed.startsWith('# ')) return;
+                if (trimmed.startsWith('# ')) continue;
                 
                 if (trimmed === '') {
                     const lineDiv = document.createElement('div');
                     lineDiv.className = 'detail-empty-line';
                     wrapper.appendChild(lineDiv);
-                    return;
+                    continue;
+                }
+                
+                // Count content lines (non-empty, non-heading, non-image)
+                if (trimmed !== '' && !trimmed.startsWith('# ') && !(trimmed.startsWith('![') && trimmed.endsWith(')')) && !trimmed.startsWith('#')) {
+                    contentLinesRendered++;
                 }
                 
                 // Handle Headings (##, ###, ####, etc.)
@@ -667,7 +747,7 @@
                         lineDiv.style.animationDelay = `${delay}s`;
                         delay += 0.05;
                         wrapper.appendChild(lineDiv);
-                        return;
+                        continue;
                     }
                 }
                 
@@ -689,7 +769,7 @@
                         img.style.animationDelay = `${delay}s`;
                         delay += 0.05;
                         wrapper.appendChild(img);
-                        return;
+                        continue;
                     }
                 }
                 
@@ -714,7 +794,7 @@
                         lineDiv.style.animationDelay = `${delay}s`;
                         delay += 0.05;
                         wrapper.appendChild(lineDiv);
-                        return;
+                        continue;
                     }
                 }
                 
@@ -743,10 +823,148 @@
                 lineDiv.style.animationDelay = `${delay}s`;
                 delay += 0.05;
                 wrapper.appendChild(lineDiv);
-            });
+            }
+            
+            // If the loop finished and we are locked but didn't append the lock screen yet (e.g. article is shorter than 4 lines)
+            if (isLocked && !lockedScreenAppended) {
+                appendLockPanel(wrapper, delay);
+            }
             
             contentArea.appendChild(wrapper);
             document.title = `${document.getElementById('activeTitle').textContent} | 聖堂教父`;
+        }
+
+        function appendLockPanel(wrapper, delay) {
+            // Create overlay
+            const overlay = document.createElement('div');
+            overlay.className = 'lock-overlay';
+            wrapper.appendChild(overlay);
+
+            // Create lock panel
+            const panel = document.createElement('div');
+            panel.className = 'lock-panel';
+            
+            // Check if bio login is supported and registered
+            const hasBio = !!localStorage.getItem('sanctuary_biometric_id');
+            const bioBtnHtml = hasBio ? `
+                <button id="bioUnlockBtn" onclick="attemptBioUnlock()" class="btn btn-outline" style="padding: 12px; aspect-ratio: 1; border: 1px solid var(--accent-gold); background: none; color: var(--accent-gold); border-radius: var(--border-radius-sm); cursor: pointer; transition: var(--transition-smooth);" title="使用指紋/面部快速解鎖">
+                    <i class="bi bi-fingerprint" style="font-size: 1.2rem;"></i>
+                </button>
+            ` : '';
+            
+            panel.innerHTML = `
+                <i class="bi bi-shield-lock-fill" style="font-size: 2.5rem; color: var(--accent-gold);"></i>
+                <h3 style="font-family: var(--font-heading); margin-top: 15px; margin-bottom: 10px;">專欄內容已鎖定</h3>
+                <p style="font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 20px;">本篇課程為限定閱讀，請輸入解鎖密碼或使用生物辨識驗證。</p>
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; width: 100%; max-width: 320px; margin: 0 auto;">
+                    <input type="password" id="lockPassword" class="theme-input" placeholder="請輸入密碼" onkeydown="if(event.key === 'Enter') attemptUnlock()" style="width: 100%;">
+                    <div style="display: flex; gap: 10px; width: 100%; justify-content: center; align-items: center;">
+                        <button onclick="attemptUnlock()" class="btn btn-primary" style="flex: 1; padding: 12px 20px; font-weight: 500; border-radius: var(--border-radius-sm); border: none; background-color: var(--accent-gold); color: #0a0e17; cursor: pointer; transition: var(--transition-smooth);">確認解鎖</button>
+                        ${bioBtnHtml}
+                    </div>
+                </div>
+            `;
+            
+            panel.style.animationDelay = `${delay}s`;
+            wrapper.appendChild(panel);
+        }
+
+        function attemptUnlock() {
+            const passwordInput = document.getElementById('lockPassword');
+            if (passwordInput.value === 'Disquiet0201') {
+                localStorage.setItem('sanctuary_unlocked', 'true');
+                
+                // Prompt user to enable biometrics if supported and not registered yet
+                if (window.PublicKeyCredential && !localStorage.getItem('sanctuary_biometric_id') && window.location.protocol === 'https:') {
+                    if (confirm("是否啟用此裝置的生物辨識（指紋/面部）快速解鎖？\n啟用後，下次可免輸入密碼直接解鎖。")) {
+                        registerBiometrics();
+                        return;
+                    }
+                }
+                
+                loadLesson(activeArticleId, activeLessonId);
+            } else {
+                alert('密碼錯誤！');
+                passwordInput.value = '';
+                passwordInput.focus();
+            }
+        }
+
+        function registerBiometrics() {
+            const username = "author@old-hiddentreasure";
+            const challenge = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+            const userId = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+            
+            const publicKeyCredentialCreationOptions = {
+                challenge: challenge,
+                rp: {
+                    name: "古藏寶 ‧ 股海學習",
+                    id: window.location.hostname
+                },
+                user: {
+                    id: userId,
+                    name: username,
+                    displayName: "專欄作者"
+                },
+                pubKeyCredParams: [{
+                    type: "public-key",
+                    alg: -7 // ES256
+                }, {
+                    type: "public-key",
+                    alg: -257 // RS256
+                }],
+                authenticatorSelection: {
+                    authenticatorAttachment: "platform",
+                    userVerification: "required"
+                },
+                timeout: 60000
+            };
+            
+            navigator.credentials.create({ publicKey: publicKeyCredentialCreationOptions })
+                .then((credential) => {
+                    const credentialId = btoa(String.fromCharCode.apply(null, new Uint8Array(credential.rawId)));
+                    localStorage.setItem('sanctuary_biometric_id', credentialId);
+                    alert('生物辨識解鎖設定成功！下次您可以使用生物辨識快速解鎖。');
+                    loadLesson(activeArticleId, activeLessonId);
+                })
+                .catch((err) => {
+                    console.error("生物辨識註冊失敗:", err);
+                    alert('生物辨識啟用取消或失敗。已自動使用密碼解鎖。');
+                    loadLesson(activeArticleId, activeLessonId);
+                });
+        }
+
+        function attemptBioUnlock() {
+            const credentialIdBase64 = localStorage.getItem('sanctuary_biometric_id');
+            if (!credentialIdBase64) return;
+            
+            const credentialId = new Uint8Array(atob(credentialIdBase64).split("").map(c => c.charCodeAt(0)));
+            const challenge = new Uint8Array([11, 12, 13, 14, 15, 16, 17, 18, 19, 20]);
+            
+            const publicKeyCredentialRequestOptions = {
+                challenge: challenge,
+                allowCredentials: [{
+                    id: credentialId,
+                    type: "public-key"
+                }],
+                userVerification: "required",
+                rpId: window.location.hostname
+            };
+            
+            navigator.credentials.get({ publicKey: publicKeyCredentialRequestOptions })
+                .then((assertion) => {
+                    localStorage.setItem('sanctuary_unlocked', 'true');
+                    loadLesson(activeArticleId, activeLessonId);
+                })
+                .catch((err) => {
+                    console.error("生物辨識認證失敗:", err);
+                    alert("生物辨識解鎖失敗或已取消，請輸入密碼解鎖。");
+                });
+        }
+
+        function lockSanctuary() {
+            localStorage.removeItem('sanctuary_unlocked');
+            loadLesson(activeArticleId, activeLessonId);
         }
     </script>
 </body>
