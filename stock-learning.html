@@ -33,8 +33,8 @@
         
         .columns-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 40px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
             margin-top: 40px;
         }
         
@@ -48,7 +48,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            min-height: 420px;
+            min-height: 440px;
             transition: var(--transition-smooth);
             backdrop-filter: var(--glass-blur);
             box-shadow: var(--shadow-sm);
@@ -107,6 +107,12 @@
         .back-home-wrapper {
             margin-top: 50px;
             text-align: center;
+        }
+        
+        @media (max-width: 992px) {
+            .columns-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
         
         @media (max-width: 768px) {
@@ -214,6 +220,20 @@
                     </p>
                     <a href="stock-books.html" class="btn btn-primary btn-column">
                         開啟書籍與節目 <i class="bi bi-journal-text"></i>
+                    </a>
+                </div>
+
+                <!-- Card C: 交易憲法與交易日誌 -->
+                <div class="column-card">
+                    <div class="column-icon-wrapper">
+                        <i class="bi bi-shield-shaded"></i>
+                    </div>
+                    <h3>交易憲法與交易日誌</h3>
+                    <p>
+                        核心交易紀律與日常操作日誌。設定嚴格的進出場原則以克制人性弱點，並詳實記錄每日交易細節，實現知行合一與穩定獲利。
+                    </p>
+                    <a href="trading-vault.html" class="btn btn-primary btn-column">
+                        驗證並進入保險箱 <i class="bi bi-shield-lock-fill"></i>
                     </a>
                 </div>
 
