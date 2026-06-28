@@ -490,8 +490,14 @@
         // Fetch Catalog & Load initial view
         Promise.all([
             fetch('sanctuary.json').then(res => res.json()),
-            fetch('sanctuary-teaching.json').then(res => res.json()),
-            fetch('sanctuary-live.json').then(res => res.json())
+            fetch('sanctuary-teaching.json').then(res => res.json()).catch(err => {
+                console.warn("Failed to load sanctuary-teaching.json:", err);
+                return [];
+            }),
+            fetch('sanctuary-live.json').then(res => res.json()).catch(err => {
+                console.warn("Failed to load sanctuary-live.json:", err);
+                return [];
+            })
         ])
         .then(([articles, teachingLessons, liveLessons]) => {
             articlesData = articles;
