@@ -412,7 +412,7 @@
     <!-- SPA Logic -->
     <script>
         let articlesData = [];
-        let lessonsData = []; // To hold sub-articles of sanctuary-teaching
+        let subCatalogs = {}; // { 'sanctuary-teaching': [...], 'sanctuary-live': [...] }
         let activeArticleId = '';
         let activeLessonId = '';
 
@@ -448,7 +448,7 @@
             const lessonId = urlParams.get('lesson');
             
             if (articleId) {
-                if (articleId === 'sanctuary-teaching') {
+                if (articleId === 'sanctuary-teaching' || articleId === 'sanctuary-live') {
                     if (lessonId) {
                         loadLesson(articleId, lessonId);
                     } else {
@@ -475,7 +475,7 @@
         // Navigate to article / sub-catalog
         function navigateToArticle(articleId) {
             history.pushState(null, '', `?article=${encodeURIComponent(articleId)}`);
-            if (articleId === 'sanctuary-teaching') {
+            if (articleId === 'sanctuary-teaching' || articleId === 'sanctuary-live') {
                 loadSubCatalog(articleId);
             } else {
                 loadArticle(articleId);
@@ -486,6 +486,26 @@
             history.pushState(null, '', `?article=${encodeURIComponent(articleId)}&lesson=${encodeURIComponent(lessonId)}`);
             loadLesson(articleId, lessonId);
         }
+
+        // Fetch Catalog & Load initial view
+        Promise.all([
+            fetch('sanctuary.json').then(res => res.json()),
+            fetch('sanctuary-teaching.json').then(res => res.json()),
+            fetch('sanctuary-live.json').then(res => res.json())
+        ])
+        .then(([articles, teachingLessons, liveLessons]) => {
+            articlesData = articles;
+            subCatalogs['sanctuary-teaching'] = teachingLessons;
+            subCatalogs['sanctuary-live'] = liveLessons;
+            handleRouting(); // Check initial URL parameter after all data loaded
+        })
+        .catch(err => {
+            console.error("載入目錄或課程失敗:", err);
+            document.getElementById('itemListContainer').innerHTML = `
+                <div style="text-align: center; color: var(--accent-gold);">
+                    載入目錄或課程失敗，請確認 JSON 設定是否正確。
+                </div>`;
+        });
 
         function showCatalogView() {
             document.getElementById('detailView').classList.remove('active');
@@ -499,27 +519,6 @@
             renderCatalog(articlesData);
             document.title = "聖堂教父 | 股海學習";
         }
-
-        // Fetch Catalog & Load initial view
-        fetch('sanctuary.json')
-            .then(res => res.json())
-            .then(data => {
-                articlesData = data;
-                // Pre-fetch lessons for fast routing
-                return fetch('sanctuary-teaching.json');
-            })
-            .then(res => res.json())
-            .then(lessons => {
-                lessonsData = lessons;
-                handleRouting(); // Check initial URL parameter after all data loaded
-            })
-            .catch(err => {
-                console.error("載入目錄或課程失敗:", err);
-                document.getElementById('itemListContainer').innerHTML = `
-                    <div style="text-align: center; color: var(--accent-gold);">
-                        載入目錄或課程失敗，請確認 sanctuary.json 與 sanctuary-teaching.json 設定正確。
-                    </div>`;
-            });
 
         function renderCatalog(articles) {
             const container = document.getElementById('itemListContainer');
@@ -546,24 +545,24 @@
             document.getElementById('catalogView').classList.add('active');
 
             const articleObj = articlesData.find(a => a.id === articleId);
-            const parentTitle = articleObj ? articleObj.title : "聖唐教父教學(外功招式)";
+            const parentTitle = articleObj ? articleObj.title : (articleId === 'sanctuary-teaching' ? "聖唐教父教學(外功招式)" : "聖堂教父直播");
 
-            document.getElementById('catalogTag').textContent = "聖堂教父 ‧ 實戰教學";
+            document.getElementById('catalogTag').textContent = articleId === 'sanctuary-teaching' ? "聖堂教父 ‧ 實戰教學" : "聖堂教父 ‧ 直播課程";
             document.getElementById('catalogTitle').textContent = parentTitle;
             document.getElementById('catalogBackBtn').style.display = "inline-flex";
 
-            renderSubCatalog(lessonsData);
+            renderSubCatalog(articleId, subCatalogs[articleId] || []);
             document.title = `${parentTitle} | 聖堂教父`;
         }
 
-        function renderSubCatalog(lessons) {
+        function renderSubCatalog(articleId, lessons) {
             const container = document.getElementById('itemListContainer');
             container.innerHTML = '';
             
             lessons.forEach(lesson => {
                 const card = document.createElement('div');
                 card.className = 'item-card';
-                card.onclick = () => navigateToLesson('sanctuary-teaching', lesson.id);
+                card.onclick = () => navigateToLesson(articleId, lesson.id);
                 
                 card.innerHTML = `
                     <div class="item-info">
@@ -617,10 +616,11 @@
 
         // Fetch & Parse Markdown Lesson
         function loadLesson(articleId, lessonId) {
-            const lessonObj = lessonsData.find(l => l.id === lessonId);
+            const lessons = subCatalogs[articleId] || [];
+            const lessonObj = lessons.find(l => l.id === lessonId);
             if (!lessonObj) {
-                document.getElementById('activeTitle').textContent = "未找到該篇課程";
-                document.getElementById('activeContent').innerHTML = "<p>請返回課程目錄重新選擇。</p>";
+                document.getElementById('activeTitle').textContent = "未找到該篇內容";
+                document.getElementById('activeContent').innerHTML = "<p>請返回目錄重新選擇。</p>";
                 showDetailView();
                 return;
             }
@@ -634,10 +634,10 @@
                 e.preventDefault();
                 navigateToSubCatalog(articleId);
             };
-            backBtn.innerHTML = `<i class="bi bi-arrow-left-short" style="font-size: 1.4rem;"></i> 返回課程目錄`;
+            backBtn.innerHTML = `<i class="bi bi-arrow-left-short" style="font-size: 1.4rem;"></i> 返回目錄`;
 
             document.getElementById('activeTitle').textContent = lessonObj.title;
-            document.getElementById('activeContent').innerHTML = "<p style='color: var(--text-secondary);'>課程載入中...</p>";
+            document.getElementById('activeContent').innerHTML = "<p style='color: var(--text-secondary);'>內容載入中...</p>";
             showDetailView();
 
             fetch(lessonObj.filename)
@@ -650,10 +650,10 @@
                     renderArticleMarkdown(markdownText, !isUnlocked);
                 })
                 .catch(err => {
-                    console.error("讀取課程檔案失敗:", err);
+                    console.error("讀取檔案失敗:", err);
                     document.getElementById('activeContent').innerHTML = `
                         <p style="color: var(--accent-gold);">
-                            讀取課程檔案失敗，請確認 '${lessonObj.filename}' 檔案已正確上傳。
+                            讀取檔案失敗，請確認 '${lessonObj.filename}' 檔案已正確上傳。
                         </p>`;
                 });
         }

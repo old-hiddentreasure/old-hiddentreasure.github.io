@@ -12,5 +12,12 @@
     "filename": "sanctuary-teaching.md",
     "date": "2026-06-07",
     "description": "聖唐教父實戰操作教學之研習筆記，涵蓋盤面分析與外功招式精華..."
+  },
+  {
+    "id": "sanctuary-live",
+    "title": "聖堂教父直播",
+    "filename": "sanctuary-live.md",
+    "date": "2026-06-30",
+    "description": "聖堂教父直播課程記錄，包含即時盤勢解析與實戰互動心法..."
   }
 ]
