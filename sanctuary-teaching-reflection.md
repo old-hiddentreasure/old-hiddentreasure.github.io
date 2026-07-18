@@ -4,14 +4,18 @@
 (1) <span style="color: red;">決不依賴所謂的盤感做決策</span>
 (2) <span style="color: red;">交易就是正期望值的遊戲反覆做</span><span style="color: red;">，優勢就會顯現</span>
 (3) <span style="color: red;">正確動作不等於單次交易一定賺錢，錯誤動作也不等於單筆交易一定賠錢，但累積很多次，正確動作就是會賺大賠小，錯誤動作則是賺小賠大</span>
-(4) <span style="color: red;">第一步，大盤判斷多空(道氏)，第二步，個股判斷多空(道氏)，第三步，個股以關鍵k與樞紐判斷多方買入，賣出；空方劵空，回補</span>
-(5) <span style="color: red;">無論多空，保留賺錢的倉位愈久愈好，賠錢的倉位愈快短愈好</span>
-(6) <span style="color: red;">左右戰法很重要，精神就2個，4種個性與部位調控</span>
+(4) <span style="color: red;">道氏運動看趨勢：依照道氏運動、防線、反轉型態等辨認多空運動趨勢（運動兩字很重要）或是盤整，多空確立打順勢賠率盤，盤整打逆勢勝率高出低進。</span>
+(5) <span style="color: red;">過熱、樞紐轉折與關鍵k：辨識過熱k ➡️ P(樞紐)k(關鍵k)[進入聽牌] ➡️ 胡牌；大樞紐才是轉折（轉折是重點），小樞紐要懂得略過。</span>
+(6) <span style="color: red;">下單後想著反向：下單後如果不如預期，馬上反向或以震盪盤處理。</span>
+(7) <span style="color: red;">無論多空，保留賺錢的倉位愈久愈好，賠錢的倉位愈快短愈好</span>
+(8) <span style="color: red;">精神力為成敗關鍵：精神崩潰就會亂做，參考交易憲法，不要全出全進(避免過度交易)，逐漸加倉，換股或零股，都可增加精神負載力</span>
+(9) <span style="color: red;">獨立於情緒外的操作系統：不要跟著市場跑，以為可以預測而做點什麼(過度交易)，而是在想像世界中的轉折處先掛單，讓真實世界來觸發、貼合與成交，儘量在轉折處預掛(先設定比較大個空間再視情況微調)，而不是市價買賣(市價買賣是預測感覺型交易，很慘)</span>
+(10) <span style="color: red;">左右戰法很重要，精神就2個，4種個性與部位調控</span>
 A. <span style="color: red;">在一直下跌時進場：左左(只能極少量試單)(道氏空方防線未突破)(勝率極低，賠率最高)</span>
 B. <span style="color: red;">不再破底，短底出現進場：左右(已賺錢加碼)(道氏空方防線未突破)(中庸)</span>
 C. <span style="color: red;">突破道氏防線後回測；右左(中庸)</span>
 D. <span style="color: red;">突破道氏防線後一路向上：右右(情緒短暫高點，容易短套)(勝率極高，賠率極差)</span>
-(7) <span style="color: red;">左右戰法核心精神：永遠要想成兩軍作戰，情勢明朗，勝率高時才</span><span style="color: red;">**放大部位**</span><span style="color: red;">；情勢不明，勝率低時，就要縮小部位，而不是</span><span style="color: red;">”</span><span style="color: red;">我覺得會贏</span><span style="color: red;">”</span><span style="color: red;">，只憑盤感，不依循系統，大部位殺進殺出，折損最快</span>
+(11) <span style="color: red;">左右戰法核心精神：永遠要想成兩軍作戰，情勢明朗，勝率高時才</span><span style="color: red;">**放大部位**</span><span style="color: red;">；情勢不明，勝率低時，就要縮小部位，而不是</span><span style="color: red;">”</span><span style="color: red;">我覺得會贏</span><span style="color: red;">”</span><span style="color: red;">，只憑盤感，不依循系統，大部位殺進殺出，折損最快</span>
 2. **市場屬性與技術分析**
 技術分析用在愈大、愈少人為操控的市場愈準。主力股因為籌碼容易被少數人控制，技術分析能發揮的用處就相對比較少了。
 3. **靈活停損與部位配置**
