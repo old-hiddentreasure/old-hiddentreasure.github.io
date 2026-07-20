@@ -174,8 +174,8 @@
         /* Dashboard Choices */
         .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 40px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
             margin-top: 40px;
         }
 
@@ -733,6 +733,20 @@
                             </button>
                         </div>
 
+                        <!-- Choice C: 股海指月錄 -->
+                        <div class="dashboard-card" onclick="switchSubView('finger')">
+                            <div class="dashboard-icon">
+                                <i class="bi bi-moon-stars"></i>
+                            </div>
+                            <h3>股海指月錄</h3>
+                            <p>
+                                觀照心性與股海實相的哲學心法。指月非月，借技術招式以見實相，深入探討心態修煉與交易哲學觀照。
+                            </p>
+                            <button class="btn btn-outline" style="width: 100%;">
+                                檢視股海指月錄 <i class="bi bi-arrow-right"></i>
+                            </button>
+                        </div>
+
                     </div>
 
                     <div style="text-align: center; margin-top: 50px;">
@@ -826,6 +840,58 @@
                                     </ul>
                                 </li>
                             </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sub-view: 股海指月錄 -->
+                <div id="fingerView" class="constitution-view">
+                    <div class="back-nav">
+                        <button onclick="switchSubView('dashboard')" class="btn-link">
+                            <i class="bi bi-arrow-left"></i> 返回金庫大廳
+                        </button>
+                        <span class="badge badge-day"><i class="bi bi-moon-stars-fill"></i> 觀照心性</span>
+                    </div>
+
+                    <div class="vault-header" style="margin-bottom: 40px; text-align: left;">
+                        <h2 class="vault-title" style="font-size: 1.8rem;"><i class="bi bi-moon-stars-fill" style="color: var(--accent-gold);"></i> 股海指月錄</h2>
+                        <p style="color: var(--text-secondary); margin-top: 5px;">指月非月，借技術招式以見市場實相。無明起處，即是修煉道場。</p>
+                        <div class="vault-divider" style="margin: 15px 0 0 0;"></div>
+                    </div>
+
+                    <!-- 核心宗旨與觀照心法 -->
+                    <div class="const-section">
+                        <h3><i class="bi bi-compass"></i> 指月宗旨</h3>
+                        <div class="const-alert" style="border-left-color: var(--accent-gold);">
+                            <strong>「指月非月，標月之指非月也。」</strong><br>
+                            所有的技術分析（道氏理論、樞紐戰法、關鍵K線、左右戰法）皆如標月之指，只是指向市場實相的工具與橋樑。若執著於指標與招式本身，反而迷失了市場當下的真實節奏與人心變化。
+                        </div>
+                    </div>
+
+                    <!-- 股海指月三觀 -->
+                    <div class="const-section">
+                        <h3><i class="bi bi-eye"></i> 股海指月三觀</h3>
+                        <ol class="const-list">
+                            <li><strong>第一觀：觀市場運動而非主觀預測</strong><br>
+                            市場是活的動態過程。擺脫主觀執念，讓市場觸發預設架構，而非讓情緒牽著鼻子走。</li>
+                            <li><strong>第二觀：觀勝率與賠率之天平</strong><br>
+                            多空交戰如兩軍對壘。情勢明朗順勢重賠率，區間震盪逆勢重勝率。莊家思維高拋低吸，賭客思維追高殺低。</li>
+                            <li><strong>第三觀：觀心性負載與紀律防線</strong><br>
+                            精神崩潰乃失敗之始。透過部位調控（零股、分批、留強汰弱）維持精神負載力，嚴守交易憲法。</li>
+                        </ol>
+                    </div>
+
+                    <!-- 靜心與自省 -->
+                    <div class="const-section">
+                        <h3><i class="bi bi-flower1"></i> 每日交易觀照偈</h3>
+                        <div class="const-danger" style="border-left-color: var(--accent-emerald);">
+                            <h4 style="color: var(--text-primary);"><i class="bi bi-shield-check" style="color: var(--accent-emerald);"></i> 知行合一 ‧ 澄心觀照</h4>
+                            <p style="color: var(--text-secondary); line-height: 2.0;">
+                                漲跌無常心有常，不以盤感亂規章。<br>
+                                樞紐關鍵明進退，勝率賠率量短長。<br>
+                                低掛預設隨緣合，過熱平心避強梁。<br>
+                                守持憲法如金鎖，股海波瀾任翱翔。
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -1125,7 +1191,14 @@
         function showVaultContent() {
             lockScreen.style.display = 'none';
             unlockedContent.classList.add('active');
-            switchSubView('dashboard');
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            const requestedView = urlParams.get('view');
+            if (requestedView && ['constitution', 'journal', 'finger'].includes(requestedView)) {
+                switchSubView(requestedView);
+            } else {
+                switchSubView('dashboard');
+            }
         }
 
         function lockVault() {
@@ -1144,11 +1217,13 @@
             const dashboardView = document.getElementById('dashboardView');
             const constitutionView = document.getElementById('constitutionView');
             const journalView = document.getElementById('journalView');
+            const fingerView = document.getElementById('fingerView');
 
             // Hide all sub-views
             dashboardView.style.display = 'none';
             constitutionView.classList.remove('active');
             journalView.classList.remove('active');
+            if (fingerView) fingerView.classList.remove('active');
 
             // Show selected view
             if (viewName === 'dashboard') {
@@ -1162,6 +1237,9 @@
                 document.title = "交易日誌 | 股海學習";
                 // Reload tables and stats in case
                 loadJournalLogs();
+            } else if (viewName === 'finger') {
+                if (fingerView) fingerView.classList.add('active');
+                document.title = "股海指月錄 | 股海學習";
             }
         }
 
