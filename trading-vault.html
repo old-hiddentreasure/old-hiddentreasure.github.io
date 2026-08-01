@@ -1454,7 +1454,11 @@
             const wrapper = document.createElement('div');
             wrapper.className = 'detail-content-area';
 
-            const lines = text.split('\n');
+            let normalizedText = text;
+            if (normalizedText.includes('\\n')) {
+                normalizedText = normalizedText.replace(/\\n/g, '\n');
+            }
+            const lines = normalizedText.split('\n');
             let delay = 0;
 
             for (let i = 0; i < lines.length; i++) {

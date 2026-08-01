@@ -499,26 +499,27 @@
 
             document.getElementById('activeTitle').textContent = articleObj.title;
             document.getElementById('activeDate').textContent = `發布日期：${articleObj.date}`;
-            document.getElementById('activeContent').innerHTML = "<p style='color: var(--text-secondary);'>文章內容載入中...</p>";
             showDetailView();
 
+            // Render built-in fallback content immediately (0ms instant display!)
+            if (fallbackFingerMarkdownMap[articleObj.filename]) {
+                renderArticleMarkdown(fallbackFingerMarkdownMap[articleObj.filename]);
+            } else {
+                document.getElementById('activeContent').innerHTML = "<p style='color: var(--text-secondary);'>文章內容載入中...</p>";
+            }
+
+            // Attempt fetching external file for any dynamic updates
             fetch(articleObj.filename)
                 .then(res => res.ok ? res : fetch('./' + articleObj.filename))
                 .then(res => res.ok ? res : fetch('/' + articleObj.filename))
-                .then(res => {
-                    if (!res.ok) throw new Error("File not found");
-                    return res.text();
-                })
+                .then(res => res.ok ? res.text() : null)
                 .then(markdownText => {
-                    renderArticleMarkdown(markdownText);
+                    if (markdownText) {
+                        renderArticleMarkdown(markdownText);
+                    }
                 })
                 .catch(err => {
-                    console.warn("載入遠端文章失敗，使用內建備份文章:", err);
-                    if (fallbackFingerMarkdownMap[articleObj.filename]) {
-                        renderArticleMarkdown(fallbackFingerMarkdownMap[articleObj.filename]);
-                    } else {
-                        document.getElementById('activeContent').innerHTML = `<p style="color: var(--accent-gold);">載入文章內容失敗，請確認 '${articleObj.filename}' 檔案已上傳。</p>`;
-                    }
+                    console.warn("使用內建備份文章快取");
                 });
         }
 
@@ -529,7 +530,11 @@
             const wrapper = document.createElement('div');
             wrapper.className = 'detail-content-area';
 
-            const lines = text.split('\n');
+            let normalizedText = text;
+            if (normalizedText.includes('\\n')) {
+                normalizedText = normalizedText.replace(/\\n/g, '\n');
+            }
+            const lines = normalizedText.split('\n');
             let delay = 0;
 
             for (let i = 0; i < lines.length; i++) {
