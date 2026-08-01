@@ -818,16 +818,16 @@
                         </div>
 
                         <!-- Choice C: 股海指月錄 -->
-                        <div class="dashboard-card" onclick="switchSubView('finger')">
+                        <div class="dashboard-card" onclick="window.location.href='stock-finger.html'">
                             <div class="dashboard-icon">
                                 <i class="bi bi-moon-stars"></i>
                             </div>
                             <h3>股海指月錄</h3>
                             <p>
-                                觀照心性與股海實相的哲學心法。指月非月，借技術招式以見實相，深入探討心態修煉與交易哲學觀照。
+                                觀照心性與股海實相的哲學心法（公開閱讀）。指月非月，借技術招式以見實相，深入探討心態修煉與交易哲學觀照。
                             </p>
                             <button class="btn btn-outline" style="width: 100%;">
-                                檢視股海指月錄 <i class="bi bi-arrow-right"></i>
+                                開啟公開專欄 <i class="bi bi-box-arrow-up-right"></i>
                             </button>
                         </div>
 
@@ -1270,7 +1270,9 @@
             
             const urlParams = new URLSearchParams(window.location.search);
             const requestedView = urlParams.get('view');
-            if (requestedView && ['constitution', 'journal', 'finger'].includes(requestedView)) {
+            if (requestedView === 'finger') {
+                window.location.href = 'stock-finger.html';
+            } else if (requestedView && ['constitution', 'journal'].includes(requestedView)) {
                 switchSubView(requestedView);
             } else {
                 switchSubView('dashboard');
