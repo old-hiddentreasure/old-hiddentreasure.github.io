@@ -321,6 +321,90 @@
             color: var(--text-secondary);
         }
 
+        /* Article List/Catalog inside Vault (specifically for 股海指月錄) */
+        .item-list-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .item-card {
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            padding: 24px 30px;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-smooth);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            text-align: left;
+        }
+
+        .item-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-gold);
+            background-color: rgba(212, 175, 55, 0.04);
+            box-shadow: var(--shadow-md), 0 0 15px rgba(212, 175, 55, 0.1);
+        }
+
+        .item-info {
+            flex-grow: 1;
+        }
+
+        .item-info h3 {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .item-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .item-date {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        .detail-content-area {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            line-height: 2.0;
+            color: var(--text-primary);
+            letter-spacing: 0.5px;
+            white-space: pre-wrap;
+            text-align: left;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .detail-line {
+            margin-bottom: 12px;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInLine 0.5s ease forwards;
+        }
+
+        .detail-empty-line {
+            height: 24px;
+        }
+
+        @keyframes fadeInLine {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         /* Trading Journal Sub-view */
         .journal-view {
             display: none;
@@ -845,194 +929,50 @@
                 </div>
 
                 <!-- Sub-view: 股海指月錄 -->
-                <div id="fingerView" class="constitution-view">
-                    <div class="back-nav">
-                        <button onclick="switchSubView('dashboard')" class="btn-link">
-                            <i class="bi bi-arrow-left"></i> 返回金庫大廳
-                        </button>
-                        <span class="badge badge-day"><i class="bi bi-moon-stars-fill"></i> 觀照心性</span>
-                    </div>
+                <div id="fingerView" class="constitution-view" style="padding: 30px 20px;">
+                    <!-- Catalog View of 股海指月錄 -->
+                    <div id="fingerCatalogView" class="active">
+                        <div class="back-nav">
+                            <button onclick="switchSubView('dashboard')" class="btn-link">
+                                <i class="bi bi-arrow-left"></i> 返回金庫大廳
+                            </button>
+                            <span class="badge badge-day"><i class="bi bi-moon-stars-fill"></i> 觀照心性</span>
+                        </div>
 
-                    <div class="vault-header" style="margin-bottom: 40px; text-align: left;">
-                        <h2 class="vault-title" style="font-size: 1.8rem;"><i class="bi bi-moon-stars-fill" style="color: var(--accent-gold);"></i> 股海指月錄：四大菩薩操作要義</h2>
-                        <p style="color: var(--text-secondary); margin-top: 5px;">在股票市場的驚濤駭浪中，以投機正法系統性歸納四大菩薩操作法門，重塑交易者內在心法。</p>
-                        <div class="vault-divider" style="margin: 15px 0 0 0;"></div>
-                    </div>
+                        <div class="vault-header" style="margin-bottom: 40px; text-align: left;">
+                            <h2 class="vault-title" style="font-size: 1.8rem;"><i class="bi bi-moon-stars-fill" style="color: var(--accent-gold);"></i> 股海指月錄</h2>
+                            <p style="color: var(--text-secondary); margin-top: 5px;">指月非月，借技術招式以見市場實相。無明起處，即是修煉道場。</p>
+                            <div class="vault-divider" style="margin: 15px 0 0 0;"></div>
+                        </div>
 
-                    <!-- 總綱介紹 -->
-                    <div class="const-section">
-                        <h3><i class="bi bi-compass"></i> 四大菩薩操作法門總綱</h3>
-                        <div class="const-alert" style="border-left-color: var(--accent-gold);">
-                            <p style="margin-bottom: 12px;">在股票市場的驚濤駭浪中，交易者往往容易迷失在無窮無盡的指標、籌碼與市場噪音中。為了重塑交易者的內在心法，將投機正法系統性地歸納為<strong>「四大菩薩操作法門」</strong>：</p>
-                            <ol class="const-list" style="margin-bottom: 0;">
-                                <li><strong>智（智文殊）</strong>：代表「預期世界的構建與價格根本」（屬於分析）。</li>
-                                <li><strong>仁（悲觀音）</strong>：代表「真實世界的對齊與體感識別」（屬於接受與修正）。</li>
-                                <li><strong>靜（靜地藏）</strong>：代表「不動如山的部位管理與風險控制」（屬於等待與守成）。</li>
-                                <li><strong>勇（行普賢）</strong>：代表「關鍵價位的極致出手與執行」（屬於出手與執行）。</li>
-                            </ol>
+                        <div id="fingerCatalogList" class="item-list-container">
+                            <!-- Articles list will be dynamically rendered here -->
                         </div>
                     </div>
 
-                    <!-- 智（智文殊） -->
-                    <div class="const-section">
-                        <h3><i class="bi bi-lightbulb-fill"></i> 智（智文殊）—— 預期世界的構建與價格根本</h3>
-                        
-                        <div class="const-alert" style="background-color: rgba(212, 175, 55, 0.08); border-left-color: var(--accent-gold);">
-                            <strong style="color: var(--accent-gold); font-size: 1.05rem;"><i class="bi bi-quote"></i> 價格才是根本，洞悉市場意志所驅動的勢與市。</strong>
-                            <p style="color: var(--text-secondary); margin-top: 6px;">
-                                「智文殊」法門屬於<strong>分析階段</strong>。在開盤前，交易者透過客觀數據在腦海中勾勒出一個預期的<strong>「理想世界」</strong>，並在進入真實戰場前完成心態的<strong>「轉念」</strong>。
-                            </p>
+                    <!-- Detail View of 股海指月錄 -->
+                    <div id="fingerDetailView" style="display: none;">
+                        <div class="back-nav">
+                            <button onclick="showFingerCatalog()" class="btn-link">
+                                <i class="bi bi-arrow-left"></i> 返回指月錄目錄
+                            </button>
+                            <span class="badge badge-day" id="fingerDetailBadge"><i class="bi bi-journal-text"></i> 文章內容</span>
                         </div>
 
-                        <div style="margin-top: 20px;">
-                            <h4 style="color: var(--text-primary); margin-bottom: 10px;"><i class="bi bi-diagram-3-fill" style="color: var(--accent-gold);"></i> 價格根本與意志驅動</h4>
-                            <ul class="sub-bullet-list" style="margin-bottom: 20px;">
-                                <li><strong>價格才是根本</strong>：拋棄所有對外在指標的盲目信仰，一切以價格行為（Price Action）定錨。</li>
-                                <li><strong>意志、勢、市（市場 82 法則）</strong>：洞悉市場底層由核心意志驅動「勢」，進而形成「市」的傳導鏈。分析並鎖定可能驅動行情、僅占 2 成的關鍵族群。</li>
-                            </ul>
+                        <div class="vault-header" style="margin-bottom: 30px; text-align: left;">
+                            <h2 class="vault-title" id="fingerArticleTitle" style="font-size: 1.8rem; color: var(--accent-gold);"></h2>
+                            <div class="article-meta" style="margin-top: 8px; font-size: 0.9rem; color: var(--text-secondary);">
+                                <span id="fingerArticleDate"><i class="bi bi-calendar3"></i> </span>
+                            </div>
+                            <div class="vault-divider" style="margin: 15px 0 0 0;"></div>
+                        </div>
 
-                            <h4 style="color: var(--text-primary); margin-bottom: 10px;"><i class="bi bi-eye-slash-fill" style="color: var(--accent-gold);"></i> 預期與認知局限</h4>
-                            <ul class="sub-bullet-list" style="margin-bottom: 20px;">
-                                <li><strong>認知永遠不完整</strong>：承認人類對市場的理解必然存在缺陷與盲區，放下「分析萬能」的執念。</li>
-                                <li><strong>同樣線型不同命運</strong>：破除圖表因果論。一模一樣的技術線型，背後可能走向完全相反的命運，必須以機率思維待之。</li>
-                                <li><strong>機率優勢（風險報酬不對等優勢）</strong>：不強求高勝率，而是尋找風險極小而潛在利潤極大的不對等機率機會。</li>
-                            </ul>
-
-                            <h4 style="color: var(--text-primary); margin-bottom: 10px;"><i class="bi bi-gear-wide-connected" style="color: var(--accent-gold);"></i> 策略定錨與思維重塑</h4>
-                            <ul class="sub-bullet-list">
-                                <li><strong>雙率思考</strong>：隨時權衡「勝率」與「賺賠比」，以期望值為核心。</li>
-                                <li><strong>中性思考與灰階原則</strong>：市場不是非黑即白，利多與利空之間存在大片動態演變的灰色地帶。保持中性，不帶主觀偏見。</li>
-                                <li><strong>事件兩面性原則</strong>：任何消息或事件都有其雙刃劍性質，不以單一利多或利空進行線性解讀。</li>
-                                <li><strong>估值重調與節奏轉換</strong>：理解股價暴漲本質上是市場預期共識的集體轉移（Re-rating），並隨時留意市場節奏的動態轉換。</li>
-                                <li><strong>交易環境分治</strong>：明確區分「獎金選股（波段交易）」與「薪水選股（當沖交易）」在選股邏輯與停損設計上的本質斷層。</li>
-                            </ul>
+                        <div id="fingerArticleContent" class="detail-content-area" style="line-height: 1.8; color: var(--text-secondary);">
+                            <!-- Dynamic parsed markdown content will go here -->
                         </div>
                     </div>
-
-                    <!-- 仁與靜（悲觀音、靜地藏） -->
-                    <div class="const-section">
-                        <h3><i class="bi bi-heart-pulse-fill"></i> 仁與靜（悲觀音、靜地藏）—— 真實世界的對齊、接受與等待</h3>
-                        
-                        <div class="const-alert" style="background-color: rgba(59, 130, 246, 0.08); border-left-color: #3b82f6;">
-                            <strong style="color: #3b82f6; font-size: 1.05rem;"><i class="bi bi-quote"></i> 放下自我執著，以真實盤面補足預期世界的不足；不動如山，在等待中守成。</strong>
-                            <p style="color: var(--text-secondary); margin-top: 6px;">
-                                「仁觀音」與「靜地藏」法門屬於<strong>接受、修正與等待階段</strong>。當開盤後，交易者必須放下自我的堅持，將腦中的「理想世界」與盤面的「真實世界」反覆疊合、修正，並保持極大的定力進行部位控制。
-                            </p>
-                        </div>
-
-                        <!-- 仁（悲觀音） -->
-                        <div class="const-danger" style="border-left-color: var(--accent-gold); margin-top: 25px;">
-                            <h4 style="color: var(--text-primary);"><i class="bi bi-activity" style="color: var(--accent-gold);"></i> 仁（悲觀音）：觀察股價運動價格行為與真實世界的對齊、體感修正</h4>
-                            
-                            <h5 style="color: var(--accent-gold); margin: 15px 0 8px 0;">一、 對齊世界與體感識別</h5>
-                            <ul class="sub-bullet-list">
-                                <li><strong>換位思考</strong>：從實際盤面的價格行為出發，補足理想預期的不足，建立敏銳的「股票體感識別」。</li>
-                                <li><strong>接受任何可能性</strong>：預測永遠不完美。必須建立「買進後隨時可能大跌」的防守心理框架，這是保護交易心理素質的關鍵基石。</li>
-                                <li><strong>族群 82 法則</strong>：用心感受與觀察目前正在盤面上實際驅動行情的 2 成股票與主流族群，放棄自我的主觀堅持。</li>
-                            </ul>
-
-                            <h5 style="color: var(--accent-gold); margin: 15px 0 8px 0;">二、 熟讀亞當理論、看線辦事與強弱比對</h5>
-                            <ul class="sub-bullet-list">
-                                <li><span style="color: red;"><strong>亞當理論與優化</strong>：儘量只做賠率順勢盤，放棄勝率震盪盤：</span>
-                                    <ol style="padding-left: 20px; margin-top: 5px; color: red;">
-                                        <li><span style="color: red;"><strong>對市場無條件的無知與臣服</strong>：放棄任何看法，只看價格。</span></li>
-                                        <li><span style="color: red;"><strong>只做順勢，放棄抓轉折</strong>：會漲的股票到月球也應該買，會跌的股票跌到零也該賣，不要自己抓轉折(市場會幫你抓)，避開震盪，亞當理論不猜頭摸底，所以只有轉折時會錯(設好停損就可，其他都對)。</span></li>
-                                        <li><span style="color: red;"><strong>做多只做強勢股，做空只做弱勢股</strong>：不去猜測轉折點，但可以考慮雙率，比方說趨勢多方，仍做多，但注意過熱可能反轉，調整部位，賠率若差就減倉，等賠率高的拉回買點；趨勢空，做空，但注意過熱可能反轉，調整部位，賠率若差就減倉，等賠率高的上漲空點，以亞當理論決定多空趨勢，不抓轉折，避開震盪，雙率優化。</span></li>
-                                    </ol>
-                                </li>
-                                <li><strong>看線辦事</strong>：依據共識與結構主義進行價格變動與價格行為的觀察。針對不同狀態採用應對策略：
-                                    <ol style="padding-left: 20px; margin-top: 5px; color: var(--text-secondary);">
-                                        <li><strong>道氏運動看趨勢</strong>：依照道氏運動、防線、反轉型態等辨認多空運動趨勢（運動兩字很重要）或是盤整，多空確立打順勢賠率盤，盤整打逆勢勝率高出低進。</li>
-                                        <li><strong>過熱、樞紐轉折與關鍵k</strong>：辨識過熱k ➡️ P(樞紐)k(關鍵k)[進入聽牌] ➡️ 胡牌；大樞紐才是轉折（轉折是重點，但儘量略過不要去抓），小樞紐要懂得略過。</li>
-                                        <li><strong>下單後想著反向</strong>：下單後如果不如預期，馬上反向或以震盪盤處理。</li>
-                                    </ol>
-                                </li>
-                                <li><strong>結構強弱比對</strong>：隨時比對「大盤、熱門族群、自己持股」三者之間的結構強弱。</li>
-                                <li><strong>時常留意轉強族群</strong>：
-                                    <ul style="padding-left: 20px; margin-top: 5px; color: var(--text-secondary);">
-                                        <li><strong>板蕩識忠臣</strong>：大盤下跌時才是觀察與篩選強勢股的黃金窗口。</li>
-                                        <li><strong>異常波動識別</strong>：盤中波動突然變大、洗刷愈用力愈代表有大資金運作，但日線卻能守住關鍵支撐點位。</li>
-                                    </ul>
-                                </li>
-                                <li><strong>生存紅線</strong>：股票未站上年線（240 MA）之前，原則上儘量不碰。</li>
-                            </ul>
-
-                            <h5 style="color: var(--accent-gold); margin: 15px 0 8px 0;">三、 進攻性部位管理</h5>
-                            <ul class="sub-bullet-list">
-                                <li><strong>汰弱留強與加碼獎勵</strong>：持股必須動態調整，將資金從弱勢、賠錢的股票中撤出，轉而「加碼獎勵」強勢且賺錢的股票。這不僅是防守，更是利用槓桿進行防守反擊的主動進攻。</li>
-                            </ul>
-                        </div>
-
-                        <!-- 靜（靜地藏） -->
-                        <div class="const-alert" style="border-left-color: var(--accent-emerald); margin-top: 25px;">
-                            <h4 style="color: var(--accent-emerald); margin-bottom: 10px;"><i class="bi bi-shield-lock-fill"></i> 靜（靜地藏）：獨立於情緒外的操作系統、不動如山的守成與精神力</h4>
-                            
-                            <ul class="sub-bullet-list">
-                                <li><strong>精神力為成敗關鍵</strong>：精神崩潰就會亂做，參考交易憲法，不要全出全進(避免過度交易)，逐漸加倉，換股或零股，都可增加精神負載力。</li>
-                                <li><strong>獨立於情緒外的操作系統</strong>：不要跟著市場跑，以為可以預測而做點什麼(過度交易)，而是在想像世界中的賠率高處先掛單，讓真實世界來觸發、貼合與成交，儘量在賠率高處預掛(先設定比較大個空間再視情況微調)，而不是市價買賣(市價買賣是預測感覺型交易，很慘)。</li>
-                                <li><strong>杜絕衝動與保持距離</strong>：
-                                    <ul style="padding-left: 20px; margin-top: 5px; color: var(--text-secondary);">
-                                        <li><strong>等待的藝術</strong>：交易有 8 成的時間是在等待合適的時機（賺取大波段的「賺獎金」，而非盤中瑣碎的「賺薪水」）。</li>
-                                        <li><strong>禁止盤中隨機交易</strong>：絕不因為盤中價格的隨機起伏而任意買賣、追高殺低。所有的動作必須依照計劃預先掛單完成。</li>
-                                        <li><strong>距離感</strong>：與盤面保持適度距離，避免被短線雜訊干擾心境。</li>
-                                    </ul>
-                                </li>
-                                <li><strong>守護利潤與部位控制</strong>：
-                                    <ul style="padding-left: 20px; margin-top: 5px; color: var(--text-secondary);">
-                                        <li><strong>未實現利潤的定力</strong>：勿頻繁更換強勢股，深刻理解「未實現利潤比已實現利潤更重要」，給予強勢股足夠的發展空間。</li>
-                                        <li><strong>風險控制原則</strong>：贏加碼，輸撤退。嚴格控管總部位與單筆風險。</li>
-                                    </ul>
-                                </li>
-                                <li><strong>停損的藝術（守規與破矩）</strong>：
-                                    <ul style="padding-left: 20px; margin-top: 5px; color: var(--text-secondary);">
-                                        <li><strong>無罪推定原則</strong>：在價格未觸及底線紅線前，儘量給予寬容度，避免被隨機洗盤洗出場。</li>
-                                        <li><strong>停損強弱分治</strong>：強勢股停損要寬（容錯空間大），弱勢股停損要窄（苗頭不對即撤退）。</li>
-                                        <li><strong>紀律與彈性的平衡</strong>：停損是極高的藝術。必須死守紀律，但也要保留彈性與容錯空間（例如將停損設於群眾情緒滿溢的波段高低點），不要窒息持股的生命力，亦不放任虧損擴大。</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- 勇（行普賢） -->
-                    <div class="const-section">
-                        <h3><i class="bi bi-lightning-charge-fill"></i> 勇（行普賢）—— 關鍵價位的樞紐出擊與執行</h3>
-                        
-                        <div class="const-alert" style="background-color: rgba(239, 68, 68, 0.08); border-left-color: #ef4444;">
-                            <strong style="color: #ef4444; font-size: 1.05rem;"><i class="bi bi-quote"></i> 在關鍵的樞紐點鐵血執行，以賠率為主、勝率為輔，果斷出擊。</strong>
-                            <p style="color: var(--text-secondary); margin-top: 6px;">
-                                「勇普賢」法門屬於<strong>出手與執行階段</strong>。當盤面出現關鍵信號，交易者必須摒除所有恐懼與猶豫，像外科手術般精準執行下單動作。
-                            </p>
-                        </div>
-
-                        <div style="margin-top: 20px;">
-                            <h4 style="color: var(--text-primary); margin-bottom: 10px;"><i class="bi bi-bullseye" style="color: #ef4444;"></i> 樞紐點出手與價格 82 法則</h4>
-                            <ul class="sub-bullet-list" style="margin-bottom: 20px;">
-                                <li><strong>價格 82 法則</strong>：交易者一生中 80% 的利潤來自於 20% 的關鍵交易。因此，只在市場「醞釀、攻擊、反殺（出手與停損）、大出擊」的關鍵樞紐點採取行動。</li>
-                                <li><strong>強勢股拉回出手</strong>：強勢股大漲後，僅在「拉回危險點」的黃金窗口進行防守型買入，以逸待勞。</li>
-                            </ul>
-
-                            <h4 style="color: var(--text-primary); margin-bottom: 10px;"><i class="bi bi-shield-check" style="color: #ef4444;"></i> 智慧單的鐵血執行</h4>
-                            <ul class="sub-bullet-list" style="margin-bottom: 20px;">
-                                <li><strong>賠率為主，勝率為輔</strong>：利用智慧單在強勢股的拉回危險點預先掛單買進，以博取極高的賠率。</li>
-                                <li><strong>弱勢股不買或轉強買</strong>：弱勢股原則上不碰；若要參與，必須設定智慧單在其「站上轉強點」時才觸發買入。</li>
-                                <li><strong>防守同步</strong>：任何智慧單一旦觸發成交，必須<strong>隨即掛出停損防守單</strong>，堅決執行「有賺賠」的保本原則。</li>
-                            </ul>
-
-                            <h4 style="color: var(--text-primary); margin-bottom: 10px;"><i class="bi bi-graph-up-arrow" style="color: #ef4444;"></i> 部位管理與賺賠比極大化</h4>
-                            <ul class="sub-bullet-list">
-                                <li><strong>分批進出與汰弱留強</strong>：賠錢單要早早出場以控制虧損；賺錢單則要抱得夠久、晚點出場，並在趨勢確立時進行槓桿加碼，以極大化賺賠比。</li>
-                                <li><strong>微觀動作管理</strong>：落實「輕倉放大」、「分層出手」、「部位加減碼」等控倉技術。</li>
-                                <li><strong>關鍵價與波動度監控</strong>：緊盯整數關卡、平盤線、大量區等關鍵支撐壓力價位，並對市場波動度保持高度敏感。</li>
-                                <li><strong>應急計劃</strong>：在每一次出手前，大腦必須預先想好最壞的情況與對應的應急計劃。</li>
-                                <li><strong>槓桿應用時機</strong>：槓桿唯一的用途是「放大賺錢的部位」，在有盈利保護且趨勢明朗時果斷擴大戰果，並死守「有賺不能賠」的安全邊際。</li>
-                            </ul>
-                        </div>
-                    </div>
-
                 </div>
 
-                <!-- Sub-view: 交易日誌 -->
                 <div id="journalView" class="journal-view">
                     
                     <div class="back-nav">
@@ -1376,7 +1316,275 @@
             } else if (viewName === 'finger') {
                 if (fingerView) fingerView.classList.add('active');
                 document.title = "股海指月錄 | 股海學習";
+                const urlParams = new URLSearchParams(window.location.search);
+                const articleId = urlParams.get('id');
+                loadFingerCatalog(() => {
+                    if (articleId) {
+                        loadFingerArticle(articleId);
+                    } else {
+                        showFingerCatalog();
+                    }
+                });
             }
+        }
+
+
+
+        // --- 股海指月錄 專欄文章資料庫與載入邏輯 ---
+        let fingerArticlesData = [];
+
+        function loadFingerCatalog(callback) {
+            const catalogList = document.getElementById('fingerCatalogList');
+            if (!catalogList) return;
+
+            if (fingerArticlesData.length > 0) {
+                renderFingerCatalog();
+                if (callback) callback();
+                return;
+            }
+
+            catalogList.innerHTML = "<p style='color: var(--text-secondary); text-align: center;'>文章目錄載入中...</p>";
+
+            fetch('sanctuary-finger.json')
+                .then(res => {
+                    if (!res.ok) throw new Error("JSON not found");
+                    return res.json();
+                })
+                .then(data => {
+                    fingerArticlesData = data;
+                    renderFingerCatalog();
+                    if (callback) callback();
+                })
+                .catch(err => {
+                    console.error("載入指月錄目錄失敗:", err);
+                    catalogList.innerHTML = "<p style='color: var(--accent-gold); text-align: center;'>載入目錄失敗，請確認 sanctuary-finger.json 檔案已正確上傳。</p>";
+                });
+        }
+
+        function renderFingerCatalog() {
+            const catalogList = document.getElementById('fingerCatalogList');
+            if (!catalogList) return;
+            catalogList.innerHTML = '';
+
+            fingerArticlesData.forEach(article => {
+                const card = document.createElement('div');
+                card.className = 'item-card';
+                card.onclick = () => loadFingerArticle(article.id);
+
+                card.innerHTML = `
+                    <div class="item-info">
+                        <h3>${escapeHtml(article.title)}</h3>
+                        <p class="item-desc">${escapeHtml(article.description)}</p>
+                    </div>
+                    <div class="item-date">${escapeHtml(article.date)}</div>
+                `;
+                catalogList.appendChild(card);
+            });
+        }
+
+        function showFingerCatalog() {
+            const detailView = document.getElementById('fingerDetailView');
+            const catalogView = document.getElementById('fingerCatalogView');
+            if (detailView) detailView.style.display = 'none';
+            if (catalogView) catalogView.style.display = 'block';
+            document.title = "股海指月錄 | 股海學習";
+        }
+
+        function loadFingerArticle(articleId) {
+            const articleObj = fingerArticlesData.find(a => a.id === articleId);
+            if (!articleObj) {
+                alert("找不到指定的文章！");
+                showFingerCatalog();
+                return;
+            }
+
+            const titleEl = document.getElementById('fingerArticleTitle');
+            const dateEl = document.getElementById('fingerArticleDate');
+            const contentArea = document.getElementById('fingerArticleContent');
+
+            if (titleEl) titleEl.textContent = articleObj.title;
+            if (dateEl) dateEl.innerHTML = `<i class="bi bi-calendar3"></i> ${articleObj.date}`;
+            if (contentArea) contentArea.innerHTML = "<p style='color: var(--text-secondary);'>文章內容載入中...</p>";
+
+            const catalogView = document.getElementById('fingerCatalogView');
+            const detailView = document.getElementById('fingerDetailView');
+            if (catalogView) catalogView.style.display = 'none';
+            if (detailView) detailView.style.display = 'block';
+
+            document.title = `${articleObj.title} | 股海指月錄`;
+
+            fetch(articleObj.filename)
+                .then(res => {
+                    if (!res.ok) throw new Error("Article file not found");
+                    return res.text();
+                })
+                .then(markdownText => {
+                    renderFingerMarkdown(markdownText);
+                })
+                .catch(err => {
+                    console.error("載入文章失敗:", err);
+                    if (contentArea) contentArea.innerHTML = `<p style="color: var(--accent-gold);">載入文章內容失敗，請確認 '${articleObj.filename}' 檔案已正確上傳。</p>`;
+                });
+        }
+
+        function renderFingerMarkdown(text) {
+            const contentArea = document.getElementById('fingerArticleContent');
+            if (!contentArea) return;
+            contentArea.innerHTML = '';
+
+            const wrapper = document.createElement('div');
+            wrapper.className = 'detail-content-area';
+
+            const lines = text.split('\n');
+            let delay = 0;
+
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                const trimmed = line.trim();
+
+                if (trimmed.startsWith('# ')) continue;
+
+                if (trimmed === '') {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'detail-empty-line';
+                    wrapper.appendChild(lineDiv);
+                    continue;
+                }
+
+                if (trimmed.startsWith('#')) {
+                    const levelMatch = trimmed.match(/^#+/);
+                    if (levelMatch) {
+                        const level = levelMatch[0].length;
+                        const headingText = trimmed.replace(/^#+\s+/, '');
+                        const lineDiv = document.createElement('div');
+                        lineDiv.className = 'detail-line';
+                        lineDiv.style.fontWeight = '700';
+                        lineDiv.style.color = 'var(--text-primary)';
+                        lineDiv.style.marginTop = level === 2 ? '36px' : level === 3 ? '28px' : '22px';
+                        lineDiv.style.marginBottom = '10px';
+
+                        let formattedHeading = headingText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                        lineDiv.innerHTML = formattedHeading;
+
+                        if (level === 2) {
+                            lineDiv.style.fontSize = '1.5rem';
+                            lineDiv.style.borderBottom = '1px solid var(--border-color)';
+                            lineDiv.style.paddingBottom = '6px';
+                        } else if (level === 3) {
+                            lineDiv.style.fontSize = '1.3rem';
+                            lineDiv.style.color = 'var(--accent-gold)';
+                        } else {
+                            lineDiv.style.fontSize = '1.15rem';
+                        }
+
+                        lineDiv.style.animationDelay = `${delay}s`;
+                        delay += 0.03;
+                        wrapper.appendChild(lineDiv);
+                        continue;
+                    }
+                }
+
+                if (trimmed === '---') {
+                    const hr = document.createElement('hr');
+                    hr.style.border = 'none';
+                    hr.style.borderTop = '1px solid var(--border-color)';
+                    hr.style.margin = '30px 0';
+                    wrapper.appendChild(hr);
+                    continue;
+                }
+
+                if (trimmed.startsWith('![') && trimmed.endsWith(')')) {
+                    const match = trimmed.match(/^!\[(.*?)\]\((.*?)\)$/);
+                    if (match) {
+                        const img = document.createElement('img');
+                        img.src = match[2];
+                        img.alt = match[1];
+                        img.style.maxWidth = '100%';
+                        img.style.display = 'block';
+                        img.style.margin = '30px auto 10px auto';
+                        img.style.borderRadius = '12px';
+                        img.style.boxShadow = 'var(--shadow-sm)';
+                        img.style.opacity = '0';
+                        img.style.transform = 'translateY(15px)';
+                        img.style.animation = 'fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+                        img.style.animationDelay = `${delay}s`;
+                        delay += 0.03;
+                        wrapper.appendChild(img);
+                        continue;
+                    }
+                }
+
+                let isQuote = false;
+                let cleanLine = trimmed;
+                if (trimmed.startsWith('>')) {
+                    isQuote = true;
+                    cleanLine = trimmed.replace(/^>\s*/, '').trim();
+                }
+
+                if (cleanLine.startsWith('[!')) {
+                    const alertType = cleanLine.match(/\[!(.*?)\]/);
+                    if (alertType) {
+                        const typeText = alertType[1] === 'NOTE' ? '注意' : alertType[1] === 'TIP' ? '提示' : alertType[1] === 'IMPORTANT' ? '重要' : alertType[1] === 'DANGER' ? '警示' : alertType[1];
+                        const lineDiv = document.createElement('div');
+                        lineDiv.className = 'detail-line';
+                        lineDiv.style.fontWeight = 'bold';
+                        lineDiv.style.color = 'var(--accent-gold)';
+                        lineDiv.style.marginTop = '15px';
+                        lineDiv.innerHTML = `<i class="bi bi-info-circle-fill"></i> ${typeText}：`;
+                        lineDiv.style.animationDelay = `${delay}s`;
+                        delay += 0.03;
+                        wrapper.appendChild(lineDiv);
+                        continue;
+                    }
+                }
+
+                const lineDiv = document.createElement('div');
+                lineDiv.className = 'detail-line';
+
+                let displayText = cleanLine;
+                let listIndent = 0;
+
+                if (cleanLine.startsWith('- ')) {
+                    displayText = '• ' + cleanLine.substring(2);
+                    listIndent = 20;
+                } else if (cleanLine.match(/^\d+\.\s/)) {
+                    const match = cleanLine.match(/^(\d+\.\s)(.*)/);
+                    if (match) {
+                        displayText = match[1] + match[2];
+                        listIndent = 20;
+                    }
+                } else if (cleanLine.match(/^\*\s/)) {
+                    displayText = '• ' + cleanLine.substring(2);
+                    listIndent = 20;
+                }
+
+                const leadingSpaces = line.match(/^(\s+)/);
+                if (leadingSpaces) {
+                    listIndent += leadingSpaces[1].length * 6;
+                }
+
+                if (listIndent > 0) {
+                    lineDiv.style.paddingLeft = `${listIndent}px`;
+                }
+
+                let formattedText = displayText
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+                lineDiv.innerHTML = formattedText;
+
+                if (isQuote) {
+                    lineDiv.style.borderLeft = '3px solid var(--accent-gold)';
+                    lineDiv.style.paddingLeft = '15px';
+                    lineDiv.style.color = 'var(--text-secondary)';
+                    lineDiv.style.fontStyle = 'italic';
+                }
+
+                lineDiv.style.animationDelay = `${delay}s`;
+                delay += 0.03;
+                wrapper.appendChild(lineDiv);
+            }
+
+            contentArea.appendChild(wrapper);
         }
 
         // --- Trading Journal Database Logic ---
