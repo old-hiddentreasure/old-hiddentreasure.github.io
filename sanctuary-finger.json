@@ -1,23 +1,58 @@
 [
   {
     "id": "four-bodhisattvas",
-    "title": "總綱：四大菩薩操作要義",
+    "title": "1. 總綱：四大菩薩操作要義",
     "filename": "sanctuary-finger.md",
     "date": "2026-07-20",
     "description": "投機正法系統性歸納四大菩薩操作法門，重塑交易者內在心法：智（文殊）、仁（觀音）、靜（地藏）、勇（普賢）..."
   },
   {
     "id": "two-schools",
-    "title": "流派：轉折派與順勢派",
+    "title": "2. 流派：轉折派與順勢派",
     "filename": "sanctuary-finger-2.md",
     "date": "2026-08-01",
     "description": "世界上就兩個流派，轉折派與順勢派。介紹各自特色、勝率賠率與心態要求。"
   },
   {
     "id": "add-or-reduce-on-drop",
-    "title": "下跌該加碼或減碼？",
+    "title": "3. 下跌該加碼或減碼？",
     "filename": "sanctuary-finger-3.md",
     "date": "2026-08-01",
     "description": "探討在市場下跌時，針對資金規模與交易屬性，應當採取加碼還是減碼的應對方案。"
+  },
+  {
+    "id": "adam-theory",
+    "title": "4. 亞當理論",
+    "filename": "sanctuary-finger-4.md",
+    "date": "2026-08-01",
+    "description": "為何說亞當理論是股市的「心經」？它主張對市場毫無保留的「臣服」，關注現在「是」怎樣，而非「應該」如何。"
+  },
+  {
+    "id": "deleveraging-not-up-guarantee",
+    "title": "5. 去槓桿不等於上漲保證",
+    "filename": "sanctuary-finger-5.md",
+    "date": "2026-08-01",
+    "description": "融資大減不一定表示跌勢結束。融資大減可能代表籌碼乾淨，也可能代表買盤急凍。分析去槓桿的因果關係。"
+  },
+  {
+    "id": "capital-expenditure-vs-stock",
+    "title": "6. 資本支出有時不等於股價上漲",
+    "filename": "sanctuary-finger-6.md",
+    "date": "2026-08-01",
+    "description": "從多空本質定義出發，探討大廠增加資本支出股票反而大跌的背後流通資金籌措效應。"
+  },
+  {
+    "id": "endurance-mental-power",
+    "title": "7. 承受的精神力",
+    "filename": "sanctuary-finger-7.md",
+    "date": "2026-08-01",
+    "description": "忍受虧損的精神力是成敗關鍵。分享透過零股交易、保留極小部位與極限預掛戰法來降低心理負擔的技巧。"
+  },
+  {
+    "id": "average-down-on-turns",
+    "title": "8. 攤平搶轉折、對不對?!",
+    "filename": "sanctuary-finger-8.md",
+    "date": "2026-08-01",
+    "description": "雖然亞當理論反對攤平，但股票抄底也有竅門：零股戰法、拉大掛單區間與嚴設小停損來以小博大。"
   }
 ]
