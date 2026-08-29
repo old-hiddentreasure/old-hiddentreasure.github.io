@@ -1,0 +1,1806 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>交易憲法與交易日誌 | 股海學習</title>
+    <meta name="description" content="古藏寶的個人交易核心憲法與實戰日誌紀錄。密碼與安全認證防護。">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <!-- Custom CSS (Shares existing styles) -->
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* ==========================================================================
+           VAULT SYSTEM SPECIFIC STYLES
+           ========================================================================== */
+        :root {
+            --font-heading: 'Playfair Display', Georgia, serif;
+            --font-body: 'Inter', 'Noto Sans TC', sans-serif;
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --border-radius-sm: 8px;
+            --border-radius-md: 16px;
+            --border-radius-lg: 24px;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex-grow: 1;
+            padding: 120px 0 80px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .vault-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Lock Screen Panel */
+        .lock-panel {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: 60px 40px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            backdrop-filter: var(--glass-blur);
+            max-width: 480px;
+            width: 100%;
+            margin: 0 auto;
+            animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .lock-icon-wrapper {
+            font-size: 3.5rem;
+            color: var(--accent-gold);
+            margin-bottom: 20px;
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        .lock-title {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .lock-desc {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .theme-input {
+            width: 100%;
+            padding: 14px 20px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-sm);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            text-align: center;
+            font-size: 1.05rem;
+            transition: var(--transition-smooth);
+            outline: none;
+            margin-bottom: 20px;
+        }
+
+        .theme-input:focus {
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 3px rgba(var(--accent-gold-rgb), 0.2);
+        }
+
+        .unlock-btn-group {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .bio-btn {
+            background: none;
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            padding: 14px;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            aspect-ratio: 1;
+        }
+
+        .bio-btn:hover {
+            background-color: rgba(var(--accent-gold-rgb), 0.1);
+            transform: scale(1.05);
+        }
+
+        /* Unlocked Content Wrapper */
+        .vault-content {
+            display: none;
+            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            width: 100%;
+        }
+
+        .vault-content.active {
+            display: block;
+        }
+
+        .vault-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .vault-tag {
+            font-family: var(--font-heading);
+            font-style: italic;
+            color: var(--accent-gold);
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .vault-title {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .vault-divider {
+            width: 60px;
+            height: 2px;
+            background-color: var(--accent-gold);
+            margin: 15px auto 0 auto;
+        }
+
+        /* Dashboard Choices */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .dashboard-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: 50px 40px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 380px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--border-color-hover);
+            box-shadow: var(--shadow-lg), var(--shadow-gold);
+            background-color: var(--bg-card-hover);
+        }
+
+        .dashboard-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: rgba(var(--accent-gold-rgb), 0.1);
+            color: var(--accent-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin-bottom: 24px;
+            transition: var(--transition-smooth);
+        }
+
+        .dashboard-card:hover .dashboard-icon {
+            background-color: var(--accent-gold);
+            color: #0a0e17;
+            transform: scale(1.1);
+        }
+
+        .dashboard-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .dashboard-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 30px;
+            flex-grow: 1;
+        }
+
+        /* Trading Constitution Sub-view */
+        .constitution-view {
+            display: none;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: 50px 40px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .constitution-view.active {
+            display: block;
+        }
+
+        .const-section {
+            margin-bottom: 40px;
+        }
+
+        .const-section h3 {
+            font-family: var(--font-heading);
+            font-size: 1.45rem;
+            font-weight: 600;
+            color: var(--accent-gold);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .const-list {
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .const-list li {
+            list-style-type: decimal;
+            margin-bottom: 12px;
+            line-height: 1.8;
+            color: var(--text-primary);
+        }
+
+        .const-list li strong {
+            color: var(--accent-gold-hover);
+        }
+
+        .const-alert {
+            background-color: rgba(var(--accent-gold-rgb), 0.05);
+            border-left: 4px solid var(--accent-gold);
+            padding: 20px;
+            border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .const-danger {
+            background-color: rgba(239, 68, 68, 0.05);
+            border-left: 4px solid #ef4444;
+            padding: 20px;
+            border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .const-danger h4 {
+            color: #ef4444;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sub-bullet-list {
+            padding-left: 20px;
+            margin-top: 8px;
+        }
+
+        .sub-bullet-list li {
+            list-style-type: disc !important;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        /* Article List/Catalog inside Vault (specifically for 股海指月錄) */
+        .item-list-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .item-card {
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            padding: 24px 30px;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-smooth);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            text-align: left;
+        }
+
+        .item-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-gold);
+            background-color: rgba(212, 175, 55, 0.04);
+            box-shadow: var(--shadow-md), 0 0 15px rgba(212, 175, 55, 0.1);
+        }
+
+        .item-info {
+            flex-grow: 1;
+        }
+
+        .item-info h3 {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .item-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .item-date {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        .detail-content-area {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            line-height: 2.0;
+            color: var(--text-primary);
+            letter-spacing: 0.5px;
+            white-space: pre-wrap;
+            text-align: left;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .detail-line {
+            margin-bottom: 12px;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInLine 0.5s ease forwards;
+        }
+
+        .detail-empty-line {
+            height: 24px;
+        }
+
+        @keyframes fadeInLine {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Trading Journal Sub-view */
+        .journal-view {
+            display: none;
+        }
+
+        .journal-view.active {
+            display: block;
+        }
+
+        /* KPI Dashboard Stats */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 45px;
+        }
+
+        .kpi-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            padding: 24px;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .kpi-card h4 {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .kpi-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            font-family: var(--font-heading);
+        }
+
+        .kpi-value.positive {
+            color: var(--accent-emerald);
+        }
+
+        .kpi-value.negative {
+            color: #ef4444;
+        }
+
+        /* Journal Form */
+        .journal-form-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: 35px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .journal-form-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .form-control {
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-sm);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            outline: none;
+            transition: var(--transition-smooth);
+            font-size: 0.95rem;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-gold);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .checkbox-group input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent-gold);
+        }
+
+        .checkbox-group label {
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        /* Journal History List */
+        .journal-list-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: 35px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .list-header h3 {
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Responsive Table */
+        .table-responsive {
+            overflow-x: auto;
+            width: 100%;
+        }
+
+        .journal-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        .journal-table th, .journal-table td {
+            padding: 14px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .journal-table th {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .journal-table td {
+            color: var(--text-primary);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border-radius: 4px;
+        }
+
+        .badge-buy {
+            background-color: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+        }
+
+        .badge-sell {
+            background-color: rgba(59, 130, 246, 0.15);
+            color: #3b82f6;
+        }
+
+        .badge-day {
+            background-color: rgba(212, 175, 55, 0.15);
+            color: var(--accent-gold);
+        }
+
+        .badge-success {
+            background-color: rgba(16, 185, 129, 0.15);
+            color: var(--accent-emerald);
+        }
+
+        .badge-danger {
+            background-color: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+        }
+
+        .pnl-positive {
+            color: var(--accent-emerald);
+            font-weight: 600;
+        }
+
+        .pnl-negative {
+            color: #ef4444;
+            font-weight: 600;
+        }
+
+        .action-delete-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-size: 1.1rem;
+        }
+
+        .action-delete-btn:hover {
+            color: #ef4444;
+            transform: scale(1.1);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--text-secondary);
+        }
+
+        .empty-state i {
+            font-size: 2.5rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        /* General Navigation back actions */
+        .back-nav {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-link {
+            background: none;
+            border: none;
+            color: var(--accent-gold);
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition-smooth);
+            padding: 0;
+        }
+
+        .btn-link:hover {
+            color: var(--accent-gold-hover);
+            transform: translateX(-4px);
+        }
+
+        /* ==========================================================================
+           KEYFRAME ANIMATIONS & STAGGER
+           ========================================================================== */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); opacity: 0.9; }
+            100% { transform: scale(1); }
+        }
+
+        @media (max-width: 768px) {
+            main {
+                padding: 100px 0 60px 0;
+            }
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+            .dashboard-card {
+                min-height: auto;
+                padding: 35px 24px;
+            }
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            .kpi-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            .journal-form-card, .journal-list-card, .constitution-view {
+                padding: 24px 16px;
+            }
+        }
+    </style>
+</head>
+<body class="dark-theme"> <!-- Shared theme system -->
+
+    <!-- Header / Navigation (Shared Navbar) -->
+    <header class="navbar-header scrolled" id="navbarHeader">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-accent">古</span>藏寶
+            </a>
+            
+            <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle Navigation Menu">
+                <i class="bi bi-list"></i>
+            </button>
+            
+            <nav class="nav-menu" id="navMenu">
+                <ul>
+                    <li><a href="index.html#home" class="nav-link">首頁</a></li>
+                    <li><a href="index.html#about" class="nav-link">關於我</a></li>
+                    <li><a href="index.html#projects" class="nav-link active">個人專案</a></li>
+                    <li><a href="index.html#philosophy" class="nav-link">唯識與哲學</a></li>
+                    <li><a href="index.html#contact" class="nav-link">聯絡資訊</a></li>
+                </ul>
+            </nav>
+            
+            <div class="nav-actions">
+                <button class="theme-toggle-btn" id="themeToggleBtn" title="切換深/淺色模式" aria-label="Toggle Dark/Light Mode">
+                    <i class="bi bi-moon-stars-fill theme-icon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="vault-container">
+
+            <!-- VIEW 1: Lock Panel (Security Verification) -->
+            <section id="lockScreen" class="lock-panel">
+                <div class="lock-icon-wrapper">
+                    <i class="bi bi-shield-lock-fill"></i>
+                </div>
+                <h2 class="lock-title">金庫已鎖定</h2>
+                <p class="lock-desc">交易憲法與日誌為機密文件，請輸入密碼解鎖或使用此裝置的生物辨識快速解鎖。</p>
+                
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; width: 100%; max-width: 320px; margin: 0 auto;">
+                    <input type="password" id="vaultPassword" class="theme-input" placeholder="請輸入密碼" onkeydown="if(event.key === 'Enter') checkPassword()">
+                    <div class="unlock-btn-group">
+                        <button onclick="checkPassword()" class="btn btn-primary" style="flex: 1; padding: 14px 20px; font-weight: 500; border-radius: var(--border-radius-sm); border: none; background-color: var(--accent-gold); color: #0a0e17; cursor: pointer;">
+                            解鎖金庫
+                        </button>
+                        <button id="vaultBioBtn" onclick="attemptVaultBioUnlock()" class="bio-btn" style="display: none;" title="指紋/面部解鎖">
+                            <i class="bi bi-fingerprint" style="font-size: 1.3rem;"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW 2: Unlocked Content -->
+            <section id="unlockedContent" class="vault-content">
+                
+                <!-- Dashboard Sub-view -->
+                <div id="dashboardView">
+                    <div class="vault-header">
+                        <span class="vault-tag">Private Vault</span>
+                        <h1 class="vault-title">交易紀律與日誌金庫</h1>
+                        <div class="vault-divider"></div>
+                        <div style="margin-top: 15px;">
+                            <a href="#" onclick="lockVault(); return false;" style="font-size: 0.85rem; color: var(--text-muted); text-decoration: underline;">
+                                <i class="bi bi-lock-fill"></i> 重新鎖定金庫
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        
+                        <!-- Choice A: 交易憲法 -->
+                        <div class="dashboard-card" onclick="switchSubView('constitution')">
+                            <div class="dashboard-icon">
+                                <i class="bi bi-file-earmark-ruled"></i>
+                            </div>
+                            <h3>交易憲法</h3>
+                            <p>
+                                鐵血紀律的根本大法。包含嚴格制定的買賣原則、強勢股持股天條以及防範「過度交易循環」的應對法門，死守本金防線。
+                            </p>
+                            <button class="btn btn-outline" style="width: 100%;">
+                                檢視交易憲法 <i class="bi bi-arrow-right"></i>
+                            </button>
+                        </div>
+
+                        <!-- Choice B: 交易日誌 -->
+                        <div class="dashboard-card" onclick="switchSubView('journal')">
+                            <div class="dashboard-icon">
+                                <i class="bi bi-journal-check"></i>
+                            </div>
+                            <h3>交易日誌</h3>
+                            <p>
+                                實戰交易檢討與數據看板。真實記錄每一筆交易的標的、價格、損益以及是否遵守憲法規範，透過統計數字提升交易勝率。
+                            </p>
+                            <button class="btn btn-outline" style="width: 100%;">
+                                開啟交易日誌 <i class="bi bi-arrow-right"></i>
+                            </button>
+                        </div>
+
+                        <!-- Choice C: 股海指月錄 -->
+                        <div class="dashboard-card" onclick="window.location.href='stock-finger.html'">
+                            <div class="dashboard-icon">
+                                <i class="bi bi-moon-stars"></i>
+                            </div>
+                            <h3>股海指月錄</h3>
+                            <p>
+                                觀照心性與股海實相的哲學心法（公開閱讀）。指月非月，借技術招式以見實相，深入探討心態修煉與交易哲學觀照。
+                            </p>
+                            <button class="btn btn-outline" style="width: 100%;">
+                                開啟公開專欄 <i class="bi bi-box-arrow-up-right"></i>
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <div style="text-align: center; margin-top: 50px;">
+                        <a href="stock-learning.html" class="btn-link" style="color: var(--text-secondary);">
+                            <i class="bi bi-arrow-left"></i> 返回股海學習目錄
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Sub-view: 交易憲法 -->
+                <div id="constitutionView" class="constitution-view">
+                    <div class="back-nav">
+                        <button onclick="switchSubView('dashboard')" class="btn-link">
+                            <i class="bi bi-arrow-left"></i> 返回金庫大廳
+                        </button>
+                        <span class="badge badge-day"><i class="bi bi-shield-check"></i> 紀律至上</span>
+                    </div>
+
+                    <div class="vault-header" style="margin-bottom: 40px; text-align: left;">
+                        <h2 class="vault-title" style="font-size: 1.8rem;"><i class="bi bi-bookmark-fill" style="color: var(--accent-gold);"></i> 交易憲法</h2>
+                        <p style="color: var(--text-secondary); margin-top: 5px;">死守紀律，唯有如此才能在多變的股海中活下去。</p>
+                        <div class="vault-divider" style="margin: 15px 0 0 0;"></div>
+                    </div>
+
+                    <!-- 買賣原則 -->
+                    <div class="const-section">
+                        <h3><i class="bi bi-cart-dash"></i> 買賣原則</h3>
+                        <ol class="const-list">
+                            <li><strong>時間窗口</strong>：早盤開高，必須於 <strong>9:30 以後</strong>才下單。避開開盤半小時情緒化波動的陷阱。</li>
+                            <li><strong>掛單策略</strong>：嚴格限制掛 <strong>低 4 檔以下</strong>接，<strong>絕不使用市價買</strong>（常常因為搶單買在「右右」而被高檔套牢）。</li>
+                            <li><strong>頻率限制</strong>：當日沖銷交易 <strong>不超過 3 筆</strong>（儘量少出手，過度交易通常愈做愈賠）。</li>
+                            <li><strong>損益防線</strong>：當天當沖 <strong>賠超過 5000 元</strong>時，寧願選擇留倉也不再進行任何進出（因為賣了再買有額度限制，避免喪失理性追殺）。</li>
+                        </ol>
+                    </div>
+
+                    <!-- 持股原則 -->
+                    <div class="const-section">
+                        <h3><i class="bi bi-activity"></i> 持股原則</h3>
+                        <div class="const-alert">
+                            <strong>正確做法：</strong> 當大盤下挫時，<strong>絕對禁止賣出強勢股來補弱勢股</strong>。正確的作法是堅決賣出弱勢股，忍受已實現損益的虧損，並將釋放出的資金用來加碼強勢股。
+                        </div>
+                        
+                        <div class="const-danger">
+                            <h4><i class="bi bi-exclamation-triangle-fill"></i> 強勢股抱單三大死守天條</h4>
+                            <p>抱強勢股絕非死抱，必須嚴格遵守以下三點，<strong>未觸及前絕不出場</strong>，一旦觸及強制執行：</p>
+                            <ul class="sub-bullet-list">
+                                <li><strong>趨勢不能反轉</strong>（以技術指引與道氏防線為準）。</li>
+                                <li><strong>不能打到損益兩平點</strong>。</li>
+                                <li><strong>打到損益兩平點一定要出場</strong>（強制執行保本機制，絕不容許獲利單變成虧損單）。</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 最容易賠錢的點 (過度交易循環) -->
+                    <div class="const-section">
+                        <h3><i class="bi bi-arrow-repeat"></i> 最容易賠錢的點（過度交易循環）</h3>
+                        
+                        <div class="const-danger" style="border-left-color: var(--accent-gold);">
+                            <h4 style="color: var(--text-primary);"><i class="bi bi-chat-left-dots-fill" style="color: var(--accent-gold);"></i> 情境描述：</h4>
+                            <p style="color: var(--text-secondary);">
+                                在某個轉折點幾乎清空股票，大盤隨後也確實下跌。但隨後發現弱勢股大跌，而原本持有的強勢股卻頑強沒跌。此時心情焦躁，因怕錯失行情，又全部以更高的成本追高買回強勢股；買回後又擔心原本賺的錢會變成賠錢，所以一遇震盪下跌就又驚慌賣出。如此連續幾次大部位追高殺低，導致本金慘賠。
+                            </p>
+                        </div>
+
+                        <div class="const-alert" style="border-left-color: var(--accent-emerald);">
+                            <strong style="color: var(--accent-emerald); display: block; margin-bottom: 8px;"><i class="bi bi-check-circle-fill"></i> 應對方法：</strong>
+                            <ol class="const-list" style="margin-bottom: 0;">
+                                <li><strong>部位底限</strong>：不要完全清空。就算看得再對，因為人實在無法克制買回的衝動，與其如此，不如<strong>保留 3 成強勢部位</strong>忍受正常震盪。</li>
+                                <li><strong>再進場限制條件</strong>（若不小心賣出太多又想急著買回時）：
+                                    <ul class="sub-bullet-list">
+                                        <li><strong>A. 檢視是否為「右右」</strong>：若是，表示賠率極低，<strong>僅能用原來賣出部位的 2 成資金</strong>進場試單。</li>
+                                        <li><strong>B. 檢視是否即將形成「樞紐高點」（Pivot High）</strong>：若是，乾脆耐心等待下一次樞紐低點再多進場；樞紐高點時，乾脆等「右護法」成形再少量進場。</li>
+                                        <li><strong>C. 直接強制更換其他標的</strong>（打斷對單一股票的執念）。</li>
+                                        <li><strong>D. 若 A、B、C 都無法克制，強制僅能使用零股交易</strong>。</li>
+                                    </ul>
+                                </li>
+                                <li><strong>大盤與個股關係</strong>：大盤下跌，清空後大盤還跌，依照「大盤優於個股」原則，本來就：
+                                    <ul class="sub-bullet-list">
+                                        <li><strong>A. 不該繼續加碼</strong>。</li>
+                                        <li><strong>B. 大盤跌，以大盤來說就是「左左」</strong>，只能極少量試單，因為趨勢未明，勝率極低。</li>
+                                    </ul>
+                                </li>
+                                <li><strong>不斷反覆追漲殺跌時可能表示遇到震盪盤</strong>，應該：
+                                    <ul class="sub-bullet-list">
+                                        <li><strong>(1) 連續樞紐或表態的強弱關鍵k反覆出現，看不到組合關鍵k(2個k或3個k)</strong>，這時應該忽略而不操作，因為是最容易賠錢的震盪盤。</li>
+                                        <li><strong>(2) 震盪盤操作不能採取重賠率的賭客順勢戰法(追高殺低)</strong>，而要採取重勝率的莊家逆勢戰法(高拋低吸)，震盪盤做順勢會反覆被巴而賠大錢。</li>
+                                        <li><strong>(3) 震盪盤買方必須絕對低掛(賣方相反)(很神奇通常會掃到)</strong>，不適合上漲就追，下跌就賣，會敗得很慘烈。</li>
+                                        <li><strong>(4) 趨勢出來才轉換到重賠率的賭客順勢戰法(追高殺低)</strong>。</li>
+                                        <li><strong>(5) 無論何種盤都不要市價買賣</strong>，而是要讓市場來觸發我的框架進而買賣，而非我被市場影響而隨情緒進出。</li>
+                                        <li><strong>(6) 買低賣高的點</strong>：震盪盤買點特別選在前一個轉折樞紐低點的附近，或道式防線附近，這些地方多方通常會死守；震盪盤賣點則在前高附近，這也是壓力區的空方死守處(不讓多方突破)。</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sub-view: 股海指月錄 -->
+                <div id="fingerView" class="constitution-view" style="padding: 30px 20px;">
+                    <!-- Catalog View of 股海指月錄 -->
+                    <div id="fingerCatalogView" class="active">
+                        <div class="back-nav">
+                            <button onclick="switchSubView('dashboard')" class="btn-link">
+                                <i class="bi bi-arrow-left"></i> 返回金庫大廳
+                            </button>
+                            <span class="badge badge-day"><i class="bi bi-moon-stars-fill"></i> 觀照心性</span>
+                        </div>
+
+                        <div class="vault-header" style="margin-bottom: 40px; text-align: left;">
+                            <h2 class="vault-title" style="font-size: 1.8rem;"><i class="bi bi-moon-stars-fill" style="color: var(--accent-gold);"></i> 股海指月錄</h2>
+                            <p style="color: var(--text-secondary); margin-top: 5px;">指月非月，借技術招式以見市場實相。無明起處，即是修煉道場。</p>
+                            <div class="vault-divider" style="margin: 15px 0 0 0;"></div>
+                        </div>
+
+                        <div id="fingerCatalogList" class="item-list-container">
+                            <!-- Articles list will be dynamically rendered here -->
+                        </div>
+                    </div>
+
+                    <!-- Detail View of 股海指月錄 -->
+                    <div id="fingerDetailView" style="display: none;">
+                        <div class="back-nav">
+                            <button onclick="showFingerCatalog()" class="btn-link">
+                                <i class="bi bi-arrow-left"></i> 返回指月錄目錄
+                            </button>
+                            <span class="badge badge-day" id="fingerDetailBadge"><i class="bi bi-journal-text"></i> 文章內容</span>
+                        </div>
+
+                        <div class="vault-header" style="margin-bottom: 30px; text-align: left;">
+                            <h2 class="vault-title" id="fingerArticleTitle" style="font-size: 1.8rem; color: var(--accent-gold);"></h2>
+                            <div class="article-meta" style="margin-top: 8px; font-size: 0.9rem; color: var(--text-secondary);">
+                                <span id="fingerArticleDate"><i class="bi bi-calendar3"></i> </span>
+                            </div>
+                            <div class="vault-divider" style="margin: 15px 0 0 0;"></div>
+                        </div>
+
+                        <div id="fingerArticleContent" class="detail-content-area" style="line-height: 1.8; color: var(--text-secondary);">
+                            <!-- Dynamic parsed markdown content will go here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div id="journalView" class="journal-view">
+                    
+                    <div class="back-nav">
+                        <button onclick="switchSubView('dashboard')" class="btn-link">
+                            <i class="bi bi-arrow-left"></i> 返回金庫大廳
+                        </button>
+                        <button onclick="clearAllLogs()" class="btn-link" style="color: #ef4444;">
+                            <i class="bi bi-trash3-fill"></i> 清空所有日誌
+                        </button>
+                    </div>
+
+                    <!-- KPI Statistics Dashboard -->
+                    <div class="kpi-grid">
+                        <div class="kpi-card">
+                            <h4>總交易次數</h4>
+                            <div class="kpi-value" id="kpiTotalTrades">0</div>
+                        </div>
+                        <div class="kpi-card">
+                            <h4>平均勝率</h4>
+                            <div class="kpi-value" id="kpiWinRate">0%</div>
+                        </div>
+                        <div class="kpi-card">
+                            <h4>累積損益 (NTD)</h4>
+                            <div class="kpi-value" id="kpiTotalPnL">0</div>
+                        </div>
+                    </div>
+
+                    <!-- Add Journal Entry Form -->
+                    <div class="journal-form-card">
+                        <h3><i class="bi bi-plus-circle-fill" style="color: var(--accent-gold);"></i> 撰寫今日交易日誌</h3>
+                        
+                        <form id="journalForm" onsubmit="addJournalEntry(event)">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="tradeDate">交易日期</label>
+                                    <input type="date" id="tradeDate" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="stockName">標的股號股名</label>
+                                    <input type="text" id="stockName" class="form-control" placeholder="例如: 2330 台積電" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tradeType">交易類型</label>
+                                    <select id="tradeType" class="form-control" required>
+                                        <option value="當沖">現股當沖 / 資券沖</option>
+                                        <option value="買入">波段買入 (Long)</option>
+                                        <option value="賣出">波段賣出 (Short/Sell)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="tradePrice">成交價格</label>
+                                    <input type="number" step="0.01" id="tradePrice" class="form-control" placeholder="如: 980" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tradeQty">交易股數 / 張數</label>
+                                    <input type="number" id="tradeQty" class="form-control" placeholder="如: 1000" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tradePnL">實現損益 (淨損益/元)</label>
+                                    <input type="number" id="tradePnL" class="form-control" placeholder="盈餘輸入正數，虧損輸入負數" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom: 20px;">
+                                <label for="tradeNotes">檢討心得與備註</label>
+                                <textarea id="tradeNotes" class="form-control" rows="3" placeholder="請詳實檢討本次進出場原因。如果是虧損，是否違背了交易憲法？" required></textarea>
+                            </div>
+
+                            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="obeyConstitution" checked>
+                                    <label for="obeyConstitution"><i class="bi bi-shield-check" style="color: var(--accent-emerald);"></i> 本次交易「完全遵守」交易憲法原則</label>
+                                </div>
+                                <button type="submit" class="btn btn-primary" style="padding: 10px 24px; border: none; font-weight: 600; cursor: pointer;">
+                                    儲存交易日誌 <i class="bi bi-save"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Journal Logs Table -->
+                    <div class="journal-list-card">
+                        <div class="list-header">
+                            <h3><i class="bi bi-list-stars" style="color: var(--accent-gold);"></i> 歷史日誌紀錄</h3>
+                            <span style="font-size: 0.85rem; color: var(--text-secondary);" id="logCountText">共 0 筆紀錄</span>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="journal-table" id="journalTable">
+                                <thead>
+                                    <tr>
+                                        <th>日期</th>
+                                        <th>標的</th>
+                                        <th>類型</th>
+                                        <th>價格</th>
+                                        <th>股數</th>
+                                        <th>實現損益</th>
+                                        <th>憲法遵守</th>
+                                        <th>心得檢討</th>
+                                        <th style="width: 50px; text-align: center;">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="journalTableBody">
+                                    <!-- Dynamic rows loaded from localStorage -->
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div id="journalEmptyState" class="empty-state">
+                            <i class="bi bi-journal-x"></i>
+                            暫無交易日誌紀錄，請在上方欄位新增您的第一筆精實檢討！
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container footer-content text-center" style="padding: 20px 0;">
+            <p>&copy; 2026 古藏寶 (Dr. Chen) 股海學習專欄. All rights reserved. 密碼與生物辨識防護版</p>
+        </div>
+    </footer>
+
+    <!-- Script Logic -->
+    <script>
+        // --- Theme Toggle Integration ---
+        const body = document.body;
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const themeIcon = themeToggleBtn.querySelector('.theme-icon') || themeToggleBtn; // fallback if icon class inside
+
+        // Sync theme with local storage
+        const savedTheme = localStorage.getItem('portfolio-theme') || 'dark';
+        if (savedTheme === 'light') {
+            body.classList.replace('dark-theme', 'light-theme');
+            if (themeIcon.classList) {
+                themeIcon.classList.replace('bi-moon-stars-fill', 'bi-sun-fill');
+            }
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            if (body.classList.contains('dark-theme')) {
+                body.classList.replace('dark-theme', 'light-theme');
+                if (themeIcon.classList) {
+                    themeIcon.classList.replace('bi-moon-stars-fill', 'bi-sun-fill');
+                }
+                localStorage.setItem('portfolio-theme', 'light');
+            } else {
+                body.classList.replace('light-theme', 'dark-theme');
+                if (themeIcon.classList) {
+                    themeIcon.classList.replace('bi-sun-fill', 'bi-moon-stars-fill');
+                }
+                localStorage.setItem('portfolio-theme', 'dark');
+            }
+        });
+
+        // --- Security Password & Biometrics System ---
+        const vaultPassword = document.getElementById('vaultPassword');
+        const lockScreen = document.getElementById('lockScreen');
+        const unlockedContent = document.getElementById('unlockedContent');
+        const vaultBioBtn = document.getElementById('vaultBioBtn');
+
+        // Check if biometric credential exists
+        const hasVaultBio = !!localStorage.getItem('trading_vault_biometric_id');
+        const isHttpsOrLocal = window.location.protocol === 'https:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+        // Initialize view state
+        window.addEventListener('load', () => {
+            // Set default date to today in form
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('tradeDate').value = today;
+
+            // Show bio button if registered and browser/context supports it
+            if (hasVaultBio && window.PublicKeyCredential && isHttpsOrLocal) {
+                vaultBioBtn.style.display = 'block';
+                // Auto trigger bio challenge on page load for convenience
+                setTimeout(attemptVaultBioUnlock, 400);
+            }
+
+            // Check if already unlocked in session
+            const isUnlocked = sessionStorage.getItem('trading_vault_session_unlocked') === 'true';
+            if (isUnlocked) {
+                showVaultContent();
+            }
+            
+            // Load logs initially
+            loadJournalLogs();
+        });
+
+        function checkPassword() {
+            if (vaultPassword.value === '2uxiijil' || vaultPassword.value === 'Disquiet0201') {
+                sessionStorage.setItem('trading_vault_session_unlocked', 'true');
+                
+                // Ask for biometrics registration if supported, HTTPS, and not registered
+                if (window.PublicKeyCredential && !localStorage.getItem('trading_vault_biometric_id') && isHttpsOrLocal) {
+                    if (confirm("是否啟用此裝置的生物辨識（指紋/面部）快速解鎖？\n啟用後，下次可免輸入密碼直接進入此金庫。")) {
+                        registerVaultBiometrics();
+                        return;
+                    }
+                }
+                
+                showVaultContent();
+            } else {
+                alert('密碼錯誤，拒絕存取！');
+                vaultPassword.value = '';
+                vaultPassword.focus();
+            }
+        }
+
+        function registerVaultBiometrics() {
+            const username = "trader@old-hiddentreasure";
+            const challenge = new Uint8Array([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
+            const userId = new Uint8Array([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
+            
+            const publicKeyCredentialCreationOptions = {
+                challenge: challenge,
+                rp: {
+                    name: "古藏寶 ‧ 交易金庫",
+                    id: window.location.hostname
+                },
+                user: {
+                    id: userId,
+                    name: username,
+                    displayName: "金庫擁有者"
+                },
+                pubKeyCredParams: [{
+                    type: "public-key",
+                    alg: -7 // ES256
+                }, {
+                    type: "public-key",
+                    alg: -257 // RS256
+                }],
+                authenticatorSelection: {
+                    authenticatorAttachment: "platform",
+                    userVerification: "required"
+                },
+                timeout: 60000
+            };
+            
+            navigator.credentials.create({ publicKey: publicKeyCredentialCreationOptions })
+                .then((credential) => {
+                    const credentialId = btoa(String.fromCharCode.apply(null, new Uint8Array(credential.rawId)));
+                    localStorage.setItem('trading_vault_biometric_id', credentialId);
+                    alert('生物辨識解鎖設定成功！下次您可以使用指紋/面部快速解鎖。');
+                    showVaultContent();
+                })
+                .catch((err) => {
+                    console.error("生物辨識註冊失敗:", err);
+                    alert('生物辨識啟用取消或失敗。已自動完成密碼解鎖。');
+                    showVaultContent();
+                });
+        }
+
+        function attemptVaultBioUnlock() {
+            const credentialIdBase64 = localStorage.getItem('trading_vault_biometric_id');
+            if (!credentialIdBase64) return;
+            
+            const credentialId = new Uint8Array(atob(credentialIdBase64).split("").map(c => c.charCodeAt(0)));
+            const challenge = new Uint8Array([20, 19, 18, 17, 16, 15, 14, 13, 12, 11]);
+            
+            const publicKeyCredentialRequestOptions = {
+                challenge: challenge,
+                allowCredentials: [{
+                    id: credentialId,
+                    type: "public-key"
+                }],
+                userVerification: "required",
+                rpId: window.location.hostname
+            };
+            
+            navigator.credentials.get({ publicKey: publicKeyCredentialRequestOptions })
+                .then((assertion) => {
+                    sessionStorage.setItem('trading_vault_session_unlocked', 'true');
+                    showVaultContent();
+                })
+                .catch((err) => {
+                    console.error("生物辨識認證失敗:", err);
+                    // Do not alert on load, only if triggered manually
+                    if (document.activeElement === vaultBioBtn || event) {
+                        alert("生物辨識解鎖失敗或已取消，請輸入密碼解鎖。");
+                    }
+                });
+        }
+
+        function showVaultContent() {
+            lockScreen.style.display = 'none';
+            unlockedContent.classList.add('active');
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            const requestedView = urlParams.get('view');
+            if (requestedView === 'finger') {
+                window.location.href = 'stock-finger.html';
+            } else if (requestedView && ['constitution', 'journal'].includes(requestedView)) {
+                switchSubView(requestedView);
+            } else {
+                switchSubView('dashboard');
+            }
+        }
+
+        function lockVault() {
+            sessionStorage.removeItem('trading_vault_session_unlocked');
+            unlockedContent.classList.remove('active');
+            lockScreen.style.display = 'block';
+            vaultPassword.value = '';
+            // If bio is available, show it
+            if (localStorage.getItem('trading_vault_biometric_id')) {
+                vaultBioBtn.style.display = 'block';
+            }
+        }
+
+        // --- Sub-View Navigation ---
+        function switchSubView(viewName) {
+            const dashboardView = document.getElementById('dashboardView');
+            const constitutionView = document.getElementById('constitutionView');
+            const journalView = document.getElementById('journalView');
+            const fingerView = document.getElementById('fingerView');
+
+            // Hide all sub-views
+            dashboardView.style.display = 'none';
+            constitutionView.classList.remove('active');
+            journalView.classList.remove('active');
+            if (fingerView) fingerView.classList.remove('active');
+
+            // Show selected view
+            if (viewName === 'dashboard') {
+                dashboardView.style.display = 'block';
+                document.title = "交易憲法與交易日誌 | 股海學習";
+            } else if (viewName === 'constitution') {
+                constitutionView.classList.add('active');
+                document.title = "交易憲法 | 股海學習";
+            } else if (viewName === 'journal') {
+                journalView.classList.add('active');
+                document.title = "交易日誌 | 股海學習";
+                // Reload tables and stats in case
+                loadJournalLogs();
+            } else if (viewName === 'finger') {
+                if (fingerView) fingerView.classList.add('active');
+                document.title = "股海指月錄 | 股海學習";
+                const urlParams = new URLSearchParams(window.location.search);
+                const articleId = urlParams.get('id');
+                loadFingerCatalog(() => {
+                    if (articleId) {
+                        loadFingerArticle(articleId);
+                    } else {
+                        showFingerCatalog();
+                    }
+                });
+            }
+        }
+
+
+
+        // --- 股海指月錄 專欄文章資料庫與載入邏輯 ---
+        let fingerArticlesData = [
+            {
+                "id": "four-bodhisattvas",
+                "title": "總綱：四大菩薩操作要義",
+                "filename": "sanctuary-finger.md",
+                "date": "2026-07-20",
+                "description": "投機正法系統性歸納四大菩薩操作法門，重塑交易者內在心法：智（文殊）、仁（觀音）、靜（地藏）、勇（普賢）..."
+            }
+        ];
+
+        const fallbackFingerMarkdownMap = {
+            "sanctuary-finger.md": "# \u7e3d\u7db1\uff1a\u56db\u5927\u83e9\u85a9\u64cd\u4f5c\u8981\u7fa9\n\n\u5728\u80a1\u7968\u5e02\u5834\u7684\u9a5a\u6fe4\u99ed\u6d6a\u4e2d\uff0c\u4ea4\u6613\u8005\u5f80\u5f80\u5bb9\u6613\u8ff7\u5931\u5728\u7121\u7aae\u7121\u76e1\u7684\u6307\u6a19\u3001\u7c4c\u78bc\u8207\u5e02\u5834\u566a\u97f3\u4e2d\u3002\u70ba\u4e86\u91cd\u5851\u4ea4\u6613\u8005\u7684\u5167\u5728\u5fc3\u6cd5\uff0c\u5c07\u6295\u6a5f\u6b63\u6cd5\u7cfb\u7d71\u6027\u5730\u6b78\u7d0d\u70ba**\u300c\u56db\u5927\u83e9\u85a9\u64cd\u4f5c\u6cd5\u9580\u300d**\uff1a\n\n1. **\u667a\uff08\u667a\u6587\u6b8a\uff09**\uff1a\u4ee3\u8868\u300c\u9810\u671f\u4e16\u754c\u7684\u69cb\u5efa\u8207\u50f9\u683c\u6839\u672c\u300d\uff08\u5c6c\u65bc\u5206\u6790\uff09\u3002\n2. **\u4ec1\uff08\u60b2\u89c0\u97f3\uff09**\uff1a\u4ee3\u8868\u300c\u771f\u5be6\u4e16\u754c\u7684\u5c0d\u9f4a\u8207\u9ad4\u611f\u8b58\u5225\u300d\uff08\u5c6c\u65bc\u63a5\u53d7\u8207\u4fee\u6b63\uff09\u3002\n3. **\u975c\uff08\u975c\u5730\u85cf\uff09**\uff1a\u4ee3\u8868\u300c\u4e0d\u52d5\u5982\u5c71\u7684\u90e8\u4f4d\u7ba1\u7406\u8207\u98a8\u96aa\u63a7\u5236\u300d\uff08\u5c6c\u65bc\u7b49\u5f85\u8207\u5b88\u6210\uff09\u3002\n4. **\u52c7\uff08\u884c\u666e\u8ce2\uff09**\uff1a\u4ee3\u8868\u300c\u95dc\u9375\u50f9\u4f4d\u7684\u6975\u81f4\u51fa\u624b\u8207\u57f7\u884c\u300d\uff08\u5c6c\u65bc\u51fa\u624b\u8207\u57f7\u884c\uff09\u3002\n\n\u4ee5\u4e0b\u70ba\u56db\u5927\u83e9\u85a9\u7684\u64cd\u4f5c\u8981\u7fa9\uff0c\u662f\u5168\u66f8\u5fc3\u614b\u8207\u5be6\u6230\u64cd\u4f5c\u7684\u7e3d\u7db1\u9818\u3002\n\n---\n\n## \u667a\uff08\u667a\u6587\u6b8a\uff09\u2014\u2014 \u9810\u671f\u4e16\u754c\u7684\u69cb\u5efa\u8207\u50f9\u683c\u6839\u672c\n\n> **\u300c\u50f9\u683c\u624d\u662f\u6839\u672c\uff0c\u6d1e\u6089\u5e02\u5834\u610f\u5fd7\u6240\u9a45\u52d5\u7684\u52e2\u8207\u5e02\u3002\u300d**\n\n\u300c\u667a\u6587\u6b8a\u300d\u6cd5\u9580\u5c6c\u65bc**\u5206\u6790\u968e\u6bb5**\u3002\u5728\u958b\u76e4\u524d\uff0c\u4ea4\u6613\u8005\u900f\u904e\u5ba2\u89c0\u6578\u64da\u5728\u8166\u6d77\u4e2d\u52fe\u52d2\u51fa\u4e00\u500b\u9810\u671f\u7684**\u300c\u7406\u60f3\u4e16\u754c\u300d**\uff0c\u4e26\u5728\u9032\u5165\u771f\u5be6\u6230\u5834\u524d\u5b8c\u6210\u5fc3\u614b\u7684**\u300c\u8f49\u5ff5\u300d**\u3002\n\n* **\u50f9\u683c\u6839\u672c\u8207\u610f\u5fd7\u9a45\u52d5**\uff1a\n  * **\u50f9\u683c\u624d\u662f\u6839\u672c**\uff1a\u62cb\u68c4\u6240\u6709\u5c0d\u5916\u5728\u6307\u6a19\u7684\u76f2\u76ee\u4fe1\u4ef0\uff0c\u4e00\u5207\u4ee5\u50f9\u683c\u884c\u70ba\uff08Price Action\uff09\u5b9a\u9328\u3002\n  * **\u610f\u5fd7\u3001\u52e2\u3001\u5e02\uff08\u5e02\u5834 82 \u6cd5\u5247\uff09**\uff1a\u6d1e\u6089\u5e02\u5834\u5e95\u5c64\u7531\u6838\u5fc3\u610f\u5fd7\u9a45\u52d5\u300c\u52e2\u300d\uff0c\u9032\u800c\u5f62\u6210\u300c\u5e02\u300d\u7684\u50b3\u5c0e\u93c8\u3002\u5206\u6790\u4e26\u9396\u5b9a\u53ef\u80fd\u9a45\u52d5\u884c\u60c5\u3001\u50c5\u5360 2 \u6210\u7684\u95dc\u9375\u65cf\u7fa4\u3002\n* **\u9810\u671f\u8207\u8a8d\u77e5\u5c40\u9650**\uff1a\n  * **\u8a8d\u77e5\u6c38\u9060\u4e0d\u5b8c\u6574**\uff1a\u627f\u8a8d\u4eba\u985e\u5c0d\u5e02\u5834\u7684\u7406\u89e3\u5fc5\u7136\u5b58\u5728\u7f3a\u9677\u8207\u76f2\u5340\uff0c\u653e\u4e0b\u300c\u5206\u6790\u842c\u80fd\u300d\u7684\u57f7\u5ff5\u3002\n  * **\u540c\u6a23\u7dda\u578b\u4e0d\u540c\u547d\u904b**\uff1a\u7834\u9664\u5716\u8868\u56e0\u679c\u8ad6\u3002\u4e00\u6a21\u4e00\u6a23\u7684\u6280\u8853\u7dda\u578b\uff0c\u80cc\u5f8c\u53ef\u80fd\u8d70\u5411\u5b8c\u5168\u76f8\u53cd\u7684\u547d\u904b\uff0c\u5fc5\u9808\u4ee5\u6a5f\u7387\u601d\u7dad\u5f85\u4e4b\u3002\n  * **\u6a5f\u7387\u512a\u52e2\uff08\u98a8\u96aa\u5831\u916c\u4e0d\u5c0d\u7b49\u512a\u52e2\uff09**\uff1a\u4e0d\u5f37\u6c42\u9ad8\u52dd\u7387\uff0c\u800c\u662f\u5c0b\u627e\u98a8\u96aa\u6975\u5c0f\u800c\u6f5b\u5728\u5229\u6f64\u6975\u5927\u7684\u4e0d\u5c0d\u7b49\u6a5f\u7387\u6a5f\u6703\u3002\n* **\u7b56\u7565\u5b9a\u9328\u8207\u601d\u7dad\u91cd\u5851**\uff1a\n  * **\u96d9\u7387\u601d\u8003**\uff1a\u96a8\u6642\u6b0a\u8861\u300c\u52dd\u7387\u300d\u8207\u300c\u8cfa\u8ce0\u6bd4\u300d\uff0c\u4ee5\u671f\u671b\u503c\u70ba\u6838\u5fc3\u3002\n  * **\u4e2d\u6027\u601d\u8003\u8207\u7070\u968e\u539f\u5247**\uff1a\u5e02\u5834\u4e0d\u662f\u975e\u9ed1\u5373\u767d\uff0c\u5229\u591a\u8207\u5229\u7a7a\u4e4b\u9593\u5b58\u5728\u5927\u7247\u52d5\u614b\u6f14\u8b8a\u7684\u7070\u8272\u5730\u5e36\u3002\u4fdd\u6301\u4e2d\u6027\uff0c\u4e0d\u5e36\u4e3b\u89c0\u504f\u898b\u3002\n  * **\u4e8b\u4ef6\u5169\u9762\u6027\u539f\u5247**\uff1a\u4efb\u4f55\u6d88\u606f\u6216\u4e8b\u4ef6\u90fd\u6709\u5176\u96d9\u5203\u528d\u6027\u8cea\uff0c\u4e0d\u4ee5\u55ae\u4e00\u5229\u591a\u6216\u5229\u7a7a\u9032\u884c\u7dda\u6027\u89e3\u8b80\u3002\n  * **\u4f30\u503c\u91cd\u8abf\u8207\u7bc0\u594f\u8f49\u63db**\uff1a\u7406\u89e3\u80a1\u50f9\u66b4\u6f32\u672c\u8cea\u4e0a\u662f\u5e02\u5834\u9810\u671f\u5171\u8b58\u7684\u96c6\u9ad4\u8f49\u79fb\uff08Re-rating\uff09\uff0c\u4e26\u96a8\u6642\u7559\u610f\u5e02\u5834\u7bc0\u594f\u7684\u52d5\u614b\u8f49\u63db\u3002\n  * **\u4ea4\u6613\u74b0\u5883\u5206\u6cbb**\uff1a\u660e\u78ba\u5340\u5206\u300c\u734e\u91d1\u9078\u80a1\uff08\u6ce2\u6bb5\u4ea4\u6613\uff09\u300d\u8207\u300c\u85aa\u6c34\u9078\u80a1\uff08\u7576\u6c96\u4ea4\u6613\uff09\u300d\u5728\u9078\u80a1\u908f\u8f2f\u8207\u505c\u640d\u8a2d\u8a08\u4e0a\u7684\u672c\u8cea\u65b7\u5c64\u3002\n\n---\n\n## \u4ec1\u8207\u975c\uff08\u60b2\u89c0\u97f3\u3001\u975c\u5730\u85cf\uff09\u2014\u2014 \u771f\u5be6\u4e16\u754c\u7684\u5c0d\u9f4a\u3001\u63a5\u53d7\u8207\u7b49\u5f85\n\n> **\u300c\u653e\u4e0b\u81ea\u6211\u57f7\u8457\uff0c\u4ee5\u771f\u5be6\u76e4\u9762\u88dc\u8db3\u9810\u671f\u4e16\u754c\u7684\u4e0d\u8db3\uff1b\u4e0d\u52d5\u5982\u5c71\uff0c\u5728\u7b49\u5f85\u4e2d\u5b88\u6210\u3002\u300d**\n\n\u300c\u4ec1\u89c0\u97f3\u300d\u8207\u300c\u975c\u5730\u85cf\u300d\u6cd5\u9580\u5c6c\u65bc**\u63a5\u53d7\u3001\u4fee\u6b63\u8207\u7b49\u5f85\u968e\u6bb5**\u3002\u7576\u958b\u76e4\u5f8c\uff0c\u4ea4\u6613\u8005\u5fc5\u9808\u653e\u4e0b\u81ea\u6211\u7684\u5805\u6301\uff0c\u5c07\u8166\u4e2d\u7684\u300c\u7406\u60f3\u4e16\u754c\u300d\u8207\u76e4\u9762\u7684\u300c\u771f\u5be6\u4e16\u754c\u300d\u53cd\u8986\u758a\u5408\u3001\u4fee\u6b63\uff0c\u4e26\u4fdd\u6301\u6975\u5927\u7684\u5b9a\u529b\u9032\u884c\u90e8\u4f4d\u63a7\u5236\u3002\n\n### \u4ec1\uff08\u60b2\u89c0\u97f3\uff09\uff1a\u89c0\u5bdf\u80a1\u50f9\u904b\u52d5\u50f9\u683c\u884c\u70ba(\u9053\u6c0f\u904b\u52d5\u3001\u9053\u6c0f\u9632\u7dda)\u8207\u771f\u5be6\u4e16\u754c\u7684\u5c0d\u9f4a\u3001\u9ad4\u611f\u4fee\u6b63\n\n* **\u5c0d\u9f4a\u4e16\u754c\u8207\u9ad4\u611f\u8b58\u5225**\uff1a\n  * **\u63db\u4f4d\u601d\u8003**\uff1a\u5f9e\u5be6\u969b\u76e4\u9762\u7684\u50f9\u683c\u884c\u70ba\u51fa\u767c\uff0c\u88dc\u8db3\u7406\u60f3\u9810\u671f\u7684\u4e0d\u8db3\uff0c\u5efa\u7acb\u654f\u92b3\u7684\u300c\u80a1\u7968\u9ad4\u611f\u8b58\u5225\u300d\u3002\n  * **\u63a5\u53d7\u4efb\u4f55\u53ef\u80fd\u6027**\uff1a\u9810\u6e2c\u6c38\u9060\u4e0d\u5b8c\u7f8e\u3002\u5fc5\u9808\u5efa\u7acb\u300c\u8cb7\u9032\u5f8c\u96a8\u6642\u53ef\u80fd\u5927\u8dcc\u300d\u7684\u9632\u5b88\u5fc3\u7406\u6846\u67b6\uff0c\u9019\u662f\u4fdd\u8b77\u4ea4\u6613\u5fc3\u7406\u7d20\u8cea\u7684\u95dc\u9375\u57fa\u77f3\u3002\n  * **\u65cf\u7fa4 82 \u6cd5\u5247**\uff1a\u7528\u5fc3\u611f\u53d7\u8207\u89c0\u5bdf\u76ee\u524d\u6b63\u5728\u76e4\u9762\u4e0a\u5be6\u969b\u9a45\u52d5\u884c\u60c5\u4e4b 2 \u6210\u80a1\u7968\u8207\u4e3b\u6d41\u65cf\u7fa4\uff0c\u653e\u68c4\u81ea\u6211\u7684\u4e3b\u89c0\u5805\u6301\u3002\n* **\u719f\u8b80\u4e9e\u7576\u7406\u8ad6\u3001\u770b\u7dda\u8fa6\u4e8b\u8207\u5f37\u5f31\u6bd4\u5c0d**\uff1a\n  * <span style=\"color: red;\">**\u4e9e\u7576\u7406\u8ad6\u8207\u512a\u5316**\uff1a\u5118\u91cf\u53ea\u505a\u8ce0\u7387\u9806\u52e2\u76e4\uff0c\u653e\u68c4\u52dd\u7387\u9707\u76ea\u76e4</span>\n    1. <span style=\"color: red;\">**\u5c0d\u5e02\u5834\u7121\u689d\u4ef6\u7684\u7121\u77e5\u8207\u81e3\u670d**\uff1a\u653e\u68c4\u4efb\u4f55\u770b\u6cd5\uff0c\u53ea\u770b\u50f9\u683c</span>\n    2. <span style=\"color: red;\">**\u53ea\u505a\u9806\u52e2\uff0c\u653e\u68c4\u6293\u8f49\u6298**\uff1a\u6703\u6f32\u7684\u80a1\u7968\u5230\u6708\u7403\u4e5f\u61c9\u8a72\u8cb7\uff0c\u6703\u8dcc\u7684\u80a1\u7968\u8dcc\u5230\u96f6\u4e5f\u8a72\u8ce3\uff0c\u4e0d\u8981\u81ea\u5df1\u6293\u8f49\u6298(\u5e02\u5834\u6703\u5e6b\u4f60\u6293)\uff0c\u907f\u958b\u9707\u76ea\uff0c\u4e9e\u7576\u7406\u8ad6\u4e0d\u731c\u982d\u6478\u5e95\uff0c\u6240\u4ee5\u53ea\u6709\u8f49\u6298\u6642\u6703\u932f(\u8a2d\u597d\u505c\u640d\u5c31\u53ef\uff0c\u5176\u4ed6\u90fd\u5c0d)</span>\n    3. <span style=\"color: red;\">**\u505a\u591a\u53ea\u505a\u5f37\u52e2\u80a1\uff0c\u505a\u7a7a\u53ea\u505a\u5f31\u52e2\u80a1**\uff1a\u4e0d\u53bb\u731c\u6e2c\u8f49\u6298\u9ede\uff0c\u4f46\u53ef\u4ee5\u8003\u616e\u96d9\u7387\uff0c\u6bd4\u65b9\u8aaa\u8da8\u52e2\u591a\u65b9\uff0c\u4ecd\u505a\u591a\uff0c\u4f46\u6ce8\u610f\u904e\u71b1\u53ef\u80fd\u53cd\u8f49\uff0c\u8abf\u6574\u90e8\u4f4d\uff0c\u8ce0\u7387\u82e5\u5dee\u5c31\u6e1b\u5009\uff0c\u7b49\u8ce0\u7387\u9ad8\u7684\u62c9\u56de\u8cb7\u9ede\uff0c\u8da8\u52e2\u7a7a\uff0c\u505a\u7a7a\uff0c\u4f46\u6ce8\u610f\u904e\u71b1\u53ef\u80fd\u53cd\u8f49\uff0c\u8abf\u6574\u90e8\u4f4d\uff0c\u8ce0\u7387\u82e5\u5dee\u5c31\u6e1b\u5009\uff0c\u7b49\u8ce0\u7387\u9ad8\u7684\u4e0a\u6f32\u7a7a\u9ede\uff0c\u4ee5\u4e9e\u7576\u7406\u8ad6\u6c7a\u5b9a\u591a\u7a7a\u8da8\u52e2\uff0c\u4e0d\u6293\u8f49\u6298\uff0c\u907f\u958b\u9707\u76ea\uff0c\u96d9\u7387\u512a\u5316</span>\n  * **\u770b\u7dda\u8fa6\u4e8b**\uff1a\u4f9d\u64da\u5171\u8b58\u8207\u7d50\u69cb\u4e3b\u7fa9\u9032\u884c\u50f9\u683c\u8b8a\u52d5\u8207\u50f9\u683c\u884c\u70ba\u7684\u89c0\u5bdf\u3002\u91dd\u5c0d\u6ce2\u52d5\u3001\u9806\u52e2\u3001\u76e4\u6574\u3001\u5927\u9707\u76ea\u7b49\u4e0d\u540c\u5e02\u5834\u72c0\u614b\uff0c\u63a1\u7528\u622a\u7136\u4e0d\u540c\u7684\u61c9\u5c0d\u7b56\u7565\uff1a\n    1. **\u9053\u6c0f\u904b\u52d5\u770b\u8da8\u52e2**\uff1a\u4f9d\u7167\u9053\u6c0f\u904b\u52d5\u3001\u9632\u7dda\u3001\u53cd\u8f49\u578b\u614b\u7b49\u8fa8\u8a8d\u591a\u7a7a\u904b\u52d5\u8da8\u52e2\uff08\u904b\u52d5\u5169\u5b57\u5f88\u91cd\u8981\uff09\u6216\u662f\u76e4\u6574\uff0c\u591a\u7a7a\u78ba\u7acb\u6253\u9806\u52e2\u8ce0\u7387\u76e4\uff0c\u76e4\u6574\u6253\u9006\u52e2\u52dd\u7387\u9ad8\u51fa\u4f4e\u9032\u3002\n    2. **\u904e\u71b1\u3001\u6a1e\u7d10\u8f49\u6298\u8207\u95dc\u9375k**\uff1a\u8fa8\u8b58\u904e\u71b1k \u27a1\ufe0f P(\u6a1e\u7d10)k(\u95dc\u9375k)[\u9032\u5165\u807d\u724c] \u27a1\ufe0f \u80e1\u724c\uff1b\u5927\u6a1e\u7d10\u624d\u662f\u8f49\u6298\uff08\u8f49\u6298\u662f\u91cd\u9ede\uff0c\u4f46\u5118\u91cf\u7565\u904e\u4e0d\u8981\u53bb\u6293\uff09\uff0c\u5c0f\u6a1e\u7d10\u8981\u61c2\u5f97\u7565\u904e\u3002\n    3. **\u4e0b\u55ae\u5f8c\u60f3\u8457\u53cd\u5411**\uff1a\u4e0b\u55ae\u5f8c\u5982\u679c\u4e0d\u5982\u9810\u671f\uff0c\u99ac\u4e0a\u53cd\u5411\u6216\u4ee5\u9707\u76ea\u76e4\u8655\u7406\u3002\n  * **\u7d50\u69cb\u5f37\u5f31\u6bd4\u5c0d**\uff1a\u96a8\u6642\u6bd4\u5c0d\u300c\u5927\u76e4\u3001\u71b1\u9580\u65cf\u7fa4\u3001\u81ea\u5df1\u6301\u80a1\u300d\u4e09\u8005\u4e4b\u9593\u7684\u7d50\u69cb\u5f37\u5f31\u3002\n  * **\u6642\u5e38\u7559\u610f\u8f49\u5f37\u65cf\u7fa4**\uff1a\n    1. **\u677f\u8569\u8b58\u5fe0\u81e3**\uff1a\u5927\u76e4\u4e0b\u8dcc\u6642\u624d\u662f\u89c0\u5bdf\u8207\u7be9\u9078\u5f37\u52e2\u80a1\u7684\u9ec3\u91d1\u7a97\u53e3\u3002\n    2. **\u7570\u5e38\u6ce2\u52d5\u8b58\u5225**\uff1a\u76e4\u4e2d\u6ce2\u52d5\u7a81\u7136\u8b8a\u5927\u3001\u6d17\u5237\u6108\u7528\u529b\u6108\u4ee3\u8868\u6709\u5927\u8cc7\u91d1\u904b\u4f5c\uff0c\u4f46\u65e5\u7dda\u537b\u80fd\u5b88\u4f4f\u95dc\u9375\u652f\u6490\u9ede\u4f4d\u3002\n  * **\u751f\u5b58\u7d05\u7dda**\uff1a\u80a1\u7968\u672a\u7ad9\u4e0a\u5e74\u7dda\uff08240 MA\uff09\u4e4b\u524d\uff0c\u539f\u5247\u4e0a\u5118\u91cf\u4e0d\u78b0\u3002\n* **\u9032\u653b\u6027\u90e8\u4f4d\u7ba1\u7406**\uff1a\n  * **\u6c70\u5f31\u7559\u5f37\u8207\u52a0\u78bc\u734e\u52f5**\uff1a\u6301\u80a1\u5fc5\u9808\u52d5\u614b\u8abf\u6574\uff0c\u5c07\u8cc7\u91d1\u5f9e\u5f31\u52e2\u3001\u8ce0\u9322\u7684\u80a1\u7968\u4e2d\u64a4\u51fa\uff0c\u8f49\u800c\u300c\u52a0\u78bc\u734e\u52f5\u300d\u5f37\u52e2\u4e14\u8cfa\u9322\u7684\u80a1\u7968\u3002\u9019\u4e0d\u50c5\u662f\u9632\u5b88\uff0c\u66f4\u662f\u5229\u7528\u69d3\u687f\u9032\u884c\u9632\u5b88\u53cd\u64ca\u7684\u4e3b\u52d5\u9032\u653b\u3002\n\n### \u975c\uff08\u975c\u5730\u85cf\uff09\uff1a\u7368\u7acb\u65bc\u60c5\u7dd2\u5916\u7684\u64cd\u4f5c\u7cfb\u7d71\u3001\u4e0d\u52d5\u5982\u5c71\u7684\u5b88\u6210\u8207\u7cbe\u795e\u529b\n* **\u7cbe\u795e\u529b\u70ba\u6210\u6557\u95dc\u9375**\uff1a\u7cbe\u795e\u5d29\u6f70\u5c31\u6703\u4e82\u505a\uff0c\u53c3\u8003\u4ea4\u6613\u61b2\u6cd5\uff0c\u4e0d\u8981\u5168\u51fa\u5168\u9032(\u907f\u514d\u904e\u5ea6\u4ea4\u6613)\uff0c\u9010\u6f38\u52a0\u5009\uff0c\u63db\u80a1\u6216\u96f6\u80a1\uff0c\u90fd\u53ef\u589e\u52a0\u7cbe\u795e\u8ca0\u8f09\u529b\n* **\u7368\u7acb\u65bc\u60c5\u7dd2\u5916\u7684\u64cd\u4f5c\u7cfb\u7d71**\uff1a\u4e0d\u8981\u8ddf\u8457\u5e02\u5834\u8dd1\uff0c\u4ee5\u70ba\u53ef\u4ee5\u9810\u6e2c\u800c\u505a\u9ede\u4ec0\u9ebc(\u904e\u5ea6\u4ea4\u6613)\uff0c\u800c\u662f\u5728\u60f3\u50cf\u4e16\u754c\u4e2d\u7684\u8ce0\u7387\u9ad8\u8655\u5148\u639b\u55ae\uff0c\u8b93\u771f\u5be6\u4e16\u754c\u4f86\u89f8\u767c\u3001\u8cbc\u5408\u8207\u6210\u4ea4\uff0c\u5118\u91cf\u5728\u8ce0\u7387\u9ad8\u8655\u9810\u639b(\u5148\u8a2d\u5b9a\u6bd4\u8f03\u5927\u500b\u7a7a\u9593\u518d\u8996\u60c5\u6cc1\u5fae\u8abf)\uff0c\u800c\u4e0d\u662f\u5e02\u50f9\u8cb7\u8ce3(\u5e02\u50f9\u8cb7\u8ce3\u662f\u9810\u6e2c\u611f\u89ba\u578b\u4ea4\u6613\uff0c\u5f88\u6158)\n* **\u675c\u7d55\u885d\u52d5\u8207\u4fdd\u6301\u8ddd\u96e2**\uff1a\n  * **\u7b49\u5f85\u7684\u85dd\u8853**\uff1a\u4ea4\u6613\u6709 8 \u6210\u7684\u6642\u9593\u662f\u5728\u7b49\u5f85\u5408\u9069\u7684\u6642\u6a5f\uff08\u8cfa\u53d6\u5927\u6ce2\u6bb5\u7684\u300c\u8cfa\u734e\u91d1\u300d\uff0c\u800c\u975e\u76e4\u4e2d\u7463\u788e\u7684\u300c\u8cfa\u85aa\u6c34\u300d\uff09\u3002\n  * **\u7981\u6b62\u76e4\u4e2d\u96a8\u6a5f\u4ea4\u6613**\uff1a\u7d55\u4e0d\u56e0\u70ba\u76e4\u4e2d\u50f9\u683c\u7684\u96a8\u6a5f\u8d77\u4f0f\u800c\u4efb\u610f\u8cb7\u8ce3\u3001\u8ffd\u9ad8\u6bba\u4f4e\u3002\u6240\u6709\u7684\u52d5\u4f5c\u5fc5\u9808\u4f9d\u7167\u8a08\u5283\u9810\u5148\u639b\u55ae\u5b8c\u6210\u3002\n  * **\u8ddd\u96e2\u611f**\uff1a\u8207\u76e4\u9762\u4fdd\u6301\u9069\u5ea6\u8ddd\u96e2\uff0c\u907f\u514d\u88ab\u77ed\u7dda\u96dc\u8a0a\u5e72\u64fe\u5fc3\u5883\u3002\n* **\u5b88\u8b77\u5229\u6f64\u8207\u90e8\u4f4d\u63a7\u5236**\uff1a\n  * **\u672a\u5be6\u73fe\u5229\u6f64\u7684\u5b9a\u529b**\uff1a\u52ff\u983b\u7e41\u66f4\u63db\u5f37\u52e2\u80a1\uff0c\u6df1\u523b\u7406\u89e3\u300c\u672a\u5be6\u73fe\u5229\u6f64\u6bd4\u5df2\u5be6\u73fe\u5229\u6f64\u66f4\u91cd\u8981\u300d\uff0c\u7d66\u4e88\u5f37\u52e2\u80a1\u8db3\u5920\u7684\u767c\u5c55\u7a7a\u9593\u3002\n  * **\u98a8\u96aa\u63a7\u5236\u539f\u5247**\uff1a\u8d0f\u52a0\u78bc\uff0c\u8f38\u64a4\u9000\u3002\u56b4\u683c\u63a7\u7ba1\u7e3d\u90e8\u4f4d\u8207\u55ae\u7b46\u98a8\u96aa\u3002\n* **\u505c\u640d\u7684\u85dd\u8853\uff08\u5b88\u898f\u8207\u7834\u77e9\uff09**\uff1a\n  * **\u7121\u7f6a\u63a8\u5b9a\u539f\u5247**\uff1a\u5728\u50f9\u683c\u672a\u89f8\u53ca\u5e95\u7dda\u7d05\u7dda\u524d\uff0c\u5118\u91cf\u7d66\u4e88\u5bec\u5bb9\u5ea6\uff0c\u907f\u514d\u88ab\u96a8\u6a5f\u6d17\u76e4\u6d17\u51fa\u5834\u3002\n  * **\u505c\u640d\u5f37\u5f31\u5206\u6cbb**\uff1a\u5f37\u52e2\u80a1\u505c\u640d\u8981\u5bec\uff08\u5bb9\u932f\u7a7a\u9593\u5927\uff09\uff0c\u5f31\u52e2\u80a1\u505c\u640d\u8981\u7a84\uff08\u82d7\u982d\u4e0d\u5c0d\u5373\u64a4\u9000\uff09\u3002\n  * **\u7d00\u5f8b\u8207\u5f48\u6027\u7684\u5e73\u8861**\uff1a\u505c\u640d\u662f\u6975\u9ad8\u7684\u85dd\u8853\u3002\u5fc5\u9808\u6b7b\u5b88\u7d00\u5f8b\uff0c\u4f46\u4e5f\u8981\u4fdd\u7559\u5f48\u6027\u8207\u5bb9\u932f\u7a7a\u9593\uff08\u4f8b\u5982\u5c07\u505c\u640d\u8a2d\u65bc\u7fa4\u773e\u60c5\u7dd2\u6eff\u6ea2\u7684\u6ce2\u6bb5\u9ad8\u4f4e\u9ede\uff09\uff0c\u4e0d\u8981\u7a92\u606f\u6301\u80a1\u7684\u751f\u547d\u529b\uff0c\u4ea6\u4e0d\u653e\u4efb\u8667\u640d\u64f4\u5927\u3002\n\n---\n\n## \u52c7\uff08\u884c\u666e\u8ce2\uff09\u2014\u2014 \u95dc\u9375\u50f9\u4f4d\u7684\u6a1e\u7d10\u51fa\u64ca\u8207\u57f7\u884c\n\n> **\u300c\u5728\u95dc\u9375\u7684\u6a1e\u7d10\u9ede\u9435\u8840\u57f7\u884c\uff0c\u4ee5\u8ce0\u7387\u70ba\u4e3b\u3001\u52dd\u7387\u70ba\u8f14\uff0c\u679c\u65b7\u51fa\u64ca\u3002\u300d**\n\n\u300c\u52c7\u666e\u8ce2\u300d\u6cd5\u9580\u5c6c\u65bc**\u51fa\u624b\u8207\u57f7\u884c\u968e\u6bb5**\u3002\u7576\u76e4\u9762\u51fa\u73fe\u95dc\u9375\u4fe1\u865f\uff0c\u4ea4\u6613\u8005\u5fc5\u9808\u6452\u9664\u6240\u6709\u6050\u61fc\u8207\u7336\u8c6b\uff0c\u50cf\u5916\u79d1\u624b\u8853\u822c\u7cbe\u6e96\u57f7\u884c\u4e0b\u55ae\u52d5\u4f5c\u3002\n\n* **\u6a1e\u7d10\u9ede\u51fa\u624b\u8207\u50f9\u683c 82 \u6cd5\u5247**\uff1a\n  * **\u50f9\u683c 82 \u6cd5\u5247**\uff1a\u4ea4\u6613\u8005\u4e00\u751f\u4e2d 80% \u7684\u5229\u6f64\u4f86\u81ea\u65bc 20% \u7684\u95dc\u9375\u4ea4\u6613\u3002\u56e0\u6b64\uff0c\u53ea\u5728\u5e02\u5834\u300c\u919e\u91c0\u3001\u653b\u64ca\u3001\u53cd\u6bba\uff08\u51fa\u624b\u8207\u505c\u640d\uff09\u3001\u5927\u51fa\u64ca\u300d\u7684\u95dc\u9375\u6a1e\u7d10\u9ede\u63a1\u53d6\u884c\u52d5\u3002\n  * **\u5f37\u52e2\u80a1\u62c9\u56de\u51fa\u624b**\uff1a\u5f37\u52e2\u80a1\u5927\u6f32\u5f8c\uff0c\u50c5\u5728\u300c\u62c9\u56de\u5371\u96aa\u9ede\u300d\u7684\u9ec3\u91d1\u7a97\u53e3\u9032\u884c\u9632\u5b88\u578b\u8cb7\u5165\uff0c\u4ee5\u9038\u5f85\u52de\u3002\n* **\u667a\u6167\u55ae\u7684\u9435\u8840\u57f7\u884c**\uff1a\n  * **\u8ce0\u7387\u70ba\u4e3b\uff0c\u52dd\u7387\u70ba\u8f14**\uff1a\u5229\u7528\u667a\u6167\u55ae\u5728\u5f37\u52e2\u80a1\u7684\u62c9\u56de\u5371\u96aa\u9ede\u9810\u5148\u639b\u55ae\u8cb7\u9032\uff0c\u4ee5\u535a\u53d6\u6975\u9ad8\u7684\u8ce0\u7387\u3002\n  * **\u5f31\u52e2\u80a1\u4e0d\u8cb7\u6216\u8f49\u5f37\u8cb7**\uff1a\u5f31\u52e2\u80a1\u539f\u5247\u4e0a\u4e0d\u78b0\uff1b\u82e5\u8981\u53c3\u8207\uff0c\u5fc5\u9808\u8a2d\u5b9a\u667a\u6167\u55ae\u5728\u5176\u300c\u7ad9\u4e0a\u8f49\u5f37\u9ede\u300d\u6642\u624d\u89f8\u767c\u8cb7\u5165\u3002\n  * **\u9632\u5b88\u540c\u6b65**\uff1a\u4efb\u4f55\u667a\u6167\u55ae\u4e00\u65e6\u89f8\u767c\u6210\u4ea4\uff0c\u5fc5\u9808**\u96a8\u5373\u639b\u51fa\u505c\u640d\u9632\u5b88\u55ae**\uff0c\u5805\u6c7a\u57f7\u884c\u300c\u6709\u8cfa\u4e0d\u8ce0\u300d\u7684\u4fdd\u672c\u539f\u5247\u3002\n* **\u90e8\u4f4d\u7ba1\u7406\u8207\u8cfa\u8ce0\u6bd4\u6975\u5927\u5316**\uff1a\n  * **\u5206\u6279\u9032\u51fa\u8207\u6c70\u5f31\u7559\u5f37**\uff1a\u8ce0\u9322\u55ae\u8981\u65e9\u65e9\u51fa\u5834\u4ee5\u63a7\u5236\u8667\u640d\uff1b\u8cfa\u9322\u55ae\u5247\u8981\u62b1\u5f97\u5920\u4e45\u3001\u665a\u9ede\u51fa\u5834\uff0c\u4e26\u5728\u8da8\u52e2\u78ba\u7acb\u6642\u9032\u884c\u69d3\u687f\u52a0\u78bc\uff0c\u4ee5\u6975\u5927\u5316\u8cfa\u8ce0\u6bd4\u3002\n  * **\u5fae\u89c0\u52d5\u4f5c\u7ba1\u7406**\uff1a\u843d\u5be6\u300c\u8f15\u5009\u653e\u5927\u300d\u3001\u300c\u5206\u5c64\u51fa\u624b\u300d\u3001\u300c\u90e8\u4f4d\u52a0\u6e1b\u78bc\u300d\u7b49\u63a7\u5009\u6280\u8853\u3002\n  * **\u95dc\u9375\u50f9\u8207\u6ce2\u52d5\u5ea6\u76e3\u63a7**\uff1a\u7dca\u76ef\u6574\u6578\u95dc\u5361\u3001\u5e73\u76e4\u7dda\u3001\u5927\u91cf\u5340\u7b49\u95dc\u9375\u652f\u6490\u58d3\u529b\u50f9\u4f4d\uff0c\u4e26\u5c0d\u5e02\u5834\u6ce2\u52d5\u5ea6\u4fdd\u6301\u9ad8\u5ea6\u654f\u611f\u3002\n  * **\u61c9\u6025\u8a08\u5283**\uff1a\u5728\u6bcf\u4e00\u6b21\u51fa\u624b\u524d\uff0c\u5927\u8166\u5fc5\u9808\u9810\u5148\u60f3\u597d\u6700\u58de\u7684\u60c5\u6cc1\u8207\u5c0d\u61c9\u7684\u61c9\u6025\u8a08\u5283\u3002\n  * **\u69d3\u687f\u61c9\u7528\u6642\u6a5f**\uff1a\u69d3\u687f\u552f\u4e00\u7684\u7528\u9014\u662f\u300c\u653e\u5927\u8cfa\u9322\u7684\u90e8\u4f4d\u300d\uff0c\u5728\u6709\u76c8\u5229\u4fdd\u8b77\u4e14\u8da8\u52e2\u660e\u6717\u6642\u679c\u65b7\u64f4\u5927\u6230\u679c\uff0c\u4e26\u6b7b\u5b88\u300c\u6709\u8cfa\u4e0d\u80fd\u8ce0\u300d\u7684\u5b89\u5168\u908a\u969b\u3002\n"
+        };
+
+        function loadFingerCatalog(callback) {
+            const catalogList = document.getElementById('fingerCatalogList');
+            if (!catalogList) return;
+
+            // Render default/cached data immediately
+            renderFingerCatalog();
+
+            // Attempt fetching external JSON with multi-path fallback
+            fetch('sanctuary-finger.json')
+                .then(res => res.ok ? res : fetch('./sanctuary-finger.json'))
+                .then(res => res.ok ? res : fetch('/sanctuary-finger.json'))
+                .then(res => res.ok ? res.json() : null)
+                .then(data => {
+                    if (Array.isArray(data) && data.length > 0) {
+                        fingerArticlesData = data;
+                        renderFingerCatalog();
+                    }
+                    if (callback) callback();
+                })
+                .catch(err => {
+                    console.warn("使用內建指月錄目錄資料:", err);
+                    if (callback) callback();
+                });
+        }
+
+        function renderFingerCatalog() {
+            const catalogList = document.getElementById('fingerCatalogList');
+            if (!catalogList) return;
+            catalogList.innerHTML = '';
+
+            fingerArticlesData.forEach(article => {
+                const card = document.createElement('div');
+                card.className = 'item-card';
+                card.onclick = () => loadFingerArticle(article.id);
+
+                card.innerHTML = `
+                    <div class="item-info">
+                        <h3>${escapeHtml(article.title)}</h3>
+                        <p class="item-desc">${escapeHtml(article.description)}</p>
+                    </div>
+                    <div class="item-date">${escapeHtml(article.date)}</div>
+                `;
+                catalogList.appendChild(card);
+            });
+        }
+
+        function showFingerCatalog() {
+            const detailView = document.getElementById('fingerDetailView');
+            const catalogView = document.getElementById('fingerCatalogView');
+            if (detailView) detailView.style.display = 'none';
+            if (catalogView) catalogView.style.display = 'block';
+            document.title = "股海指月錄 | 股海學習";
+        }
+
+        function loadFingerArticle(articleId) {
+            const articleObj = fingerArticlesData.find(a => a.id === articleId);
+            if (!articleObj) {
+                alert("找不到指定的文章！");
+                showFingerCatalog();
+                return;
+            }
+
+            const titleEl = document.getElementById('fingerArticleTitle');
+            const dateEl = document.getElementById('fingerArticleDate');
+            const contentArea = document.getElementById('fingerArticleContent');
+
+            if (titleEl) titleEl.textContent = articleObj.title;
+            if (dateEl) dateEl.innerHTML = `<i class="bi bi-calendar3"></i> ${articleObj.date}`;
+            if (contentArea) contentArea.innerHTML = "<p style='color: var(--text-secondary);'>文章內容載入中...</p>";
+
+            const catalogView = document.getElementById('fingerCatalogView');
+            const detailView = document.getElementById('fingerDetailView');
+            if (catalogView) catalogView.style.display = 'none';
+            if (detailView) detailView.style.display = 'block';
+
+            document.title = `${articleObj.title} | 股海指月錄`;
+
+            // Try multi-path fetch with fallback markdown content
+            fetch(articleObj.filename)
+                .then(res => res.ok ? res : fetch('./' + articleObj.filename))
+                .then(res => res.ok ? res : fetch('/' + articleObj.filename))
+                .then(res => {
+                    if (!res.ok) throw new Error("File not found");
+                    return res.text();
+                })
+                .then(markdownText => {
+                    renderFingerMarkdown(markdownText);
+                })
+                .catch(err => {
+                    console.warn("嘗試載入內建文章備份:", err);
+                    if (fallbackFingerMarkdownMap[articleObj.filename]) {
+                        renderFingerMarkdown(fallbackFingerMarkdownMap[articleObj.filename]);
+                    } else {
+                        if (contentArea) contentArea.innerHTML = `<p style="color: var(--accent-gold);">載入文章內容失敗，請確認 '${articleObj.filename}' 檔案已正確上傳。</p>`;
+                    }
+                });
+        }
+
+        
+        function renderFingerMarkdown(text) {
+            const contentArea = document.getElementById('fingerArticleContent');
+            if (!contentArea) return;
+            contentArea.innerHTML = '';
+
+            const wrapper = document.createElement('div');
+            wrapper.className = 'detail-content-area';
+
+            let normalizedText = text;
+            if (normalizedText.includes('\\n')) {
+                normalizedText = normalizedText.replace(/\\n/g, '\n');
+            }
+            const lines = normalizedText.split('\n');
+            let delay = 0;
+
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                const trimmed = line.trim();
+
+                if (trimmed.startsWith('# ')) continue;
+
+                if (trimmed === '') {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'detail-empty-line';
+                    wrapper.appendChild(lineDiv);
+                    continue;
+                }
+
+                if (trimmed.startsWith('#')) {
+                    const levelMatch = trimmed.match(/^#+/);
+                    if (levelMatch) {
+                        const level = levelMatch[0].length;
+                        const headingText = trimmed.replace(/^#+\s+/, '');
+                        const lineDiv = document.createElement('div');
+                        lineDiv.className = 'detail-line';
+                        lineDiv.style.fontWeight = '700';
+                        lineDiv.style.color = 'var(--text-primary)';
+                        lineDiv.style.marginTop = level === 2 ? '36px' : level === 3 ? '28px' : '22px';
+                        lineDiv.style.marginBottom = '10px';
+
+                        let formattedHeading = headingText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                        lineDiv.innerHTML = formattedHeading;
+
+                        if (level === 2) {
+                            lineDiv.style.fontSize = '1.5rem';
+                            lineDiv.style.borderBottom = '1px solid var(--border-color)';
+                            lineDiv.style.paddingBottom = '6px';
+                        } else if (level === 3) {
+                            lineDiv.style.fontSize = '1.3rem';
+                            lineDiv.style.color = 'var(--accent-gold)';
+                        } else {
+                            lineDiv.style.fontSize = '1.15rem';
+                        }
+
+                        lineDiv.style.animationDelay = `${delay}s`;
+                        delay += 0.03;
+                        wrapper.appendChild(lineDiv);
+                        continue;
+                    }
+                }
+
+                if (trimmed === '---') {
+                    const hr = document.createElement('hr');
+                    hr.style.border = 'none';
+                    hr.style.borderTop = '1px solid var(--border-color)';
+                    hr.style.margin = '30px 0';
+                    wrapper.appendChild(hr);
+                    continue;
+                }
+
+                if (trimmed.startsWith('![')) {
+                    const match = trimmed.match(/^!\[(.*?)\]\((.*?)\)$/);
+                    if (match) {
+                        const img = document.createElement('img');
+                        img.src = match[2];
+                        img.alt = match[1];
+                        img.style.maxWidth = '100%';
+                        img.style.display = 'block';
+                        img.style.margin = '30px auto 10px auto';
+                        img.style.borderRadius = '12px';
+                        img.style.boxShadow = 'var(--shadow-sm)';
+                        img.style.opacity = '0';
+                        img.style.transform = 'translateY(15px)';
+                        img.style.animation = 'fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+                        img.style.animationDelay = `${delay}s`;
+                        delay += 0.03;
+                        wrapper.appendChild(img);
+                        continue;
+                    }
+                }
+
+                let isQuote = false;
+                let cleanLine = trimmed;
+                if (trimmed.startsWith('>')) {
+                    isQuote = true;
+                    cleanLine = trimmed.replace(/^>\s*/, '').trim();
+                }
+
+                if (cleanLine.startsWith('[!')) {
+                    const alertType = cleanLine.match(/\[!(.*?)\]/);
+                    if (alertType) {
+                        const typeText = alertType[1] === 'NOTE' ? '注意' : alertType[1] === 'TIP' ? '提示' : alertType[1] === 'IMPORTANT' ? '重要' : alertType[1] === 'DANGER' ? '警示' : alertType[1];
+                        const lineDiv = document.createElement('div');
+                        lineDiv.className = 'detail-line';
+                        lineDiv.style.fontWeight = 'bold';
+                        lineDiv.style.color = 'var(--accent-gold)';
+                        lineDiv.style.marginTop = '15px';
+                        lineDiv.innerHTML = `<i class="bi bi-info-circle-fill"></i> ${typeText}：`;
+                        lineDiv.style.animationDelay = `${delay}s`;
+                        delay += 0.03;
+                        wrapper.appendChild(lineDiv);
+                        continue;
+                    }
+                }
+
+                const lineDiv = document.createElement('div');
+                lineDiv.className = 'detail-line';
+
+                let displayText = cleanLine;
+                let listIndent = 0;
+
+                if (cleanLine.startsWith('- ')) {
+                    displayText = '• ' + cleanLine.substring(2);
+                    listIndent = 20;
+                } else if (cleanLine.match(/^\d+\.\s/)) {
+                    const match = cleanLine.match(/^(\d+\.\s)(.*)/);
+                    if (match) {
+                        displayText = match[1] + match[2];
+                        listIndent = 20;
+                    }
+                } else if (cleanLine.match(/^\*\s/)) {
+                    displayText = '• ' + cleanLine.substring(2);
+                    listIndent = 20;
+                }
+
+                const leadingSpaces = line.match(/^(\s+)/);
+                if (leadingSpaces) {
+                    listIndent += leadingSpaces[1].length * 6;
+                }
+
+                if (listIndent > 0) {
+                    lineDiv.style.paddingLeft = `${listIndent}px`;
+                }
+
+                let formattedText = displayText
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+                lineDiv.innerHTML = formattedText;
+
+                if (isQuote) {
+                    lineDiv.style.borderLeft = '3px solid var(--accent-gold)';
+                    lineDiv.style.paddingLeft = '15px';
+                    lineDiv.style.color = 'var(--text-secondary)';
+                    lineDiv.style.fontStyle = 'italic';
+                }
+
+                lineDiv.style.animationDelay = `${delay}s`;
+                delay += 0.03;
+                wrapper.appendChild(lineDiv);
+            }
+
+            contentArea.appendChild(wrapper);
+        }
+
+
+        // --- Trading Journal Database Logic ---
+        let journalLogs = [];
+
+        function loadJournalLogs() {
+            const stored = localStorage.getItem('trading_logs');
+            if (stored) {
+                try {
+                    journalLogs = JSON.parse(stored);
+                } catch(e) {
+                    journalLogs = [];
+                }
+            } else {
+                journalLogs = [];
+            }
+            
+            // Sort by date descending
+            journalLogs.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            renderJournalTable();
+            calculateKPIs();
+        }
+
+        function saveJournalLogs() {
+            localStorage.setItem('trading_logs', JSON.stringify(journalLogs));
+            renderJournalTable();
+            calculateKPIs();
+        }
+
+        function renderJournalTable() {
+            const tbody = document.getElementById('journalTableBody');
+            const emptyState = document.getElementById('journalEmptyState');
+            const table = document.getElementById('journalTable');
+            const logCountText = document.getElementById('logCountText');
+
+            tbody.innerHTML = '';
+            logCountText.textContent = `共 ${journalLogs.length} 筆紀錄`;
+
+            if (journalLogs.length === 0) {
+                emptyState.style.display = 'block';
+                table.style.display = 'none';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            table.style.display = 'table';
+
+            journalLogs.forEach((log, index) => {
+                const tr = document.createElement('tr');
+                
+                // Badges
+                let typeBadge = '';
+                if (log.type === '買入') typeBadge = '<span class="badge badge-sell">波段買</span>';
+                else if (log.type === '賣出') typeBadge = '<span class="badge badge-buy">波段賣</span>';
+                else typeBadge = '<span class="badge badge-day">當沖</span>';
+
+                const obeyBadge = log.obey 
+                    ? '<span class="badge badge-success"><i class="bi bi-shield-check"></i> 遵守</span>' 
+                    : '<span class="badge badge-danger"><i class="bi bi-shield-x"></i> 違憲</span>';
+
+                const pnlClass = log.pnl >= 0 ? 'pnl-positive' : 'pnl-negative';
+                const pnlText = (log.pnl >= 0 ? '+' : '') + Number(log.pnl).toLocaleString('zh-TW');
+
+                tr.innerHTML = `
+                    <td style="white-space: nowrap;">${log.date}</td>
+                    <td style="font-weight: 500;">${escapeHtml(log.stock)}</td>
+                    <td>${typeBadge}</td>
+                    <td>${Number(log.price).toFixed(2)}</td>
+                    <td>${Number(log.qty).toLocaleString('zh-TW')}</td>
+                    <td class="${pnlClass}">${pnlText}</td>
+                    <td>${obeyBadge}</td>
+                    <td style="max-width: 250px; word-wrap: break-word; color: var(--text-secondary); font-size: 0.85rem;">${escapeHtml(log.notes)}</td>
+                    <td style="text-align: center;">
+                        <button onclick="deleteJournalEntry('${log.id}')" class="action-delete-btn" title="刪除紀錄">
+                            <i class="bi bi-trash3"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function calculateKPIs() {
+            const kpiTotalTrades = document.getElementById('kpiTotalTrades');
+            const kpiWinRate = document.getElementById('kpiWinRate');
+            const kpiTotalPnL = document.getElementById('kpiTotalPnL');
+
+            const total = journalLogs.length;
+            kpiTotalTrades.textContent = total;
+
+            if (total === 0) {
+                kpiWinRate.textContent = '0%';
+                kpiTotalPnL.textContent = '0';
+                kpiTotalPnL.className = 'kpi-value';
+                return;
+            }
+
+            // PnL
+            let netPnL = 0;
+            let wins = 0;
+            
+            journalLogs.forEach(log => {
+                netPnL += Number(log.pnl);
+                if (Number(log.pnl) > 0) {
+                    wins++;
+                }
+            });
+
+            const winRatePercent = Math.round((wins / total) * 100);
+            kpiWinRate.textContent = `${winRatePercent}%`;
+
+            kpiTotalPnL.textContent = (netPnL >= 0 ? '+' : '') + netPnL.toLocaleString('zh-TW');
+            if (netPnL > 0) {
+                kpiTotalPnL.className = 'kpi-value positive';
+            } else if (netPnL < 0) {
+                kpiTotalPnL.className = 'kpi-value negative';
+            } else {
+                kpiTotalPnL.className = 'kpi-value';
+            }
+        }
+
+        function addJournalEntry(event) {
+            event.preventDefault();
+
+            const date = document.getElementById('tradeDate').value;
+            const stock = document.getElementById('stockName').value.trim();
+            const type = document.getElementById('tradeType').value;
+            const price = parseFloat(document.getElementById('tradePrice').value);
+            const qty = parseInt(document.getElementById('tradeQty').value);
+            const pnl = parseInt(document.getElementById('tradePnL').value);
+            const notes = document.getElementById('tradeNotes').value.trim();
+            const obey = document.getElementById('obeyConstitution').checked;
+
+            if (!date || !stock || isNaN(price) || isNaN(qty) || isNaN(pnl) || !notes) {
+                alert('請完整填寫所有欄位！');
+                return;
+            }
+
+            const newLog = {
+                id: 'log_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
+                date,
+                stock,
+                type,
+                price,
+                qty,
+                pnl,
+                notes,
+                obey
+            };
+
+            journalLogs.push(newLog);
+            saveJournalLogs();
+
+            // Reset form except date and keep checkbox default
+            document.getElementById('stockName').value = '';
+            document.getElementById('tradePrice').value = '';
+            document.getElementById('tradeQty').value = '';
+            document.getElementById('tradePnL').value = '';
+            document.getElementById('tradeNotes').value = '';
+            document.getElementById('obeyConstitution').checked = true;
+
+            alert('交易日誌儲存成功！');
+        }
+
+        // Delete Entry
+        function deleteJournalEntry(id) {
+            if (confirm('確定要刪除這筆交易紀錄嗎？')) {
+                journalLogs = journalLogs.filter(log => log.id !== id);
+                saveJournalLogs();
+            }
+        }
+
+        function clearAllLogs() {
+            if (confirm('⚠️ 警告：您確定要刪除「所有」交易日誌紀錄嗎？此動作將無法復原！')) {
+                journalLogs = [];
+                saveJournalLogs();
+                alert('所有日誌已清空。');
+            }
+        }
+
+        // Helper to escape HTML tags
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+        }
+    </script>
+</body>
+</html>

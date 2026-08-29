@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I am 古藏寶 | 個人首頁</title>
+    <meta name="description" content="古藏寶的個人網頁 - 娑婆世界打工仔，美國生物醫學工程博士。歷經生技醫療產業、風險創投（VC）、證券分析師（Sell-side）生涯。既是冷靜觀照市場的哲學詩人，亦是深研唯識學的八識論小小推廣者。">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap Icons for premium vector icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme"> <!-- Default to Dark Theme (Zen Slate) -->
+
+    <!-- Header / Navigation -->
+    <header class="navbar-header" id="navbarHeader">
+        <div class="nav-container">
+            <a href="#" class="nav-logo" id="navLogo">
+                <span class="logo-accent">古</span>藏寶
+            </a>
+            
+            <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle Navigation Menu">
+                <i class="bi bi-list"></i>
+            </button>
+            
+            <nav class="nav-menu" id="navMenu">
+                <ul>
+                    <li><a href="#home" class="nav-link active">首頁</a></li>
+                    <li><a href="#about" class="nav-link">關於我</a></li>
+                    <li><a href="#projects" class="nav-link">個人專案</a></li>
+                    <li><a href="#philosophy" class="nav-link">唯識與哲學</a></li>
+                    <li><a href="#contact" class="nav-link">聯絡資訊</a></li>
+                </ul>
+            </nav>
+            
+            <div class="nav-actions">
+                <button class="share-toggle-btn" id="shareToggleBtn" title="分享此網頁" aria-label="Share Webpage">
+                    <i class="bi bi-share-fill"></i>
+                </button>
+                <button class="theme-toggle-btn" id="themeToggleBtn" title="切換深/淺色模式" aria-label="Toggle Dark/Light Mode">
+                    <i class="bi bi-moon-stars-fill theme-icon"></i>
+                </button>
+                <!-- Share Dropdown Menu -->
+                <div class="share-dropdown-menu" id="shareDropdownMenu">
+                    <a href="#" id="shareNative" class="share-item" style="display: none;">
+                        <i class="bi bi-box-arrow-up"></i> 分享...
+                    </a>
+                    <a href="#" id="shareFB" target="_blank" rel="noopener noreferrer" class="share-item">
+                        <i class="bi bi-facebook"></i> 分享至 Facebook
+                    </a>
+                    <a href="#" id="shareLINE" target="_blank" rel="noopener noreferrer" class="share-item">
+                        <i class="bi bi-line"></i> 分享至 LINE
+                    </a>
+                    <a href="#" id="shareCopy" class="share-item">
+                        <i class="bi bi-link-45deg"></i> 複製網頁連結
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        
+        <!-- Hero Section -->
+        <section id="home" class="hero-section">
+            <div class="hero-cover-container">
+                <img src="hoian_cover.png" alt="越南惠安古城河畔風景" class="hero-cover-img">
+                <div class="hero-cover-overlay"></div>
+            </div>
+            
+            <div class="hero-content">
+                <div class="hero-text-wrapper">
+                    <span class="hero-subtitle-top">歡迎蒞臨我的唯識與理性空間</span>
+                    <h1 class="hero-title">I am <span class="highlight-text">古藏寶</span></h1>
+                    
+                    <!-- Dynamic Typing Container -->
+                    <div class="typing-container">
+                        <span class="typing-text" id="typewriterText"></span>
+                        <span class="typing-cursor">|</span>
+                    </div>
+                    
+                    <p class="hero-description">
+                        日日深杯酒滿，朝朝小圃花開，自歌自舞自開懷，且喜無拘無礙
+                    </p>
+                    
+                    <div class="hero-cta-group">
+                        <a href="#about" class="btn btn-primary">探索我的故事 <i class="bi bi-arrow-right"></i></a>
+                        <a href="#projects" class="btn btn-outline">瀏覽個人專案</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="scroll-indicator">
+                <a href="#about" aria-label="Scroll Down">
+                    <span class="mouse-icon">
+                        <span class="mouse-wheel"></span>
+                    </span>
+                    <span class="scroll-text">向下捲動</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="about-section section-padding">
+            <div class="container">
+                <div class="section-header text-center">
+                    <span class="section-tag">About Me</span>
+                    <h2 class="section-title">關於 古藏寶</h2>
+                    <div class="section-divider"></div>
+                </div>
+                
+                <div class="about-intro-box">
+                    <div class="about-avatar-wrapper">
+                        <!-- Abstract Elegant Zen Lotus Placeholder -->
+                        <div class="abstract-zen-avatar">
+                            <i class="bi bi-yin-yang avatar-zen-icon"></i>
+                            <div class="avatar-ripple"></div>
+                        </div>
+                    </div>
+                    <div class="about-intro-text">
+                        <p class="lead-text">
+                            「娑婆世界打工仔，美國生物醫學工程博士。歷經生技醫療產業、風險創投（VC）、證券分析師（Sell-side）生涯。既是冷靜觀照市場的哲學詩人，亦是深研唯識學的八識論小小推廣者。」
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Four Pillars of Journey -->
+                <div class="journey-grid">
+                    <div class="journey-card" data-index="1">
+                        <div class="journey-icon-box">
+                            <i class="bi bi-cpu"></i>
+                        </div>
+                        <h3>細胞宇宙：神秘的生命科學</h3>
+                        <span class="card-subtitle">美國生物醫學工程博士</span>
+                        <p>
+                            於最前沿的生命科學與醫工領域探索微觀宇宙之秘，用科學的嚴密理性探尋生理與工程的交匯，奠定一切理知研究與產業洞察的基石。
+                        </p>
+                    </div>
+
+                    <div class="journey-card" data-index="2">
+                        <div class="journey-icon-box">
+                            <i class="bi bi-wind"></i>
+                        </div>
+                        <h3>女人的天氣：金融煉金術</h3>
+                        <span class="card-subtitle">風險創投 (VC) & 證券分析師</span>
+                        <p>
+                            市場詭譎多變如女人的天氣。歷經創投對未來科技的挖掘與分析師對大盤的冷靜觀照，洞悉估值密碼，以煉金術般的敏銳審視金融市場的人性波瀾。
+                        </p>
+                    </div>                    <a href="columns.html" style="display: block; text-decoration: none; color: inherit;">
+                        <div class="journey-card" data-index="3">
+                            <div class="journey-icon-box">
+                                <i class="bi bi-flower1"></i>
+                            </div>
+                            <h3>天華孤峰：詩與雜文</h3>
+                            <span class="card-subtitle">冷靜超然的哲學詩人</span>
+                            <p>
+                                於喧囂塵世中兀自獨立，如孤峰天華。以哲學詩人的靈魂冷靜抽離、寫意抒懷。用細膩的詩句與直指人心的雜文，刻劃娑婆世界的點滴感悟。
+                            </p>
+                        </div>
+                    </a>
+                    <div class="journey-card" data-index="4">
+                        <div class="journey-icon-box">
+                            <i class="bi bi-water"></i>
+                        </div>
+                        <h3>華嚴深海：唯識學探源</h3>
+                        <span class="card-subtitle">八識論小小推廣者</span>
+                        <p>
+                            深研大乘妙理，潛入華嚴百川之深海，追尋第八識如來藏之法源。推廣八識心靈架構，在唯識的世界中觀照清淨自性，尋找生命的真實解答。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="projects-section section-padding bg-alt">
+            <div class="container">
+                <div class="section-header text-center">
+                    <span class="section-tag">My Projects</span>
+                    <h2 class="section-title">個人專案 Showcase</h2>
+                    <div class="section-divider"></div>
+                </div>
+
+                <div class="projects-container">
+                    <!-- Project Card - Stock Onepiece Login -->
+                    <div class="project-featured-card">
+                        <div class="project-image-side clickable-image-side">
+                            <a href="https://stock-sea-cloud2.pages.dev/" target="_blank" rel="noopener noreferrer">
+                                <img src="bali_waterfront.png" alt="淡水八里水岸夕陽美景" class="project-card-img">
+                            </a>
+                        </div>
+                        <div class="project-info-side">
+                            <span class="project-status-tag">Active Project</span>
+                            <h3 class="project-card-title">股海傳燈錄</h3>
+                            <p class="project-card-desc">
+                                清澈透明的金融世界。引領每位投資者在起伏跌宕的浩瀚股海中，藉由明燈照亮盲點，航向專屬於自己的偉大航道，尋求極致財富與智慧的終極寶藏。
+                            </p>
+                            <div class="project-tech-stack">
+                                <span><i class="bi bi-tag-fill"></i> Quarto / Cloudflare Pages</span>
+                                <span><i class="bi bi-tag-fill"></i> CSS Glassmorphism</span>
+                                <span><i class="bi bi-tag-fill"></i> Interactive UI</span>
+                            </div>
+                            <div class="project-action-btn">
+                                <a href="https://stock-sea-cloud2.pages.dev" target="_blank" rel="noopener noreferrer" class="btn btn-primary project-launch-btn">
+                                    立即開啟登錄系統 <i class="bi bi-box-arrow-up-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project Card - Stock Learning Portal -->
+                    <div class="project-featured-card" style="margin-top: 40px;">
+                        <div class="project-image-side clickable-image-side">
+                            <a href="stock-learning.html">
+                                <img src="stock_learning.png" alt="股海學習" class="project-card-img">
+                            </a>
+                        </div>
+                        <div class="project-info-side">
+                            <span class="project-status-tag" style="color: var(--accent-gold);">Study Portal</span>
+                            <h3 class="project-card-title">股海學習</h3>
+                            <p class="project-card-desc">
+                                理性與智慧交織的金融學堂。收錄聖堂教父內外功心法，以及經典股票書籍與優質Podcast的精華觀照，助您在人性的股海波動中，明心見性、冷靜前行。
+                            </p>
+                            <div class="project-tech-stack">
+                                <span><i class="bi bi-tag-fill"></i> 經典書籍</span>
+                                <span><i class="bi bi-tag-fill"></i> Podcast 精華</span>
+                                <span><i class="bi bi-tag-fill"></i> 聖堂心法</span>
+                            </div>
+                            <div class="project-action-btn">
+                                <a href="stock-learning.html" class="btn btn-primary project-launch-btn">
+                                    進入學習專區 <i class="bi bi-arrow-right-short" style="font-size: 1.4rem;"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Philosophy Section (Yogacara & Zen Quotes) -->
+        <section id="philosophy" class="philosophy-section section-padding">
+            <div class="container">
+                <div class="section-header text-center">
+                    <span class="section-tag">Philosophy</span>
+                    <h2 class="section-title">冷靜觀照 ‧ 唯識學</h2>
+                    <div class="section-divider"></div>
+                </div>
+
+                <div class="philosophy-layout">
+                    <div class="philosophy-content-card">
+                        <div class="quote-mark-top"><i class="bi bi-quote"></i></div>
+                        <div class="philosophy-quote-wrapper">
+                            <p class="philosophy-quote-text" id="quoteText">
+                                你只要把這個自性清淨心找出來了，自然就可以看見是由祂含藏著我們，原來我們五陰都是在祂裡面，不曾離開過祂；我們五陰從來不曾在祂的外面運作，一直都在祂裡面；但是祂配合我們在運作時都是清淨的，而祂出生了的我們卻是染污的。
+                            </p>
+                            <span class="philosophy-quote-author" id="quoteAuthor">──平實導師《勝鬘經講記》第六輯，頁208。</span>
+                        </div>
+                        <div class="quote-mark-bottom"><i class="bi bi-quote"></i></div>
+                        
+                        <div class="quote-navigation">
+                            <button id="prevQuote" class="quote-nav-btn" aria-label="Previous Quote"><i class="bi bi-chevron-left"></i></button>
+                            <div class="quote-dots" id="quoteDots">
+                                <span class="dot active"></span>
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                            </div>
+                            <button id="nextQuote" class="quote-nav-btn" aria-label="Next Quote"><i class="bi bi-chevron-right"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="philosophy-intro-text">
+                        <h3>大乘阿含正義與第八識</h3>
+                        <p>
+                            四阿含諸經所說解脫道出離觀正理，若離大乘法義之支持，則將被常見外道所破壞；若離大乘諸經所言之第八識如來藏妙理，若離大乘經所述如來藏真實存在、真實可證之事實，則二乘四阿含解脫道之無餘涅槃證境，必將墮於斷滅見中，成為斷見外道法。
+                        </p>
+                        <p class="philosophy-quote-author" style="text-align: right; display: block; margin-top: -10px; margin-bottom: 20px;">
+                            ──平實導師《阿含正義》〈自序〉
+                        </p>
+                        <div class="philosophy-badge-group">
+                            <span class="badge">第八識如來藏</span>
+                            <span class="badge">四阿含正理</span>
+                            <span class="badge">自性清淨心</span>
+                            <span class="badge">二乘解脫道</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact-section section-padding bg-alt">
+            <div class="container">
+                <div class="section-header text-center">
+                    <span class="section-tag">Contact</span>
+                    <h2 class="section-title">與我聯絡</h2>
+                    <div class="section-divider"></div>
+                </div>
+
+                <div class="contact-card-wrapper">
+                    <div class="contact-info-panel">
+                        <h3>讓理性與感性在此交會</h3>
+                        <p>
+                            無論您是想交流生醫科技的最新進展、探討創投與市場估值、切磋詩詞創作，還是深入討論唯識宗八識論的哲學奧秘，都歡迎透過以下管道與我取得聯繫。
+                        </p>
+                        
+                        <div class="info-links-list">
+                            <div class="info-item">
+                                <div class="info-icon"><i class="bi bi-file-earmark-code-fill"></i></div>
+                                <div class="info-text">
+                                    <span class="info-label">技術探索</span>
+                                    <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="info-value">GitHub 專頁</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-form-panel">
+                        <form id="contactForm" onsubmit="event.preventDefault(); alert('感謝您的來信！此表單為靜態展示，請透過 GitHub 專頁與我聯繫！');">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="name">您的姓名</label>
+                                    <input type="text" id="name" required placeholder="例如：謝先生/女士">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">電子信箱</label>
+                                    <input type="email" id="email" required placeholder="example@mail.com">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="subject">主旨</label>
+                                <input type="text" id="subject" required placeholder="想探討的主題">
+                            </div>
+                            <div class="form-group">
+                                <label for="message">內容訊息</label>
+                                <textarea id="message" rows="5" required placeholder="請輸入您想說的話..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">傳送訊息 <i class="bi bi-send-fill"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container footer-content text-center">
+            <p class="footer-logo">I am <span class="gold-text">古藏寶</span></p>
+            <p class="footer-moto">「冷靜觀照市場，深研唯識本心」</p>
+            <div class="footer-divider"></div>
+            <p class="copyright">&copy; 2026 古藏寶 (Dr. Chen). All rights reserved. 適合託管於 GitHub Pages 靜態網頁版格式</p>
+        </div>
+    </footer>
+
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+</body>
+</html>
