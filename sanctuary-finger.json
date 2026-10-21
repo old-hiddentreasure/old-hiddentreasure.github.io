@@ -152,5 +152,12 @@
     "filename": "sanctuary-finger-22.md",
     "date": "2026-09-26",
     "description": "期貨交易進階的爬坡歷程：從單純點對點的損益紀律、加點提高勝率，到結合母單思維的點線面格局躍升。"
+  },
+  {
+    "id": "orderly-scoped-practice",
+    "title": "23. 有次第、有範圍的練習",
+    "filename": "sanctuary-finger-23.md",
+    "date": "2026-10-21",
+    "description": "下單練習應限制自由度，先設好框架等球進好球帶，從單策略、週獲利起步，熟練後再擴展至進階多策略目標。"
   }
 ]
