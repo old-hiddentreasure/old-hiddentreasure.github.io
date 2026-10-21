@@ -5,6 +5,7 @@
 (2) <span class="text-red"><strong>82法則</strong></span>：只做 <span class="text-red">2 成驅動行情</span>的股票，甚至只在 2 成驅動行情的時候操作，其他 8 成不能太積極。
 
 (3) <span class="text-red"><strong>體感區分強勢股，觀音法門</strong></span>：<span class="text-red">結構主義</span>比對強弱（比大盤(例如大盤重挫誰<span class="text-red">抗跌</span>，<span class="text-red">跌得慢，跌得少</span>)、比族群、比自己(比較自己過去的走勢)）；<span class="text-red">道氏運動</span>（防線以及運動趨勢，重複性）、<span class="text-red">樞紐點</span>畫線（<span class="text-red">右至左</span>，愈右邊愈接近當下，強調有意義的樞紐點）、有意義的<span class="text-red">關鍵K</span>(組合更佳>單根，<span class="text-red">關鍵K，樞紐，其實都是道氏運動的變形</span>，可以拆到<span class="text-red">微結構</span>)、斜率、速度(尤其是盤中<span class="text-red">微結構走勢</span>)，都是判斷的工具；亞當理論也有提到<span class="text-red">突破</span>(配合過熱、樞紐聽牌、關鍵k一進聽攻擊)、<span class="text-red">趨勢改變</span>(跟過去相比運動趨勢轉變)、<span class="text-red">跳空</span>(關鍵k裡最強型態，尤其<span class="text-red">旁邊沒K棒</span>)與當日<span class="text-red">高低價差放大</span>(<span class="text-red">劇烈、活潑</span>波動，但<span class="text-red">不破壞強勢</span>型態)。
+
 (4) <span class="text-red"><strong>強勢股如何上車</strong></span>：普賢行法門，(a) 平常時可利用<span class="text-red">盤中大幅波動時低掛</span>，(b)大盤大回檔時(所有股票都崩跌時)低掛，<span class="text-red">體感會有一種強烈感覺便宜的直覺</span>，(c) 大盤崩跌時所有股票都大跌，但強勢股<span class="text-red">跌得慢，跌得少</span>，強勢型態破壞的少(例如仍是<span class="text-red">道氏多頭</span>)
 
 (5) <span class="text-red"><strong>賠錢的原因</strong></span>：<span class="text-red">精神力</span>負載過重，<span class="text-red">盤整盤卻用順勢打法</span>，導致<span class="text-red">重複追高低拋</span>、<span class="text-red">無效停損</span>、<span class="text-red">過度交易</span>賠大錢。
@@ -14,9 +15,10 @@
 (7) <span class="text-red"><strong>雙率思考</strong></span>：<span class="text-red">勝率</span>與<span class="text-red">賠率</span>求取平衡。例如多頭<span class="text-red">靠近道氏防線</span>支撐（<span class="text-red">賠率高</span>），且<span class="text-red">樞紐向上</span>（勝率高）。
 
 (8) <span class="text-red"><strong>無有恐怖</strong></span>：應該透過<span class="text-red">精神力調控</span> (4)(5)，抑或知道自己<span class="text-red">薪水高，不要隨便進出錯失部位</span>。<span class="text-red">除非</span>動能長期轉弱，或道氏運動明顯轉折，不然<span class="text-red">隨便滾動無法生青苔</span>。
-(9) <span class="text-red"><strong>停損心法與藝術</strong></span>：
 
+(9) <span class="text-red"><strong>停損心法與藝術</strong></span>：
 - **(a) <span class="text-red">停損心法</span>**：真正的停損設置<span class="text-red">不能設在大家都知道的地方</span>，如 day high/low，因為現在<span class="text-red">高頻交易會故意掃你停損</span>，這是為何一旦突破或跌破去追很容易被掃停損。真正停損的心法在<span class="text-red">那個點如果破了你就要反向</span>，比如你問一個人，他說多單停損了，但他還是看多，那就代表他的多單「<span class="text-red">枉死</span>」了，真正的<span class="text-red">停損應該是做多一旦停損，他就準備做空了</span>，也就是那個停損<span class="text-red">不是枉死，而是真的轉折</span>。
+
 - **(b) <span class="text-red">停損藝術</span>**：<span class="text-red">不是所有停損規則都一樣</span>。如果選的是強勢股，進出點位符合精神力，比較不容易有隨便停損問題。依據<span class="text-red">展望理論</span>，<span class="text-red">認賠小錢，坐賺大錢</span>，<span class="text-red">生存</span>最重要，只要<span class="text-red">控制好虧損(是我們能控制的)</span>，久而久之遇到獲利(不一定能控制)的長期持有放大部位，才是停損的精髓。
 
 (10) <span class="text-red"><strong>亞當理論重複性</strong></span>：觀察愈近的市場運動行為（強調<span class="text-red">運動行為</span>），判斷是<span class="text-red">隨機</span>或有<span class="text-red">重複規律</span>。如果是後者，假設這種重複<span class="text-red">運動會持續</span>，就可以映射，也能在適當點位介入。舉例：確定某股票正在發動，有「漲三天回一天」的重複趨勢，就在回一天的那天上車。
@@ -38,8 +40,8 @@
 (18) <span class="text-red"><strong>部位控制</strong></span>：<span class="text-red">過度交易的賠錢</span>一個很主要原因是部位問題與精神力造成，<span class="text-red">倉位太滿</span>會因為一點拉回而亂賣股票，<span class="text-red">倉位全部清空</span>又容易因過去持有的股票上漲而<span class="text-red">FOMO</span>追回，所以秉持<span class="text-red">4-8</span>成，絕不清空或滿倉為最理想。
 
 (19) <span class="text-red"><strong>PORTFOLIO的概念</strong></span>：投資組合屬於相當進階，相當於<span class="text-red">自建的ETF</span>，理論上都是奔跑的車，但難免遇到有些車會慢下來，這時就需要調整，我們參考的還是<span class="text-red">亞當理論</span>與<span class="text-red">強勢股原則</span>，如果一個股票明顯轉弱，卻又佔據很大空間，就要<span class="text-red">及時釋出資金</span>轉進強勢股。
-(20) <span class="text-red"><strong>基本面分析</strong></span>：
 
+(20) <span class="text-red"><strong>基本面分析</strong></span>：
 1. <span class="text-red"><strong>先體感辨別強勢股</strong></span>：所有的基本面分析，建立在價格已經走出強勢行為再研究。
 2. <span class="text-red"><strong>族群性本益比調整</strong></span>：是否有新題材讓族群性本益比調整或<span class="text-red">估值模式改變</span>，如淨值估值變成成長股，而且要有族群性。
 3. <span class="text-red"><strong>主力邏輯</strong></span>：主力要炒股，一定有個故事線，要跳脫自己本位，完全臣服市場，並弄懂<span class="text-red">主力故事線</span>。
@@ -49,4 +51,5 @@
 7. <span class="text-red"><strong>很多族群的龍頭要長放在觀察名單</strong></span>：才能在他們<span class="text-red">變強時體感辨認</span>到，以利於後面的基本面分析。
 
 (21) <span class="text-red"><strong>斯多葛主義</strong></span>：斯多葛哲學說要<span class="text-red">分清可控與不可控，內在與外在，自我與他人</span>，交易也是一樣，自己訂的<span class="text-red">交易憲法</span>是可控的，<span class="text-red">停損</span>是可控的，<span class="text-red">風險</span>是<span class="text-red">可控</span>的，是否大賺是不可控的，<span class="text-red">行情是不可控的</span>，這兩者必須<span class="text-red">區分</span>清楚，便可以<span class="text-red">減少很多內耗</span>；同樣交易也有內在問題與外在問題，<span class="text-red">內在的恐懼，精神力</span>怎麼靠方法控制，是內在可控的，至於<span class="text-red">市場的波動</span>，是<span class="text-red">外在不可控</span>的，必須區分清楚，如此一來就知道該檢討可控的部分，而無法控制的外在部分，則不用一直內耗去分析，甚至<span class="text-red">掉入過度分析的陷阱</span>(以為有一招聖杯可以打遍天下無敵手)。
+
 (22) <span class="text-red"><strong>有次第、有範圍的練習</strong></span>：一開始練習下單要限制自己自由度，從最<span class="text-red">小範圍</span>開始熟練，再逐漸擴展出去。剛開始練習時，訊號沒來就絕不出手，熟練後再變成多策略，這樣長久其實都能賺錢。等於說先設好框架，球進好球帶再打（巴菲特語），而不是無限地去追逐外境。
